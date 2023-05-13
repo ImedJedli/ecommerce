@@ -1,0 +1,163 @@
+import React ,{ useState }from "react";
+//import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./actions/userAction";
+
+
+import Home from "./components/Home";
+import Footer from "./components/layout/Footer";
+import Header from "./components/layout/Header";
+import ProductDetails from "./components/product/ProductDetails";
+
+import Login from "./components/user/Login";
+
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  Outlet 
+} from "react-router-dom";
+import Cart from "./components/cart/Cart";
+import ConfirmOrder from "./components/cart/ConfirmOrder";
+import Shipping from "./components/cart/Shipping";
+import Wishlist from "./components/layout/Wishlist";
+import ListOrders from "./components/order/ListOrders";
+import OrderDetails from "./components/order/OrderDetails";
+import ForgotPassword from "./components/user/ForgotPassword";
+import NewPassword from "./components/user/NewPassword";
+import Profile from "./components/user/Profile";
+import Register from "./components/user/Register";
+import UpdatePassword from "./components/user/UpdatePassword";
+import UpdateProfile from "./components/user/UpdateProfile";
+// Admin
+import BlogsList from "./components/admin/BlogsList";
+import CategoriesList from "./components/admin/CategoriesList";
+import CreateCategory from "./components/admin/CreateCategory";
+import Dashboard from "./components/admin/Dashboard";
+import NewBlog from "./components/admin/NewBlog";
+import NewProduct from "./components/admin/NewProduct";
+import OrdersList from "./components/admin/OrdersList";
+import ProductReviews from "./components/admin/ProductReviews";
+import ProductsList from "./components/admin/ProductsList";
+import StatusOrder from "./components/admin/StatusOrder";
+import UpdateBlog from "./components/admin/UpdateBlog";
+import UpdateCategory from "./components/admin/UpdateCategory";
+import UpdateProduct from "./components/admin/UpdateProduct";
+import UpdateUser from "./components/admin/UpdateUser";
+import UsersList from "./components/admin/UsersList";
+import Blogs from "./components/blog/Blogs";
+import BlogDetails from "./components/blog/BlogsDetails";
+import Products from "./components/product/Products";
+import ProtectedRoute from "./components/route/ProtectedRoute"
+
+//            <Route path="/shipping" element={<Shipping />} />
+ //<Route path="/shipping" element={<ProtectedRoute isAuthenticated={isAuthenticated}  element={<Shipping />} />} exact />
+
+
+function App() {
+
+  /* const { user, isAuthenticated, loading } = useSelector(
+    (state) => state.auth
+  ); */
+
+  const user = useSelector(state => state.auth);
+
+
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
+  const isAdmin = isAuthenticated && user && user.role === "admin";
+
+
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !isAuthenticated) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, isAuthenticated]);
+//          <Route path="/dashboard" element={<ProtectedRoute component={Dashboard} />} />     
+//{!isAdmin && <Header />}
+  return (
+    <Router>
+      
+      
+      <Header />
+       
+          <Routes>
+
+            
+
+            <Route path="/" element={<Home />} exact />
+            <Route path="/search/:keyword" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route element={<Header />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            
+            
+            <Route path="/me" element={<Profile />} exact />
+            <Route path="/me/update" element={<UpdateProfile />} exact />
+            <Route path="/password/update" element={<UpdatePassword />} exact />
+            <Route path="/password/forgot" element={<ForgotPassword />} exact />
+            <Route
+              path="/password/reset/:token"
+              element={<NewPassword />}
+              exact
+            />
+            <Route path="/cart" element={<Cart />} exact />
+            <Route path="/order/confirm" element={<ConfirmOrder />} />
+            <Route path="/orders/me" element={<ListOrders />} />
+            <Route path="/order/:id" element={<OrderDetails />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/blog/:id" element={<BlogDetails />} />
+            <Route path="/wishlist" element={<Wishlist />}/>
+            <Route path="/shipping" element={<Shipping />} />
+            
+            <Route
+    path="/dashboard" element={<Dashboard />}
+  />
+           
+   <Route path="/products" element={<Products/>}/>
+        
+        <Route
+          path="/admin/products"
+          
+          element={<ProductsList />}
+        />
+        <Route
+          path="/admin/product/new"
+          
+          element={<NewProduct />}
+        />
+        <Route
+          path="/admin/product/:id"
+          isAdmin={true}
+          element={<UpdateProduct />}
+        />
+        <Route path="/admin/orders" element={<OrdersList />} />
+        <Route path="/admin/order/:id" element={<StatusOrder />} />
+        <Route path="admin/users" element={<UsersList />} />
+        <Route path="/admin/user/:id" element={<UpdateUser />} />
+        <Route path="/admin/reviews/" element={<ProductReviews />} />
+        <Route path="/admin/category" element={<CreateCategory />} />
+        <Route path="/categories" element={<CategoriesList />} />
+        <Route path="/category/:id" element={<UpdateCategory />} />
+
+        <Route path="/admin/blogs" isAdmin={true} element={<BlogsList />} />
+        <Route
+          path="/admin/blogs/blog/:id"
+          isAdmin={true}
+          element={<UpdateBlog />}
+        />
+        <Route path="/admin/blog/new" isAdmin={true} element={<NewBlog />} />
+      </Routes>
+      <Footer />
+    </Router>
+  );
+}
+
+export default App;
