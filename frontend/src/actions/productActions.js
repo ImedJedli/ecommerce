@@ -34,25 +34,6 @@ import {
   UPDATE_PRODUCT_SUCCESS
 } from "../constants/productConstantes";
 
-export const getAllCategories = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: GET_ALL_CATEGORIES_REQUEST,
-    });
-
-    const { data } = await axios.get(`http://localhost:4000/api/v1/categories`);
-
-    dispatch({
-      type: GET_ALL_CATEGORIES_SUCCESS,
-      payload: data.categories,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_ALL_CATEGORIES_FAIL,
-      payload: error.message,
-    });
-  }
-};
 
 export const getProducts = (
   keyword = "",
