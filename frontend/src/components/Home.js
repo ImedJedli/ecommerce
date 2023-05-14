@@ -2,9 +2,10 @@
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProducts } from "../actions/productActions";
 import Infos from "./layout/Infos";
@@ -13,53 +14,44 @@ import Product from "./product/Product";
 
 import { getAllCategories } from "../actions/categoryActions";
 
-
-
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 
 const Home = () => {
 
 
+  const dispatch = useDispatch();
 
   const {  categories } = useSelector((state) => state.allCategories);
 
   useEffect(() => {
-    console.log("Dispatching getAllCategories action");
 
     dispatch(getAllCategories());
-    console.log("Categories:", categories); // Add this line
 
   }, [dispatch]);
 
 
 
 
-
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([1, 9000]);
   const [rating, setRating] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState('');
 
 
-  const handleCategorySelect = (categoryName) => {
-    // Update the category state
-    setCategory(categoryName);
-  
-    // Dispatch the action to filter products based on the selected category
-    dispatch(getProducts(keyword, currentPage, categoryName, price, rating));
-  }; 
-
+const handleAllCategories = () => {
+  setSelectedCategory("");
+};
+ 
   const alert = useAlert();
-  const dispatch = useDispatch();
 
   const { loading, products, error, productsCount, resPerPage } = useSelector(
     (state) => state.products
   );
 
-
-
+  
   const { keyword } = useParams();
 
   function setCurrentPageNo(pageNumber) {
@@ -67,18 +59,19 @@ const Home = () => {
     
   }
   useEffect(() => {
-    console.log("home price", price);
-    console.log("home page", currentPage);
+   
     if (error) {
       return alert.show(error);
     }
 
-    dispatch(getProducts(keyword, currentPage, resPerPage, price, rating));
-  }, [dispatch, alert, error, keyword, currentPage, price, rating,category]);
+    dispatch(getProducts(keyword, currentPage, price,category, rating));
+    
+  }, [dispatch, alert, error, keyword, currentPage,price,category, rating]);
 
   return (
     <Fragment>
       <div className="home-container">
+        
         {loading ? (
           <Loader />
         ) : (
@@ -93,7 +86,7 @@ const Home = () => {
                         <div className="main-slider slider slick-initialized slick-slider">
                         <div className="slider-caption">
                        
-                       <h1 className="mt-2 mb-5">
+                       <h1 className="mt-2 mb-5" >
                          <span className="text-color">Drop </span>Sell
                        </h1>
                       
@@ -120,7 +113,7 @@ const Home = () => {
                 </div>
 
                 <div className="row">
-              {keyword ? (
+             {keyword ? (
                 <Fragment>
                   <div className="col-6 col-md-3">
                     <div className="px-5">
@@ -170,10 +163,17 @@ const Home = () => {
                               </div>
                             </li>
                           ))}
-                        </ul>
+                        </ul>          
+
                       </div>
+
+                     <hr></hr>
+
+                   
                     </div>
                   </div>
+
+                  
                   <div className="col-6 col-md-9">
                     <div className="row">
                       {products &&
@@ -187,32 +187,49 @@ const Home = () => {
                     </div>
                   </div>
 
-   
                 </Fragment>
+
+                
               ) : (
-                products &&
+
+                
+                products  &&
                 products.map((product) => (
                   <Product key={product._id} product={product} col={3} />
                 ))
-              )}
+              )} 
+
             </div>
               </div>
-
-<div>
-<ul>
-  {categories &&
-    categories.map((category) => (
-      <li
-        key={category._id}
-        onClick={() => handleCategorySelect(category.name)}
-        className={category.name === category ? 'active' : ''}
-      >
-        {category.name}
-      </li>
-    ))}
-</ul>
-</div>
-
+              <div >
+             {  <ul>
+    <li
+      key="all"
+      
+      style={{
+        cursor: "pointer",
+        listStyleType: "none",
+        fontWeight: selectedCategory === "" ? "bold" : "normal",
+      }}
+    >
+      All Categories
+    </li>
+    {categories &&
+      categories.map((category) => (
+        <li
+          key={category._id}
+          onClick={() => setCategory(category.name)}
+          style={{
+            cursor: "pointer",
+            listStyleType: "none",
+            fontWeight: selectedCategory === category.name ? "bold" : "normal",
+          }}
+        >
+          {category.name}
+        </li>
+      ))}
+  </ul> }
+  </div>
             </section>
 
             {resPerPage <= productsCount && (
@@ -220,7 +237,7 @@ const Home = () => {
                 <Pagination
                   activePage={currentPage}
                   itemsCountPerPage={resPerPage}
-                  totalItemsCount={productsCount}
+                  totalItemsCount={productsCount}    
                   onChange={setCurrentPageNo}
                   nextPageText={"Next"}
                   prevPageText={"Prev"}

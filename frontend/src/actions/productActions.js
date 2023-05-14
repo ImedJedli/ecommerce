@@ -38,9 +38,10 @@ import {
 export const getProducts = (
   keyword = "",
   currentPage = 1,
-  category,
   price,
-  rating = 0
+  category="",
+  rating = 0,
+  
 ) => async (dispatch) => {
   try {
     console.log("Price in getProducts:", price); // Add this line
@@ -50,33 +51,39 @@ export const getProducts = (
     });
 
     let link = `http://localhost:4000/api/v1/products`;
+  
 
     if (keyword) {
-      link = `http://localhost:4000/api/v1/products?keyword=${keyword}`;
+      
+        link = `http://localhost:4000/api/v1/products?keyword=${keyword}`;
+      
     }
 
+ 
     if (currentPage) {
       link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}`;
     }
 
-    if(category){
-      link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`;
+  
 
-    }
-
+    
     if (price) {
       link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}`;
-      console.log("Price values: ", price);
-      console.log("API link: ", link);
+      
     }
+
+    if (category) {
+      link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}`
+  }
+
+  
 
     /*----------------------*/
     if (rating) {
       link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
     }
-    /*______________________*/
-
-
+  
+    console.log("API link: ", link);
    
 
     const { data } = await axios.get(link);

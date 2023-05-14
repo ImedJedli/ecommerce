@@ -48,7 +48,6 @@ import UpdateUser from "./components/admin/UpdateUser";
 import UsersList from "./components/admin/UsersList";
 import Blogs from "./components/blog/Blogs";
 import BlogDetails from "./components/blog/BlogsDetails";
-import Products from "./components/product/Products";
 import ProtectedRoute from "./components/route/ProtectedRoute"
 
 //            <Route path="/shipping" element={<Shipping />} />
@@ -121,7 +120,6 @@ function App() {
     path="/dashboard" element={<Dashboard />}
   />
            
-   <Route path="/products" element={<Products/>}/>
         
         <Route
           path="/admin/products"

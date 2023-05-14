@@ -47,9 +47,6 @@ exports.newProduct = catchAsyncErrors(async(req,res,next) =>{
 
         const {name,price,stock,seller,category, description} = req.body;
 
-        // Get the category from the database
-  
-
             
             const product = await Product.create({
                   name,
@@ -57,7 +54,6 @@ exports.newProduct = catchAsyncErrors(async(req,res,next) =>{
                   stock,
                   seller,
                   category,
-                  //category: categoryObj._id, // Use the category object's ID
                   description,
                   images: req.files ? req.files.map(file => file.filename) : []
             });
@@ -74,11 +70,10 @@ exports.newProduct = catchAsyncErrors(async(req,res,next) =>{
 // Afficher tout les produits du BD
  exports.getProducts =catchAsyncErrors(async(req, res,next) => {
 
-    //return next(new ErrorHandler('my Eroor',400));
     
     const productsCount = await Product.countDocuments();
    
-    const resPerPage= 8;
+    const resPerPage= 12;
     const apiSearch = new APISearch(Product.find(), req.query)
     .search() 
     .filter()
@@ -174,29 +169,7 @@ exports.newProduct = catchAsyncErrors(async(req,res,next) =>{
             
     })
 
-// Modifier un produit du BD
-/*exports.updateProduct =catchAsyncErrors(async(req, res,next) => {
 
-    let product = await Product.findById(req.params.id);
-
-    if(!product){
-       
-    return res.status(404).json({
-        sucess: false,
-        message : 'Product not found'
-     }) 
-    }
-
-    product = await Product.findByIdAndUpdate(req.params.id, req.body,{
-        new : true,
-        runValidators: true,
-        useFindAndModify: false
-    });
-    res.status(200).json({
-        sucess: true,
-        product
-     }) 
-} )*/
 
 
 exports.deleteProduct = catchAsyncErrors(async(req,res,next)=>{
