@@ -18,6 +18,13 @@ const couponSchema  = new mongoose.mongoose.Schema({
           createdAt: {
             type: Date,
             default: Date.now,
+          },usageLimit: {
+            type: Number,
+            default: 1,
+          },
+          usedCount: {
+            type: Number,
+            default: 0,
           },
         });
 

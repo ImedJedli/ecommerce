@@ -56,6 +56,16 @@ exports.getAllCoupon =catchAsyncErrors(async(req, res,next) => {
           message: "Coupon code not found.",
         });
       }
+
+      if (coupon.usedCount >= coupon.usageLimit) {
+        return res.status(400).json({
+          success: false,
+          message: 'Coupon has reached its usage limit.',
+        });
+      }
+
+      coupon.usedCount += 1;
+      await coupon.save();
     
       res.status(200).json({
         success: true,

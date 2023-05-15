@@ -15,19 +15,26 @@ const ConfirmOrder = () => {
     const [code, setCode] = useState("");
     const [discount, setDiscount] = useState(0);
 
-
-
     const applyCoupon = () => {
-     
       fetch(`/api/v1/coupon/coupons?code=${code}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.error) {
-            alert.error(data.error);
-          } else {
+          if (data.success === false && data.message) {
+            alert.error(data.message);
+          } else if (data.coupon) {
             const coupon = data.coupon;
-            setDiscount(coupon.discount);
-            alert.success("Coupon applied successfully!");
+            const usedCount = data.usedCount; 
+            const usageLimit = data.usageLimit;
+    
+            console.log('usedCount:', usedCount);
+            console.log('usageLimit:', usageLimit);
+    
+            if (usedCount >= usageLimit) {
+              alert.error("Coupon has reached its usage limit.");
+            } else {
+              setDiscount(coupon.discount);
+              alert.success("Coupon applied successfully!");
+            }
           }
         })
         .catch((error) => {
@@ -35,6 +42,44 @@ const ConfirmOrder = () => {
           alert.error("Failed to apply the coupon.");
         });
     };
+    
+
+    /* const applyCoupon = () => {
+     
+      fetch(`/api/v1/coupon/coupons?code=${code}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('data:', data);
+
+
+          if (data.error) {
+            alert.error(data.error);
+          } else {
+            const coupon = data.coupon;
+            const usedCount = data.usedCount; 
+            const usageLimit = data.usageLimit;
+
+            console.log('usedCount:' ,usedCount);
+            console.log('usageLimit:' ,usageLimit);
+            
+            
+            if(usedCount >= usageLimit){
+              alert.error("Coupon has reached its usage limit.")
+            }
+
+            else{
+              setDiscount(coupon.discount);
+              alert.success("Coupon applied successfully!");
+            }
+
+            
+          } 
+        })
+        .catch((error) => {
+          console.error(error);
+          alert.error("Failed to apply the coupon.");
+        });
+    }; */
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useParams();
