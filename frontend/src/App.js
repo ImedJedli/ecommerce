@@ -64,8 +64,12 @@ function App() {
 
 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const role = useSelector(state=> state.auth.user.role);
+  //const isAdmin = isAuthenticated && user && user.role === "admin";
 
-  const isAdmin = isAuthenticated && user && user.role === "admin";
+  
+  console.log("Auth:",isAuthenticated);
+  console.log("role:",role)
 
 
 

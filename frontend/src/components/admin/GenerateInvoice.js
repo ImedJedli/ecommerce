@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
       fontSize: 12,
     },
     total: {
-      fontSize: 15,
+      fontSize: 12,
       
     },
     thankYou: {
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
       alignSelf: "flex-end",
     },
     shipping: {
-      fontSize: 15,
+      fontSize: 12,
       marginBottom: 5,
     }
   });

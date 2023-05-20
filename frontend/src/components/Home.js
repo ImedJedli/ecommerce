@@ -19,11 +19,8 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 const Home = () => {
 
-
   const dispatch = useDispatch();
-
   const {  categories } = useSelector((state) => state.allCategories);
-
   useEffect(() => {
 
     dispatch(getAllCategories());
@@ -205,7 +202,7 @@ const handleAllCategories = () => {
              {  <ul>
     <li
       key="all"
-      
+      onClick={() => setCategory("")}
       style={{
         cursor: "pointer",
         listStyleType: "none",

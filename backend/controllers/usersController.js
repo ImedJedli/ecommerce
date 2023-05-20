@@ -98,7 +98,6 @@ exports.loginUser= catchAsyncErrors(async(req,res,next)=>{
       const isPassword = await user.comparePassword(password)
       if(!isPassword){
             return next(new ErrorHandler('Invalid email and password',400))
-
       }
       
       sendToken(user,200,res)

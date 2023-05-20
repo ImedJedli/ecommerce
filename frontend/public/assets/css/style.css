@@ -100,8 +100,11 @@ a:focus,
 a:hover {
   text-decoration: none;
   outline: 0;
-  color: #fb5c42;
+  /* color: #fb5c42; */
+  color: red;
 }
+
+
 
 .btn.active:focus,
 .btn:active:focus,
@@ -325,7 +328,9 @@ a.text-primary:focus,
 a.text-primary:hover {
   color: #fb5c42 !important;
 }
-
+.invoice-button {
+  color: white;
+}
 .content * {
   margin-bottom: 20px;
 }

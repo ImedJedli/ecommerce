@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 
 const ProtectedRoute = () =>{
 
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const role = useSelector(state => state.auth.user.role);
+
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
 
   console.log("login in : ",isAuthenticated);
   console.log("user role : ",role);
