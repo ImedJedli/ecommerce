@@ -6,11 +6,7 @@ const crypto = require('crypto')
 
 
 const userSchema = new mongoose.Schema({
-      firstname: {
-            type : String,
-          // required: [true,'Please enter your name'],
-            maxLength:[30, 'your name cannot be more than 30 characters']
-      },
+     
       name: {
             type : String,
             required: [true,'Please enter your name'],

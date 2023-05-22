@@ -56,14 +56,5 @@ exports.authorizeRoles = ( ...roles ) =>{
       }
 }
 
-/*
-exports.authorizeRoles = (...roles) => {
-      return (req, res, next) => {
-        if (req.user && roles.includes(req.user.role)) {
-          next();
-        } else {
-          return next(new ErrorHandler(`Role(${req.user && req.user.role}) is not allowed`, 401));
-        }
-      };
-    }*
-    */
+
+    

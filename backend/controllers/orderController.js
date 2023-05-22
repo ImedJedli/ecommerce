@@ -37,51 +37,7 @@ exports.newOrder =  catchAsyncErrors(async(req,res,next)=>{
       })
 })
 
-/*
-exports.newOrder = catchAsyncErrors(async (req, res, next) => {
-      const {
-        orderItems,
-        shippingInfo,
-        itemsPrice,
-        shippingPrice,
-        totalPrice,
-        paymentInfo,
-        discountCode
-      } = req.body;
-    
-      let discount = null;
-      if (discountCode) {
-        discount = await Discount.findOne({ code: discountCode });
-        if (!discount) {
-          return res.status(400).json({ error: 'Invalid discount code' });
-        }
-      }
-    
-      let discountedTotalPrice = totalPrice;
-      if (discount) {
-        const discountAmount = (discount.percentage / 100) * totalPrice;
-        discountedTotalPrice = totalPrice - discountAmount;
-      }
-    
-      const order = await Order.create({
-        orderItems,
-        shippingInfo,
-        itemsPrice,
-        shippingPrice,
-        totalPrice: discountedTotalPrice,
-        paymentInfo,
-        paidAt: Date.now(),
-        user: req.user._id
-      });
-    
-      res.status(200).json({
-        success: true,
-        order
-      });
-    });
-*/
 
-// one order
 
 exports.getSingleOrder = catchAsyncErrors(async(req,res,next)=>{
 
@@ -147,12 +103,7 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
         console.log(`Order with ID ${req.params.id} has already been delivered`);
         return next(new ErrorHandler('Already delivered this order', 404))
       }
-     
-      /*const validStatuses = ['Processing', 'Shipped', 'Out for delivery', 'Delivered', 'Cancelled'];
-      if (!validStatuses.includes(req.body.orderStatus)) {
-        return next(new ErrorHandler('Invalid order status', 400));
-      }*/
-    
+         
       order.orderItems.forEach(async item => {
         await updateStock(item.product, item.quantity)
       })

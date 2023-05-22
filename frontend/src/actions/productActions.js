@@ -110,7 +110,7 @@ export const getSingleProduct = (id) => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/v1/product/${id}`
+      `/api/v1/product/${id}`
     );
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -300,7 +300,7 @@ export const deleteProductReview = (id, productId) => async (dispatch) => {
     });
 
     const { data } = await axios.delete(
-      `http://localhost:4000/api/v1/admin/reviews?id=${id}&productId=${productId}`
+      `/api/v1/admin/reviews?id=${id}&productId=${productId}`
     );
     dispatch({
       type: DELETE_REVIEW_SUCCESS,

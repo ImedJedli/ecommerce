@@ -19,13 +19,11 @@ app.use("/api/v1",coupon)
 const blogs = require("./routes/blog")
 app.use("/api/v1",blogs);
 
-//app.use(express.urlencoded({ extended: true }));
 
 const products = require("./routes/product");
 app.use("/api/v1", products);
 
 
-//app.use(bodyParser.urlencoded({ extended: true }));
 
 const categories = require("./routes/category");
 

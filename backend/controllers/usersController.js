@@ -59,29 +59,9 @@ exports.registerUser = catchAsyncErrors(async(req,res,next) =>{
         });
     });
 
-    
-/*
-      const {name ,email,password}=req.body;
-      const userExists = await User.findOne({ email });
-  if (userExists) {
-    return next(new ErrorHandler('User already exists', 400));
-  }
-
-      const user = await User.create ({
-            name,     
-            email,
-            password, 
-            avatar: req.file.filename        
-            //avatar:{
-            //      public_id: result.public_id,
-            //      url: result.secure_url
-           //}   
-      });
-     sendToken(user,200,res)
-})*/
+ 
 
 exports.loginUser= catchAsyncErrors(async(req,res,next)=>{
-      //res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
 
       const { email,password } = req.body;
 
@@ -118,14 +98,11 @@ exports.forgotPassword = catchAsyncErrors( async( req,res,next)=>{
       
       
       const resetToken = user.getResetPasswordToken();
-      //console.log('forgotPassword function called');
       await user.save({ validateBeforeSave: false });
       
-      //const resetUrl = `${req.protocol}://${req.get('host')}/api/v3/password/reset/${resetToken}`;
       const resetUrl = `${process.env.FRONTEND_URL}/api/v3/password/reset/${resetToken}`;
       const message = `Your password reset url is:\n\n${resetUrl}\n\n`
 
-     // console.log('Message:', message);
       try {
             await sendEmail({
                   email: user.email,

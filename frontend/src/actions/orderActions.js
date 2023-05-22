@@ -21,58 +21,6 @@ import {
   UPDATE_ORDER_SUCCESS
 } from "../constants/orderConstantes";
 
-//version 1
- /* export const createOrder = (
-  order,
-  shippingInfo,
-  cartItems,
-  itemsPrice,
-  shippingPrice,
-  totalPrice,
-  paymentInfo
-) => async (dispatch, getState) => {
- 
-  try {
-    dispatch({ type: CREATE_ORDER_REQUEST });
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const { data } = await axios.post(
-      "/api/v4/order/new",
-      {
-        order,
-        shippingInfo,
-        cartItems,
-        itemsPrice,
-        shippingPrice,
-        totalPrice,
-        paymentInfo,
-      },
-      config
-    );
-
-    
-
-    dispatch({
-      type: CREATE_ORDER_SUCCESS,
-      payload: data,
-    });
-
-  localStorage.removeItem("cartItems");
-  localStorage.removeItem("shippingInfo");
-  } catch (error) {
-    dispatch({
-      type: CREATE_ORDER_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};   */ 
-
-// version 2
 
 export const createOrder = ( order,
   shippingInfo,
@@ -105,61 +53,6 @@ export const createOrder = ( order,
     });
   }
 };
-
-
-// version 3 :
-
-/*export const createOrder = (
-  order,
-  shippingInfo,
-  cartItems,
-  itemsPrice,
-  shippingPrice,
-  totalPrice,
-  paymentInfo
-) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: CREATE_ORDER_REQUEST });
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const { data } = await axios.post(
-      "/api/v4/order/new",
-      {
-        order,
-        shippingInfo,
-        cartItems,
-        itemsPrice,
-        shippingPrice,
-        totalPrice,
-        paymentInfo
-      },
-      config
-    );
-
-    dispatch({
-      type: CREATE_ORDER_SUCCESS,
-      payload: data,
-    });
-
-    // Clear cart items and shipping info
-   // dispatch(removeItemCart([]));
-    //dispatch(clearShippingInfo());
-
-    // Optional: You can remove the following lines if you want to keep the cart items and shipping info in localStorage
-    localStorage.removeItem("cartItems");
-    localStorage.removeItem("shippingInfo");
-  } catch (error) {
-    dispatch({
-      type: CREATE_ORDER_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};*/
 
 
 

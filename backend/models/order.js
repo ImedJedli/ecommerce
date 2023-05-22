@@ -6,16 +6,13 @@ const orderSchema = mongoose.Schema({
       shippingInfo:{
             adress: {
                  type: String,
-                // required: true 
             },
             city :{
                   type : String,
-                 // required : true
             },
 
             phoneNumber :{
                   type : String,
-                  //required : true
             }
       },
 
@@ -82,7 +79,6 @@ const orderSchema = mongoose.Schema({
             },
             orderStatus : {
                   type: String,
-                  //enum: ['Processing', 'Shipped', 'Out for delivery', 'Delivered', 'Cancelled'],
                   required: true,
                   default: 'Processing',
             },

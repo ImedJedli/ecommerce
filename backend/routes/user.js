@@ -21,14 +21,10 @@ router.route('/password/update').put(isAuthentificationUser,updatePassword)
 router.route('/me/update').put(isAuthentificationUser,updateProfile) 
 
 router.route('/admin/users').get(isAuthentificationUser,authorizeRoles('admin'),getAllUsers)
-router.route('/admin/user/:id')
-                             .get(isAuthentificationUser,authorizeRoles('admin'),getUserDetails)
+router.route('/admin/user/:id').get(isAuthentificationUser,authorizeRoles('admin'),getUserDetails)
                               .put(isAuthentificationUser,authorizeRoles('admin'),updateUser)
                               .delete(isAuthentificationUser,authorizeRoles('admin'),deleteUser)
 
-//router.route('/admin/users').get(getAllUsers);
-//router.route('/admin/user/:id').get(getUserDetails)
-                            //  .put(updateUser)
-                              //.delete(deleteUser)
+
 
 module.exports = router;

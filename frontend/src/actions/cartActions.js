@@ -44,10 +44,6 @@ export const saveShippingInfo = (data) => async (dispatch) => {
 
       
 
-     // dispatch({
-       //     type: REMOVE_ITEM_CART,
-        //  });
-          //localStorage.removeItem("cartItems");
         };
 
         export const savePaymentInfo = (data) => async (dispatch) => {
@@ -57,10 +53,4 @@ export const saveShippingInfo = (data) => async (dispatch) => {
             })
             localStorage.setItem('paymentInfo' , JSON.stringify(data));
       
-            
-      
-           // dispatch({
-             //     type: REMOVE_ITEM_CART,
-              //  });
-                //localStorage.removeItem("cartItems");
               };

@@ -1,34 +1,5 @@
 const ErrorHandler = require('../utils/errorHandler')
 
-/*
-      const errorHandler =(err,req,res,next) =>{
-
-      let error = {...err}
-      error.message=err.message;
-      if(err.name ==='CastError'){
-           const message='Resource not found :)';
-            error= new ErrorHandler(message,404)
-      }
-
-
-      if(err.name ==='ValidationError'){
-            const message=Object.values(err.errors).map(value => value.message);
-            error= new ErrorHandler(message,400)
-      }
-
-      res.status(error.statusCode).json({
-            success: false,
-            error: error.message
-            
-      })
-      
-}
-
-module.exports = errorHandler; */
-
-//const ErrorHandler = require('../utils/errorHandler');
-
-
 module.exports = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
 

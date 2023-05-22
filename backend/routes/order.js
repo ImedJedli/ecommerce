@@ -9,15 +9,11 @@ const { isAuthentificationUser, authorizeRoles} = require('../middlewares/auth')
 router.route('/order/new').post(isAuthentificationUser,newOrder);
 router.route('/order/:id').get(isAuthentificationUser,getSingleOrder);
 router.route('/orders/me').get(isAuthentificationUser,getMyOrders);
-//router.route('/admin/orders').get(getAllOrders);
-//router.route('/admin/order/:id')
-  //                            .put(isAuthentificationUser,authorizeRoles('admin'),updateOrderStatus)
-                            //  .delete(deleteOrder);
+
 
 router.route('/admin/orders').get(isAuthentificationUser,authorizeRoles('admin'),getAllOrders);
 router.route('/admin/order/:id').put(isAuthentificationUser,authorizeRoles('admin'),updateOrderStatus)
 router.route('/admin/order/:id').delete(isAuthentificationUser,authorizeRoles('admin'),deleteOrder);
 
-//router.route('/admin/order/:id').put(isAuthentificationUser,authorizeRoles('admin'),updateOrderStatus)
 
 module.exports = router;
