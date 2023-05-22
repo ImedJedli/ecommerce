@@ -72,5 +72,52 @@ exports.getAllCoupon =catchAsyncErrors(async(req, res,next) => {
         coupon,
       });
     });
+
+
+    exports.getSingleCoupon = catchAsyncErrors(async(req,res,next)=>{
+
+      const coupon = await Coupon.findById(req.params.id)
+      if(!coupon){
+            return next(new ErrorHandler('no coupon found with this ID',404))
+      }
+  
+      res.status(200).json({
+            success:true,
+            coupon
+      })
+  })
+
+
+  exports.updateCoupon= catchAsyncErrors(async (req,res,next)=>{
+      
+    const newCouponDate={
+          code: req.body.code,
+          discount: req.body.discount,
+          usageLimit: req.body.usageLimit
+    }
+    const coupon = await Coupon.findByIdAndUpdate(req.params.id, newCouponDate, {
+          new : true,
+          runValidators: true,
+          couponindAndModify: false
+    })
+
+    res.status(200).json({
+          success:true
+    })
+})
+
+
+exports.deleteCoupon = catchAsyncErrors (async(req,res,next)=>{
+  const coupon = await Coupon.findById(req.params.id);
+  if(!coupon){
+        return next (new ErrorHandler (`Coupon does not found : ${req.params.id}`));
+  }
+  await coupon.remove();
+  res.status(200).json({
+        success : true,
+        msg: "coupon deleted",
+        coupon
+  })
+})
     
   
