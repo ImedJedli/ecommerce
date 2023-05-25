@@ -110,6 +110,7 @@ const handleAllCategories = () => {
                 </div>
 
                 <div className="row">
+                  
              {keyword ? (
                 <Fragment>
                   <div className="col-6 col-md-3">
@@ -198,7 +199,8 @@ const handleAllCategories = () => {
 
             </div>
               </div>
-              <div >
+
+              <div className="col-6 col-md-3">
              {  <ul>
     <li
       key="all"
@@ -227,6 +229,7 @@ const handleAllCategories = () => {
       ))}
   </ul> }
   </div>
+              
             </section>
 
             {resPerPage <= productsCount && (

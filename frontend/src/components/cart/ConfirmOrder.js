@@ -119,6 +119,9 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
   
     localStorage.setItem("orderDetails", JSON.stringify(order));
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+    localStorage.removeItem("cartItems");
+
   
     dispatch(saveShippingInfo(shippingInfo)); 
     dispatch(
@@ -132,7 +135,7 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
       )
     ).then(() => {
       alert.success("Order sent successfully!");
-      dispatch(removeItemCart([]));
+      //dispatch(removeItemCart([]));
       navigate("/orders/me");
     });
   

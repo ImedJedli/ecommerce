@@ -18,6 +18,7 @@ function ProductReviews() {
   const { error, reviews } = useSelector(state => state.productReviews);
   const { isDeleted } = useSelector((state) => state.review);
 
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -41,7 +42,9 @@ function ProductReviews() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(getProductsReviews(productId));
+    if (productId !== "") {
+      dispatch(getProductsReviews(productId));
+    }
   };
 
   const setReviews = () => {
@@ -102,13 +105,14 @@ function ProductReviews() {
                     />
                   </div>
 
-                  <button
+          {/*         <button
                     id="search_button"
-                    type="submit"
+                    type="button"
                     className="btn btn-primary btn-block py-2" 
+                    onClick={submitHandler}
                   >
                     SEARCH
-                  </button>
+                  </button> */}
                 </form>
               </div>
             </div>
