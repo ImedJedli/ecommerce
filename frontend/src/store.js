@@ -10,6 +10,7 @@ import { allCategoriesReducer, categoryDetailsReducer, categoryReducer, createCa
 import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer, orderReducer } from './reducers/orderReducer';
 import { newProductReducer, postReviewReducer, productDetailsReducer, productReducer, productReviewsReducer, productsReducer, reviewReducer } from './reducers/productReducer';
 import { userDetailsReducer } from './reducers/userReducers';
+import { allCouponsReducer, couponReducer, createCouponReducer } from './reducers/couponReducer';
 
 
 const reducer = combineReducers({
@@ -38,7 +39,11 @@ const reducer = combineReducers({
       allBlogs : blogsReducer,
       blogDetails : blogDetailsReducer,
       blog : blogReducer,
-      newBlog : newBlogReducer
+      newBlog : newBlogReducer,
+
+      coupon : couponReducer,
+      newCoupon: createCouponReducer,
+      allCoupons : allCouponsReducer
 
 })
 

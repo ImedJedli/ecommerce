@@ -27,6 +27,21 @@ const Sidebar =() => {
 
 
               <li>
+                  <a href="#couponsSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
+                      className="fa fa-product-hunt"></i> Coupons</a>
+                  <ul className="collapse list-unstyled" id="couponsSubmenu">
+                      <li>
+                          <Link to="/admin/coupons"><i className="fa fa-clipboard"></i> All</Link>
+                      </li>
+
+                      <li>
+                          <Link to="/admin/coupon/new"><i className="fa fa-plus"></i> Create</Link>
+                      </li>
+                  </ul>
+              </li>
+
+
+              <li>
                   <a href="#categoriesSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
                       className="fa fa-product-hunt"></i> Categories</a>
                   <ul className="collapse list-unstyled" id="categoriesSubmenu">

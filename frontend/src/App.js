@@ -40,6 +40,9 @@ import NewProduct from "./components/admin/NewProduct";
 import OrdersList from "./components/admin/OrdersList";
 import ProductReviews from "./components/admin/ProductReviews";
 import ProductsList from "./components/admin/ProductsList";
+import CouponsList from "./components/admin/CouponsList";
+import CreateCoupon from "./components/admin/CreateCoupon";
+
 import StatusOrder from "./components/admin/StatusOrder";
 import UpdateBlog from "./components/admin/UpdateBlog";
 import UpdateCategory from "./components/admin/UpdateCategory";
@@ -117,7 +120,18 @@ function App() {
     path="/dashboard" element={<Dashboard />}
   />
            
-        
+  <Route
+  path="/admin/coupons"
+  
+  element={<CouponsList />}
+/>
+
+<Route
+path="/admin/coupon/new"
+
+element={<CreateCoupon />}
+/>
+
         <Route
           path="/admin/products"
           
