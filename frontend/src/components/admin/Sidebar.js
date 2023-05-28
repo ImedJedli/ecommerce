@@ -3,10 +3,12 @@ import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../actions/userAction";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins, faBold, faClipboard, faPlus, faProductHunt, faShoppingBasket, faUsers, faStar, faBlog } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar =() => {
 
-
+    
     const handleHomeClick = () => {
         window.location.reload();
       };
@@ -43,14 +45,15 @@ const Sidebar =() => {
                   <li>
                       <Link to="/" onClick={logoutHandler}> logout</Link>
                   </li>
-
                   
               </ul>
           </li>
 
               <li>
-                  <a href="#blogSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
-                      className="fa fa-bold"></i> Blogs</a>
+                  <a href="#blogSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
+                  <FontAwesomeIcon icon={faBlog} />  Blogs</a>
+                     
+
                   <ul className="collapse list-unstyled" id="blogSubmenu">
                       <li>
                           <Link to="/admin/blogs"><i className="fa fa-clipboard"></i> All</Link>
@@ -64,8 +67,8 @@ const Sidebar =() => {
 
 
               <li>
-                  <a href="#couponsSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
-                      className="fa fa-product-hunt"></i> Coupons</a>
+                  <a href="#couponsSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
+                  <FontAwesomeIcon icon={faCoins} />  Coupons</a>
                   <ul className="collapse list-unstyled" id="couponsSubmenu">
                       <li>
                           <Link to="/admin/coupons"><i className="fa fa-clipboard"></i> All</Link>
@@ -79,8 +82,8 @@ const Sidebar =() => {
 
 
               <li>
-                  <a href="#categoriesSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
-                      className="fa fa-product-hunt"></i> Categories</a>
+                  <a href="#categoriesSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
+                  <i className="fa fa-product-hunt"></i> Categories</a>
                   <ul className="collapse list-unstyled" id="categoriesSubmenu">
                       <li>
                           <Link to="/categories"><i className="fa fa-clipboard"></i> All</Link>

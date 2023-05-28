@@ -42,7 +42,7 @@ import ProductReviews from "./components/admin/ProductReviews";
 import ProductsList from "./components/admin/ProductsList";
 import CouponsList from "./components/admin/CouponsList";
 import CreateCoupon from "./components/admin/CreateCoupon";
-
+import UpdateCoupon from "./components/admin/UpdateCoupon"
 import StatusOrder from "./components/admin/StatusOrder";
 import UpdateBlog from "./components/admin/UpdateBlog";
 import UpdateCategory from "./components/admin/UpdateCategory";
@@ -120,6 +120,7 @@ element={<Dashboard />}
 /> 
 
         <Route path="/admin/coupons" element={<CouponsList />} />
+        <Route path="/coupon/:id" element={<UpdateCoupon />} />
 
         <Route path="/admin/coupon/new" element={<CreateCoupon />} />
 

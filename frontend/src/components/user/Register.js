@@ -18,7 +18,7 @@ const Register = () => {
   });
   const { name, email, password } = user;
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("/images/avatar.png");
+  const [avatarPreview, setAvatarPreview] = useState("/assets/images/avatar.png");
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -106,7 +106,7 @@ const Register = () => {
                             <form onSubmit={submitHandler}
                         encType="multipart/form-data">
                             <div className="form-group mb-4">
-                                <label Htmlfor="email_field">Enter Email Address</label>
+                                <label htmlFor="email_field">Enter Email Address</label>
                                 <input type="text"   
                                 name="email"
                                 value={email}
@@ -121,7 +121,7 @@ const Register = () => {
                           )}
                             </div>
                             <div className="form-group mb-4">
-                                <label for="#">Enter username</label>
+                                <label htmlFor="name_field">Enter username</label>
                                 <a className="float-right" href="">Forget password?</a>
                                 <input type="text" 
                                 name="name"
@@ -137,7 +137,7 @@ const Register = () => {
                           )}
                             </div>
                             <div className="form-group mb-4">
-                                <label for="#">Enter Password</label>
+                                <label htmlFor="password_field">Enter Password</label>
                                 <input  
                                 value={password}
                                 name="password"

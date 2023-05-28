@@ -2,33 +2,36 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { clearErrors, getSingleCategory, updateCategory } from "../../actions/categoryActions";
+import { clearErrors, getSingleCoupon, updateCoupon } from "../../actions/couponActions";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
-const UpdateCategory =() => {
+
+const UpdateCoupon =() => {
 
       const { id } = useParams();
       const alert = useAlert();
       const navigate = useNavigate()
       const dispatch = useDispatch();
 
-      const [name , setName] = useState('');
+      const [code , setCode] = useState('');
+      const [discount , setDiscount] = useState('');
+      const [usageLimit , setUsageLimit] = useState('');
 
-      const { loading, error: updateError } = useSelector((state) => state.allCategories);
-      const {error ,category} = useSelector((state) => state.categoryDetails);
+      const { loading, error: updateError } = useSelector((state) => state.allCoupons);
+      const {error ,coupon} = useSelector((state) => state.couponDetails);
 
-      const categoryId= id
+      const couponId= id
 
       useEffect(() =>{
-            if (category && category._id !== categoryId) {
-                  dispatch(getSingleCategory(categoryId))
+            if (coupon && coupon._id !== couponId) {
+                  dispatch(getSingleCoupon(couponId))
             }
             else {
-                  setName(category.name);
+                  setCode(coupon.code);
+                  setDiscount(coupon.discount);
+                  setUsageLimit(coupon.usageLimit)
             }
 
             if(error){
@@ -40,19 +43,21 @@ const UpdateCategory =() => {
                   alert.error(updateError);
                   dispatch(clearErrors())
             }
-      },[dispatch, alert, error,updateError,category,categoryId])
+      },[dispatch, alert, error,updateError,coupon,couponId])
 
 
       const submitHandler =(e) =>{
             e.preventDefault();
             
             const formData = new FormData();
-            formData.set('name', name);
+            formData.set('code', code);
+            formData.set('discount', discount);
+            formData.set('usageLimit', usageLimit);
 
-            dispatch(updateCategory(category._id,formData))
+            dispatch(updateCoupon(coupon._id,formData))
             .then(() => {
-              alert.success('Category is updated successfully !');
-              navigate('/categories'); 
+              alert.success('Coupon is updated successfully !');
+              navigate('/admin/coupons'); 
             });
       }
 
@@ -81,15 +86,37 @@ const UpdateCategory =() => {
                         encType="multipart/form-data"
                       >
                         <div className="form-group mb-4">
-                          <label htmlFor="name_field">Name</label>
+                          <label htmlFor="code_field">Code</label>
                           <input
                             type="text"
-                            name="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            name="code"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
                             className="form-control "
                           />
                         </div>
+
+                        <div className="form-group mb-4">
+                          <label htmlFor="discount_field">Discount</label>
+                          <input
+                            type="text"
+                            name="discount"
+                            value={discount}
+                            onChange={(e) => setDiscount(e.target.value)}
+                            className="form-control "
+                          />
+                        </div>
+
+                        <div className="form-group mb-4">
+                        <label htmlFor="usageLimit_field">Usage Limit</label>
+                        <input
+                          type="text"
+                          name="usageLimit"
+                          value={usageLimit}
+                          onChange={(e) => setUsageLimit(e.target.value)}
+                          className="form-control "
+                        />
+                      </div>
       
                         <button
               id="register_button"
@@ -113,4 +140,4 @@ const UpdateCategory =() => {
   )
 }
 
-export default UpdateCategory
+export default UpdateCoupon

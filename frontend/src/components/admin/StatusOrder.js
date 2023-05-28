@@ -143,35 +143,57 @@ function StatusOrder() {
                   <h4 className="my-4">Order Items:</h4>
                   <hr />
                   <div className="cart-item my-1">
-                    {orderItems &&
-                      orderItems.map((item) => (
-                        <div className="row my-5" key={item.product}>
-                          <div className="col-4 col-lg-2">
-                            <img
-                              src={`http://localhost:4000/products/${item.image}`}
-                              alt={item.name}
-                              height="45"
-                              width="65"
-                            />
-                          </div>
 
-                          <div className="col-5 col-lg-5">
-                            <Link to={`/product/${item.product}`}>
-                              {item.nLinkme}
-                            </Link>
-                          </div>
+                                      <section className="cart shopping page-wrapper">
+                    <div className="container">
+                        <div className="row justify-content-center">
+                        <div className="col-lg-12">
+                            <div className="product-list">
+                                <form className="cart-form">
+                                    <table className="table shop_table shop_table_responsive cart" cellSpacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th className="product-thumbnail">Image</th>
+                                            <th className="product-name">Product</th>
+                                            <th className="product-subtotal">Price</th>
+                                            <th className="product-subtotal">Quantity</th>
+                                        </tr>
+                                        </thead>
+                
+                                        <tbody>
+    
+                                        {orderItems && orderItems.map((item) => (
+                                        <Fragment key={item.product}>
+                                        <tr className="cart_item">
+                                            <td className="product-thumbnail" data-title="Thumbnail">
+                                                <Link to={`/product/${item.product}`}><img src={`http://localhost:4000/products/${item.image}`} className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" /></Link>
+                                            </td>
+                
+                                            <td className="product-name" data-title="Product">
+                                                <Link to={`/product/${item.product}`}>{item.name}</Link>
+                                            </td>
+                                            <td className="product-remove" data-title="Remove">
+                                            <p>{item.price} DT</p>
+                                            </td>
 
-                          <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                            <p>{item.price} DT</p>
-                          </div>
+                                            <td className="product-remove" data-title="Remove">
+                                            <p>{item.quantity} Item(s)</p>
 
-                          <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                            <p>{item.quantity} Item(s)</p>
-                          </div>
+                                            </td>
+                                        </tr>
+                                       </Fragment>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
                         </div>
-                      ))}
+                        </div>
+ 
+                        </div>
+                    </section>
+                    
                   </div>
-                  <hr />
                 </div>
 
                 <div className="col-12 col-lg-3 mt-5">

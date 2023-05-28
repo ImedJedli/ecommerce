@@ -51,7 +51,6 @@ const CategoriesList = () => {
       columns: [
         { label: "ID", field: "id", sort: "asc" },
         { label: "Name", field: "name", sort: "asc" },
-        { label: "Description", field: "description", sort: "asc" },
         { label: "Actions", field: "actions", sort: "asc" },
       ],
       rows: [],
@@ -62,7 +61,6 @@ const CategoriesList = () => {
         data.rows.push({
           id: category._id,
           name: category.name,
-          description: category.description,
           actions: (
             <Fragment>
               <Link

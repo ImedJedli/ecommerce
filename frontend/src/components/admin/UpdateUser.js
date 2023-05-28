@@ -69,7 +69,7 @@ function UpdateUser() {
   };
 
   return (
-    <Fragment>
+   /*  <Fragment>
       <Infos title={`Update User : `} />
       <div className="row">
         <div className="col-12 col-md-2">
@@ -134,6 +134,87 @@ function UpdateUser() {
       </div>
     </Fragment>
   );
+} */
+
+
+<Fragment>
+      <Infos title="create blog" />
+      <div className="row">
+        <div className="col-lg-3">
+          <Sidebar />
+        </div>
+        <div className="col-lg-9">
+          <div className="signUp-container">
+            <div className="account section">
+              <div className="container">
+                <div className="row justify-content-center">
+                  <div className="col-lg-12">
+                    <div className="login-form border p-5">
+                      <div className="text-center heading">
+                        <h2 className="mb-2">Update user</h2>
+                      </div>
+                      <form
+                        onSubmit={submitHandler}
+                        encType="multipart/form-data"
+                      >
+                      <div className="form-group">
+                      <label htmlFor="name_field">Name</label>
+                      <input
+                        type="name"
+                        id="name_field"
+                        className="form-control"
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+    
+                    <div className="form-group">
+                      <label htmlFor="email_field">Email</label>
+                      <input
+                        type="email"
+                        id="email_field"
+                        className="form-control"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+    
+                    <div className="form-group">
+                      <label htmlFor="role_field">Role</label>
+    
+                      <select
+                        id="role_field"
+                        className="form-control"
+                        name="role"
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                      >
+                        <option value="user">user</option>
+                        <option value="admin">admin</option>
+                      </select>
+                    </div>
+      
+                        <button
+              id="register_button"
+              type="submit"
+              className="btn btn-dark btn-lg btn-block"
+            >
+              Update
+            </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Fragment>
+
+  )
 }
 
 export default UpdateUser;

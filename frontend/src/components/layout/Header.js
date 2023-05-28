@@ -161,7 +161,6 @@ const Header =() => {
                         Profil
                       </Link>
 
-
                       <Link
                         className="dropdown-item text-danger"
                         to="/"
@@ -177,7 +176,7 @@ const Header =() => {
                     <Link
                       to="/login"
                       className="nav-link dropdown-toggle"
-                      href="#"
+                     
                       id="navbarDropdown5"
                       role="button"
                       data-delay="350"
@@ -212,10 +211,7 @@ const Header =() => {
               <span className="badge">{wishlistCount}</span>
             </Link>
 
-            <Link to="" className="btn ">
-              <i className="fa fa-bell"></i>
-              <span className="badge"></span>
-            </Link>
+           
           </div>
         </div>
       </div>

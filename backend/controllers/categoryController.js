@@ -44,7 +44,7 @@ exports.updateCategory = catchAsyncErrors(async (req,res,next)=>{
       
     const newCategoryDate={
           name: req.body.name,
-          description: req.body.description,
+          /* description: req.body.description, */
     }
     const category = await Category.findByIdAndUpdate(req.params.id, newCategoryDate, {
           new : true,

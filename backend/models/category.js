@@ -6,11 +6,11 @@ const categorySchema =new mongoose.mongoose.Schema({
           required: [true, 'Please enter product name'],
           trim: true,
       },
-      description:{
+      /* description:{
             type: String,
             required: [true, 'Please enter the description of the category'],
             trim: true,
-        },
+        }, */
       
       });
 

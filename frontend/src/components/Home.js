@@ -33,7 +33,7 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([1, 9000]);
+  const [price, setPrice] = useState([1, 5000]);
   const [rating, setRating] = useState(null);
   const [category, setCategory] = useState('');
 
@@ -115,6 +115,40 @@ const handleAllCategories = () => {
                 <Fragment>
                   <div className="col-6 col-md-3">
                     <div className="px-5">
+                    
+
+                    <ul>
+                    <li
+                      key="all"
+                      onClick={() => setCategory("")}
+                      style={{
+                        cursor: "pointer",
+                        listStyleType: "none",
+                        fontWeight: selectedCategory === "" ? "bold" : "normal",
+                      }}
+                    >
+                    <h4 className="mb-3"> Categories </h4> 
+                      
+                    </li>
+                    {categories &&
+                      categories.map((category) => (
+                        <li
+                          key={category._id}
+                          onClick={() => setCategory(category.name)}
+                          style={{
+                            cursor: "pointer",
+                            listStyleType: "none",
+                            fontWeight: selectedCategory === category.name ? "bold" : "normal",
+                          }}
+                        >
+                          {category.name}
+                        </li>
+                      ))}
+                  </ul>                  
+  <hr></hr>
+
+  <h4 className="mb-3"> Price </h4> 
+  <br></br>
                       <Range
                         marks={{
                           1: `1DT`,
@@ -132,7 +166,7 @@ const handleAllCategories = () => {
                         onChange={(price) => {
                           setPrice(price);
                         }}
-                        style={{ height: "#49px" }}
+                        style={{ height: "49px" }}
                       />
 
                       <hr className="my-5" />
@@ -201,33 +235,7 @@ const handleAllCategories = () => {
               </div>
 
               <div className="col-6 col-md-3">
-             {  <ul>
-    <li
-      key="all"
-      onClick={() => setCategory("")}
-      style={{
-        cursor: "pointer",
-        listStyleType: "none",
-        fontWeight: selectedCategory === "" ? "bold" : "normal",
-      }}
-    >
-      All Categories
-    </li>
-    {categories &&
-      categories.map((category) => (
-        <li
-          key={category._id}
-          onClick={() => setCategory(category.name)}
-          style={{
-            cursor: "pointer",
-            listStyleType: "none",
-            fontWeight: selectedCategory === category.name ? "bold" : "normal",
-          }}
-        >
-          {category.name}
-        </li>
-      ))}
-  </ul> }
+             {   }
   </div>
               
             </section>
@@ -271,7 +279,7 @@ const handleAllCategories = () => {
                     </div>
                     </div>
                 </section>
-            <section className="section products-list"></section>
+           
             <section className="features border-top">
               <div className="container">
                 <div className="row">

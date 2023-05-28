@@ -14,18 +14,15 @@ import Sidebar from "./Sidebar";
 const CreateCategory = () => {
   const navigate = useNavigate();
   const [category, setCategory] = useState({
-    name: "",
-    description: "",
+    name: ""
   });
 
   const [name, setName] = useState("");
 
-  const [description, setDescription] = useState("");
 
   //const { name } = category;
 
   const [nameError, setNameError] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -48,7 +45,6 @@ const CreateCategory = () => {
     e.preventDefault();
 
     setNameError("");
-    setDescriptionError("");
 
     let isValid = true;
     if (!name.trim()) {
@@ -56,14 +52,8 @@ const CreateCategory = () => {
       isValid = false;
     }
 
-    if (!description.trim()) {
-      setDescriptionError("Description is required");
-      isValid = false;
-    }
-
     const formData = new FormData();
     formData.set("name", name);
-    formData.set("description", description);
     dispatch(addCategory(formData));
   };
 
@@ -71,9 +61,6 @@ const CreateCategory = () => {
     setCategory({ ...category, [e.target.name]: e.target.value });
   };
 
-  const handleDescriptionChange = (value) => {
-    setDescription(value);
-  };
 
   return (
     <Fragment>
@@ -112,28 +99,11 @@ const CreateCategory = () => {
                             <div className="invalid-feedback">{nameError}</div>
                           )}
                         </div>
-
-                        <div className="form-group mb-4">
-                          <label htmlFor="#">Description</label>
-                          <ReactQuill
-                            value={description}
-                            onChange={handleDescriptionChange}
-                            style={{ height: "100%" }}
-                            className={`form-control border-0 ${
-                              descriptionError ? "is-invalid" : ""
-                            }`}
-                            placeholder="Full description"
-                          />
-                          {descriptionError && (
-                            <div className="invalid-feedback">{descriptionError}</div>
-                          )}
-                          
-                        </div>
       
                         <button
               id="register_button"
               type="submit"
-              className="btn btn-block py-3"
+              className="btn btn-dark btn-lg btn-block"
               disabled={loading ? true : false}
             >
               Create

@@ -7,7 +7,8 @@ import { clearErrors, getSingleProduct, updateProduct } from "../../actions/prod
 import { UPDATE_PRODUCT_RESET } from "../../constants/productConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const UpdateProduct =() => {
 
@@ -40,6 +41,10 @@ const UpdateProduct =() => {
   const {error, product } = useSelector((state) => state.ProductDetails);
 
   const productId = id;
+
+  const handleDescriptionChange = (value) => {
+    setDescription(value);
+  };
 
   useEffect(() => {
 
@@ -92,27 +97,6 @@ const UpdateProduct =() => {
       dispatch(updateProduct(product._id,formData))
   }
 
-  /*const onChange = e => {
-
-      const files = Array.from(e.target.files)
-
-      setImagesPreview([]);
-      setImages([])
-      setOldImages([])
-
-      files.forEach(file => {
-          const reader = new FileReader();
-
-          reader.onload = () => {
-              if (reader.readyState === 2) {
-                  setImagesPreview(oldArray => [...oldArray, reader.result])
-                  setImages(oldArray => [...oldArray, reader.result])
-              }
-          }
-
-          reader.readAsDataURL(file)
-      })
-  } */
 
   const onChange = (e) => {
     const files = e.target.files;
@@ -129,345 +113,207 @@ const UpdateProduct =() => {
   };
 
 
-  /*return (
-      <Fragment>
-      <Infos title={"Update product"} />
-      <div className="row">
-        <div className="col-12 col-md-2">
-          <Sidebar />
-        </div>
-
-        <div className="col-12 col-md-10">
-          <Fragment>
-            <div className="wrapper my-5">
-            <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data'>
-                <h1 className="mb-4">Update Product</h1>
-
-                <div className="form-group">
-                  <label htmlFor="name_field">Name</label>
-                  <input
-                    type="text"
-                    id="name_field"
-                    className="form-control"
-                    value={name}
-                    onChange={(e)=> setName(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="price_field">Price</label>
-                  <input
-                    type="text"
-                    id="price_field"
-                    className="form-control"
-                    value={price}
-                    onChange={(e)=> setPrice(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="description_field">Description</label>
-                  <textarea
-                    className="form-control"
-                    id="description_field"
-                    rows="8"
-                    value={description}
-                    onChange={(e)=> setDescription(e.target.value)}
-                  ></textarea>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="category_field">Category</label>
-                  <select className="form-control" id="category_field" 
-                        value={category}
-                        onChange={(e)=> setCategory(e.target.value)}>
-                    <option>Electronics</option>
-                    <option>Home</option>
-                    <option>Others</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="stock_field">Stock</label>
-                  <input
-                    type="number"
-                    id="stock_field"
-                    className="form-control"
-                    value={stock}
-                    onChange={(e)=> setStock(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="seller_field">Seller Name</label>
-                  <input
-                    type="text"
-                    id="seller_field"
-                    className="form-control"
-                    value={seller}
-                    onChange={(e)=> setSeller(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Images</label>
-
-                  <div className="custom-file">
-                    <input
-                      type="file"
-                      name="product_images"
-                      className="custom-file-input"
-                      id="customFile"
-                      
-                      onChange={onChange}
-                      multiple
-                    />
-                    <label className="custom-file-label" htmlFor="customFile">
-                      Choose Images
-                    </label>
-                  </div>
-                  {oldImages && oldImages.map(img => (
-                        <img key= {img} src={`http://localhost:4000/products/${img}`} alt={img} className="mt-3 mr-2" 
-                        width='55' height='52' />
-                  ))}
-                  {imagesPreview.map(img => (
-                        <img src={img} key={img} alt='Images Preview' className="mt-3 mr-2"
-                        width='55' height='52'/>
-                  ))}
-                </div>
-
-                <button
-                  id="login_button"
-                  type="submit"
-                  className="btn btn-block py-3"
-                  disabled= {loading ? true : false}
-                >
-                  UPDATE
-                </button>
-              </form>
-            </div>
-          </Fragment>
-        </div>
-      </div>
-    </Fragment>
-  )
-}*/
-
-
-
 return (
-  <Fragment>
-    <Infos title={"Update product"} />
-    <div className="row">
-      <div className="col-12 col-md-2">
-        <Sidebar />
-      </div>
-
-      <Fragment>
-        <Infos title={"Update product"} />
-
-        <section className>
-          <div className="">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col col-xl-10">
-                <div className="card" style={{ borderRadius: "1rem" }}>
-                  <div className="row g-0">
-                    <div className="col-md-6 col-lg-5 d-none d-md-block">
-                      <img
-                        src="/images/update.jpg"
-                        alt="login form"
-                        className="img-fluidP"
-                        style={{ borderRadius: "1rem 0 0 1rem" }}
-                      />
-                    </div>
-                    <div className="col-md-6 col-lg-7 d-flex align-items-center">
-                      <div className="card-body p-4 p-lg-5 text-black">
-                        <form onSubmit={submitHandler} encType='multipart/form-data'>
-                          <h5
-                            className="fw-normal mb-3 pb-3"
-                            style={{ letterSpacing: "1px" }}
-                          >
-                            Update product
-                          </h5>
-
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-outline mb-4">
-                                <label
-                                  htmlFor="name_field"
-                                  className="form-label"
-                                  for="formControlReadonly"
-                                >
-                                  Name
-                                </label>
-                                <input
-                                  type="name"
-                                  id="name_field"
-                                  value={name}
-                                  onChange={(e) => setName(e.target.value)}
-                                  className="form-control form-control-lg"
-                                />
-                              </div>
-                            </div>
-
-                            <div className="col-md-6">
-                              <div className="form-outline mb-4">
-                                <label
-                                  htmlFor="seller_field"
-                                  className="form-label"
-                                  for="formControlReadonly"
-                                >
-                                  Seller
-                                </label>
-                                <input
-                                  id="seller_field"
-                                  type="text"
-                                  value={seller}
-                                  onChange={(e) => setSeller(e.target.value)}
-                                  className="form-control form-control-lg"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-
-
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-outline mb-4">
-                                <label
-                                  htmlFor="price_field"
-                                  className="form-label"
-                                  for="formControlReadonly"
-                                >
-                                  Price
-                                </label>
-                                <input
-                                  type="price"
-                                  id="price_field"
-                                  value={price}
-                                  onChange={(e) => setPrice(e.target.value)}
-                                  className="form-control form-control-lg"
-                                />
-                              </div>
-                            </div>
-
-                            <div className="col-md-6">
-                              <div className="form-outline mb-4">
-                                <label
-                                  htmlFor="stock_field"
-                                  className="form-label"
-                                  for="formControlReadonly"
-                                >
-                                  Stock
-                                </label>
-                                <input
-                                  id="stock_field"
-                                  type="text"
-                                  value={stock}
-                                  onChange={(e) => setStock(e.target.value)}
-                                  className="form-control form-control-lg"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
+  
+<Fragment>
+<Infos title="create blog" />
+<div className="row">
+  <div className="col-lg-3">
+    <Sidebar />
+  </div>
+  <div className="col-lg-9">
+    <div className="signUp-container">
+      <div className="account section">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-12">
+              <div className="login-form border p-5">
+                <div className="text-center heading">
+                  <h2 className="mb-2">Create blog</h2>
+                </div>
+                <form
+                  onSubmit={submitHandler}
+                  encType="multipart/form-data"
+                >
+                  <div className="row">
+                        <div className="col-md-6">
                           <div className="form-outline mb-4">
                             <label
-                              htmlFor="description_field"
+                              htmlFor="name_field"
                               className="form-label"
-                              for="formControlReadonly"
+                              
                             >
-                              Description
+                              Name
                             </label>
-
-                            <textarea
-                              id="description_field"
-                              type="description"
-                              value={description}
-                              onChange={(e) => setDescription(e.target.value)}
-                              className="form-control form-control-lg"
+                            <input
+                              type="name"
+                              id="name_field"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              className={`form-control form-control-lg 
+                              }`}
+                              placeholder="Name"
                             />
+                            
                           </div>
+                        </div>
 
-                          <div className="col-md-6">
-                              <div className="form-outline mb-4">
-                                <label
-                                  htmlFor="category_field"
-                                  className="form-label"
-                                  
-                                >
-                                  Category
-                                </label>
-                                <select
-                                  id="category_field"
-                                  value={category}
-                                  onChange={(e) => setCategory(e.target.value)}
-                                  className="form-control"
-                                >
-                                  <option value=""> Choose category </option>
-                                  {categories.length > 0 &&
-                                    categories.map((category) => (
-                                      <option
-                                        key={category._id}
-                                        value={category.name}
-                                      >
-                                        {category.name}
-                                      </option>
-                                    ))}
-                                </select>
-                              </div>
-                            </div>
-
-
-                          <div className="form-group">
-                  <label>Images</label>
-
-                  <div className="custom-file">
-                    <input
-                      type="file"
-                      name="product_images"
-                      className="custom-file-input"
-                      id="customFile"
-                      
-                      onChange={onChange}
-                      multiple
-                    />
-                    <label className="custom-file-label" htmlFor="customFile">
-                      Choose Images
-                    </label>
-                  </div>
-                  {oldImages && oldImages.map(img => (
-                        <img key= {img} src={`http://localhost:4000/products/${img}`} alt={img} className="mt-3 mr-2" 
-                        width='55' height='52' />
-                  ))}
-                  {imagesPreview.map(img => (
-                        <img src={img} key={img} alt='Images Preview' className="mt-3 mr-2"
-                        width='55' height='52'/>
-                  ))}
-                </div>
-
-                          <div className="pt-1 mb-4">
-                          <button
-                  id="login_button"
-                  type="submit"
-                  className="btn btn-dark btn-lg btn-block"
-                  disabled= {loading ? true : false}
-                >
-                  UPDATE
-                </button>
+                        <div className="col-md-6">
+                          <div className="form-outline mb-4">
+                            <label
+                              htmlFor="seller_field"
+                              className="form-label"
+                            >
+                              Seller
+                            </label>
+                            <input
+                              id="seller_field"
+                              type="text"
+                              value={seller}
+                              onChange={(e) => setSeller(e.target.value)}
+                              className={`form-control form-control-lg 
+                              }`}
+                              placeholder="Seller"
+                            />
+                            
                           </div>
-                        </form>
+                        </div>
                       </div>
-                    </div>
+
+
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="form-outline mb-4">
+                            <label
+                              htmlFor="price_field"
+                              className="form-label"
+                              
+                            >
+                              Price
+                            </label>
+                            <input
+                              type="price"
+                              id="price_field"
+                              value={price}
+                              onChange={(e) => setPrice(e.target.value)}
+                              className={`form-control form-control-lg 
+                              }`}
+                            />
+                            
+                          </div>
+                        </div>
+
+                        <div className="col-md-6">
+                          <div className="form-outline mb-4">
+                            <label
+                              htmlFor="stock_field"
+                              className="form-label"
+                              
+                            >
+                              Stock
+                            </label>
+                            <input
+                              id="stock_field"
+                              type="text"
+                              value={stock}
+                              onChange={(e) => setStock(e.target.value)}
+                              className={`form-control form-control-lg 
+                              }`}
+                            />
+                          
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                      <div className="form-group mb-4">
+                    <label htmlFor="#">Description</label>
+                    <ReactQuill
+                      value={description}
+                      onChange={handleDescriptionChange}
+                      style={{ height: "100%" }}
+                      className={`form-control border-0 
+                      }`}
+                      placeholder="Full description"
+                    />
+                   
+                    
                   </div>
-                </div>
+
+                  <div className="col-md-6">
+                        <div className="form-outline mb-4">
+                          <label
+                            htmlFor="category_field"
+                            className="form-label"
+                            
+                          >
+                            Category
+                          </label>
+                          <select
+                            id="category_field"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className={`form-control form-control-lg 
+                            }`}
+                          >
+                            <option value=""> Choose category </option>
+                            {categories.length > 0 &&
+                              categories.map((category) => (
+                                <option
+                                  key={category._id}
+                                  value={category.name}
+                                >
+                                  {category.name}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                      <label>Images</label>
+    
+                      <div className="custom-file">
+                        <input
+                          type="file"
+                          name="product_images"
+                          className="custom-file-input"
+                          id="customFile"
+                          
+                          onChange={onChange}
+                          multiple
+                        />
+                        <label className="custom-file-label" htmlFor="customFile">
+                          Choose Images
+                        </label>
+                      </div>
+                      {oldImages && oldImages.map(img => (
+                            <img key= {img} src={`http://localhost:4000/products/${img}`} alt={img} className="mt-3 mr-2" 
+                            width='55' height='52' />
+                      ))}
+                      {imagesPreview.map(img => (
+                            <img src={img} key={img} alt='Images Preview' className="mt-3 mr-2"
+                            width='55' height='52'/>
+                      ))}
+                    </div>
+
+                  <button
+                          className="btn btn-dark btn-lg btn-block"
+                          type="submit"
+                        >
+                          Update product
+                        </button>
+                </form>
               </div>
             </div>
           </div>
-        </section>
-      </Fragment>
+        </div>
+      </div>
     </div>
-  </Fragment>
+  </div>
+</div>
+</Fragment>
 );
 };
 

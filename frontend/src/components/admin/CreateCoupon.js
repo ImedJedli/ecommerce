@@ -130,7 +130,7 @@ const CreateCoupon = () => {
                           <input
                             value={discount}
                             onChange={handleDiscountChange}
-                            style={{ height: "100%" }}
+                           
                             className={`form-control ${
                               discountError ? "is-invalid" : ""
                             }`}
@@ -148,7 +148,7 @@ const CreateCoupon = () => {
                           <input
                             value={usageLimit}
                             onChange={handleUsageLimitChange}
-                            style={{ height: "100%" }}
+                            
                             className={`form-control ${
                               usageLimitError ? "is-invalid" : ""
                             }`}
@@ -163,7 +163,7 @@ const CreateCoupon = () => {
                         <button
               id="register_button"
               type="submit"
-              className="btn btn-block py-3"
+              className="btn btn-dark btn-lg btn-block"
               disabled={loading ? true : false}
             >
               Create

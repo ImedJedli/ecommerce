@@ -11,6 +11,7 @@ import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer
 import { newProductReducer, postReviewReducer, productDetailsReducer, productReducer, productReviewsReducer, productsReducer, reviewReducer } from './reducers/productReducer';
 import { userDetailsReducer } from './reducers/userReducers';
 import { allCouponsReducer, couponReducer, createCouponReducer } from './reducers/couponReducer';
+import { couponDetailsReducer } from './reducers/couponReducer';
 
 
 const reducer = combineReducers({
@@ -43,7 +44,8 @@ const reducer = combineReducers({
 
       coupon : couponReducer,
       newCoupon: createCouponReducer,
-      allCoupons : allCouponsReducer
+      allCoupons : allCouponsReducer,
+      couponDetails : couponDetailsReducer
 
 })
 
