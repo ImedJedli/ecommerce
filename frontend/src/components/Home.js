@@ -67,14 +67,14 @@ const handleAllCategories = () => {
 
   return (
     <Fragment>
-      <div className="home-container">
+      <div className="home-container ">
         
         {loading ? (
           <Loader />
         ) : (
           <Fragment>
             <Infos title={"Buy Best Products"} />
-            <section className="page-home1">
+            <section className="page-home1 ">
                     <div className="overy"></div>   
                     <div className="container">
                     <div className="row justify-content-center">

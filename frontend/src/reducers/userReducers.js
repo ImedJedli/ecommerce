@@ -41,11 +41,10 @@ import {
   DELETE_USER_RESET,
 } from "../constants/userConstantes";
 
-
-
-
-
-export const authReducer = (state = { user: {}, isAuthenticated: false ,isAdmin: false }, action) => {
+export const authReducer = (
+  state = {  isAuthenticated: false },
+  action
+) => {
   switch (action.type) {
     case LOGIN_REQUEST:
     case REGISTER_USER_REQUEST:
@@ -53,6 +52,8 @@ export const authReducer = (state = { user: {}, isAuthenticated: false ,isAdmin:
       return {
         ...state,
         loading: true,
+        isAuthenticated: false,
+        
       };
 
     case LOGIN_SUCCESS:
@@ -62,7 +63,6 @@ export const authReducer = (state = { user: {}, isAuthenticated: false ,isAdmin:
         ...state,
         loading: false,
         isAuthenticated: true,
-        isAdmin: action.payload.isAdmin,
         user: action.payload,
       };
 
@@ -71,24 +71,32 @@ export const authReducer = (state = { user: {}, isAuthenticated: false ,isAdmin:
         ...state,
         loading: false,
         isAuthenticated: false,
-        isAdmin: false,
         user: null,
       };
 
-    case LOAD_USER_FAIL:
-      case LOGIN_FAIL:
-        case REGISTER_USER_FAIL:
-          case LOGOUT_FAIL:
+      case LOAD_USER_FAIL:
+        return {
+            loading: false,
+            isAuthenticated: false,
+            user: null,
+            error: action.payload
+        }
+
+        case LOGOUT_FAIL:
+          return {
+              ...state,
+              error: action.payload
+          }
+
+    case LOGIN_FAIL:
+    case REGISTER_USER_FAIL:
       return {
         ...state,
         loading: false,
         isAuthenticated: false,
-        isAdmin: false,
         user: null,
         error: action.payload,
       };
-
-    
 
     case CLEAR_ERRORS:
       return { ...state, error: null };

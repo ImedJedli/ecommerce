@@ -1,14 +1,14 @@
-import React ,{ useState }from "react";
+import React, { useState } from "react";
 //import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./actions/userAction";
 
-
 import Home from "./components/Home";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import ProductDetails from "./components/product/ProductDetails";
+import { useLocation } from "react-router-dom";
 
 import Login from "./components/user/Login";
 
@@ -16,7 +16,7 @@ import {
   Route,
   BrowserRouter as Router,
   Routes,
-  Outlet 
+  Outlet,
 } from "react-router-dom";
 import Cart from "./components/cart/Cart";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
@@ -51,24 +51,26 @@ import UpdateUser from "./components/admin/UpdateUser";
 import UsersList from "./components/admin/UsersList";
 import Blogs from "./components/blog/Blogs";
 import BlogDetails from "./components/blog/BlogsDetails";
-import ProtectedRoute from "./components/route/ProtectedRoute"
+import ProtectedRoute from "./components/route/ProtectedRoute";
 
-//            <Route path="/shipping" element={<Shipping />} />
- //<Route path="/shipping" element={<ProtectedRoute isAuthenticated={isAuthenticated}  element={<Shipping />} />} exact />
 
+// <Route path="/shipping" element={<Shipping />} />
+//<Route path="/shipping" element={<ProtectedRoute isAuthenticated={isAuthenticated}  element={<Shipping />} />} exact />
 
 function App() {
-
   /* const { user, isAuthenticated, loading } = useSelector(
     (state) => state.auth
   ); */
 
-  const user = useSelector(state => state.auth);
+  const { user, loading } = useSelector((state) => state.auth);
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAdmin = user && user.role === "admin";
 
 
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-
-
+  console.log('auth:',isAuthenticated)
+  console.log("rolleee",isAdmin)
+ 
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,71 +79,52 @@ function App() {
       dispatch(loadUser());
     }
   }, [dispatch, isAuthenticated]);
-//          <Route path="/dashboard" element={<ProtectedRoute component={Dashboard} />} />     
-//{!isAdmin && <Header />}
+
+
+
+  /* //           <Route
+path="/dashboard"
+element={<ProtectedRoute component={Dashboard} />}
+/>  */
+
+  /* {!isAdmin && <Header />} */
   return (
     <Router>
-      
-      
-      <Header />
-       
-          <Routes>
+    {!isAdmin && <Header />}
 
-            
+      <Routes>
+        <Route path="/" element={<Home />} exact />
+        <Route path="/search/:keyword" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route element={<Header />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-            <Route path="/" element={<Home />} exact />
-            <Route path="/search/:keyword" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route element={<Header />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            
-            
-            <Route path="/me" element={<Profile />} exact />
-            <Route path="/me/update" element={<UpdateProfile />} exact />
-            <Route path="/password/update" element={<UpdatePassword />} exact />
-            <Route path="/password/forgot" element={<ForgotPassword />} exact />
-            <Route
-              path="/password/reset/:token"
-              element={<NewPassword />}
-              exact
-            />
-            <Route path="/cart" element={<Cart />} exact />
-            <Route path="/order/confirm" element={<ConfirmOrder />} />
-            <Route path="/orders/me" element={<ListOrders />} />
-            <Route path="/order/:id" element={<OrderDetails />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/blogs/blog/:id" element={<BlogDetails />} />
-            <Route path="/wishlist" element={<Wishlist />}/>
-            <Route path="/shipping" element={<Shipping />} />
-            
-            <Route
-    path="/dashboard" element={<Dashboard />}
-  />
-           
-  <Route
-  path="/admin/coupons"
-  
-  element={<CouponsList />}
-/>
-
-<Route
-path="/admin/coupon/new"
-
-element={<CreateCoupon />}
-/>
+        <Route path="/me" element={<Profile />} exact />
+        <Route path="/me/update" element={<UpdateProfile />} exact />
+        <Route path="/password/update" element={<UpdatePassword />} exact />
+        <Route path="/password/forgot" element={<ForgotPassword />} exact />
+        <Route path="/password/reset/:token" element={<NewPassword />} exact />
+        <Route path="/cart" element={<Cart />} exact />
+        <Route path="/order/confirm" element={<ConfirmOrder />} />
+        <Route path="/orders/me" element={<ListOrders />} />
+        <Route path="/order/:id" element={<OrderDetails />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/blog/:id" element={<BlogDetails />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/shipping" element={<Shipping />} />
 
         <Route
-          path="/admin/products"
-          
-          element={<ProductsList />}
-        />
-        <Route
-          path="/admin/product/new"
-          
-          element={<NewProduct />}
-        />
+path="/dashboard"
+element={<Dashboard />}
+/> 
+
+        <Route path="/admin/coupons" element={<CouponsList />} />
+
+        <Route path="/admin/coupon/new" element={<CreateCoupon />} />
+
+        <Route path="/admin/products" element={<ProductsList />} />
+        <Route path="/admin/product/new" element={<NewProduct />} />
         <Route
           path="/admin/product/:id"
           isAdmin={true}
@@ -164,7 +147,7 @@ element={<CreateCoupon />}
         />
         <Route path="/admin/blog/new" isAdmin={true} element={<NewBlog />} />
       </Routes>
-      <Footer />
+      {!isAdmin && <Footer />}
     </Router>
   );
 }

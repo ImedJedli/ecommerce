@@ -19,7 +19,7 @@ function Search() {
       }
   return (
     <form onSubmit={searchHandler}>
-      <div className="input-group d-flex align-items-center">
+      <div className="input-group d-flex align-items-center ">
         <input
           className="form-control"
           type="text"

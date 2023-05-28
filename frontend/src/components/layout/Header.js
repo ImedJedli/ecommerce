@@ -22,6 +22,7 @@ const Header =() => {
   const dispatch = useDispatch();
 
   const { user, loading } = useSelector((state) => state.auth);
+
   const logoutHandler = () => {
     dispatch(logout());
     alert.success("Logged out successfully.");
@@ -40,7 +41,7 @@ const Header =() => {
   return (
     <Fragment>
       <nav
-        className="navbar navbar-expand-lg navbar-light bg-white w-100 navigation"
+        className="navbar navbar-expand-lg navbar-light bg-white w-100 navigation "
         id="navbar"
       >
         <div className="container">

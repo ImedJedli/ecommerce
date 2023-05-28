@@ -65,7 +65,7 @@ const  Cart = () => {
             if (isAuthenticated) {
                 const totalPrice = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
                 localStorage.setItem('paymentInfo', JSON.stringify({ totalPrice }));
-              navigate('/shipping');
+              navigate('/shipping', { replace: true });
             } else {
               navigate('/login?redirect=shipping');
             }

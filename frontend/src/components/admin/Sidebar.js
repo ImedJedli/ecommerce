@@ -1,9 +1,32 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-
+import React , { Fragment, useEffect, useState } from 'react'
+import { useAlert } from "react-alert";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../actions/userAction";
 
 const Sidebar =() => {
+
+
+    const handleHomeClick = () => {
+        window.location.reload();
+      };
+    
+      const navigate = useNavigate();
+      const alert = useAlert();
+      const dispatch = useDispatch();
+    
+      const { user, loading } = useSelector((state) => state.auth);
+      const logoutHandler = () => {
+        dispatch(logout());
+        alert.success("Logged out successfully.");
+      };
+    
+
   return (
+
+    <Fragment>
+
+    
       <div className="sidebar-wrapper">
       <nav id="sidebar">
           <ul className="list-unstyled components">
@@ -11,9 +34,23 @@ const Sidebar =() => {
                   <Link to="/dashboard"><i className="fa fa-tachometer"></i> Dashboard</Link>
               </li>
 
+
+              <li>
+              <a href="#loginSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
+                  className="fa fa-user"></i> {user && user.name}</a>
+                  
+              <ul className="collapse list-unstyled" id="loginSubmenu">
+                  <li>
+                      <Link to="/" onClick={logoutHandler}> logout</Link>
+                  </li>
+
+                  
+              </ul>
+          </li>
+
               <li>
                   <a href="#blogSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
-                      className="fa fa-product-hunt"></i> Blogs</a>
+                      className="fa fa-bold"></i> Blogs</a>
                   <ul className="collapse list-unstyled" id="blogSubmenu">
                       <li>
                           <Link to="/admin/blogs"><i className="fa fa-clipboard"></i> All</Link>
@@ -88,6 +125,8 @@ const Sidebar =() => {
           </ul>
       </nav>
   </div>
+    </Fragment>
+     
   )
 }
 

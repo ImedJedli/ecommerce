@@ -9,6 +9,8 @@ import Loader from "../layout/Loader";
 
 const Login = () => {
 
+  
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -21,26 +23,51 @@ const Login = () => {
 
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { isAuthenticated, error, loading } = useSelector(
+  const { user, isAuthenticated, error, loading } = useSelector(
     (state) => state.auth
   );
+
+  const isAdmin = user && user.role ;
+  console.log('admin or not ?' , isAdmin)
+
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
-  useEffect(() => {
-    
-    if (isAuthenticated) {
+  const redirectToDashboard = () => {
+    if (user && user.role === "admin") {
+      navigate("/dashboard");
+    } else {
       navigate(redirect);
     }
+  };
+
+  useEffect(() => {
+
+    /* if (isAuthenticated) {
+      console.log('user',user)
+      if (isAdmin) {
+        navigate("/dashboard");
+      } else {
+        navigate(redirect);
+      }
+    } */
+
+    if (isAuthenticated) {
+      setTimeout(() => {
+        redirectToDashboard();
+      }, 200); // Adjust the delay as needed
+    }
+
+ 
     if (error) {
-      const clearError = dispatch(clearErrors());
-    } else if (isAuthenticated) {
+      dispatch(clearErrors());
+    } else if (isAuthenticated && !loading) {
       
       alert.show("Login successful!, Welcome", {
         type: "success",
       });
       
     }
-  }, [dispatch, alert, isAuthenticated, error,navigate,redirect]);
+  }, [dispatch, user,alert, isAuthenticated, error,navigate,redirect,redirectToDashboard]);
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -57,7 +84,7 @@ const Login = () => {
       isValid = false;
     }
     dispatch(login(email, password));
-    dispatch(loadUser());
+   /*  dispatch(loadUser()); */
   };
 
   const [justifyActive, setJustifyActive] = useState("tab1");
