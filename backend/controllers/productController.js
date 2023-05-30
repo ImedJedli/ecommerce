@@ -47,16 +47,26 @@ exports.newProduct = catchAsyncErrors(async(req,res,next) =>{
 
         const {name,price,stock,seller,category, description} = req.body;
 
-            
+
+        const categoryObj = await Category.findOne({ name: category });
+
+        if (!categoryObj) {
+          return next(new ErrorHandler('Invalid category', 400));
+        }
+
             const product = await Product.create({
                   name,
                   price,
                   stock,
                   seller,
-                  category,
+                  category, 
                   description,
+
                   images: req.files ? req.files.map(file => file.filename) : []
             });
+
+            categoryObj.products.push(product._id);
+            await categoryObj.save();
 
             res.status(201).json({
                   success : true,

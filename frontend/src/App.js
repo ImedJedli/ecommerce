@@ -52,6 +52,7 @@ import UsersList from "./components/admin/UsersList";
 import Blogs from "./components/blog/Blogs";
 import BlogDetails from "./components/blog/BlogsDetails";
 import ProtectedRoute from "./components/route/ProtectedRoute";
+import CategoriesProducts from "./components/admin/CategoriesProducts";
 
 
 // <Route path="/shipping" element={<Shipping />} />
@@ -118,6 +119,7 @@ element={<ProtectedRoute component={Dashboard} />}
 path="/dashboard"
 element={<Dashboard />}
 /> 
+      <Route path="/categorie/:id" element={<CategoriesProducts />} />
 
         <Route path="/admin/coupons" element={<CouponsList />} />
         <Route path="/coupon/:id" element={<UpdateCoupon />} />

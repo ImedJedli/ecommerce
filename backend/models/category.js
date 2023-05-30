@@ -6,8 +6,7 @@ const categorySchema =new mongoose.mongoose.Schema({
           required: [true, 'Please enter product name'],
           trim: true,
       },
-
-      
+      products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],  
       });
 
 module.exports = mongoose.model('Category', categorySchema);

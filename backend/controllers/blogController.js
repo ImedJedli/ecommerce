@@ -49,6 +49,7 @@ exports.createBlog = catchAsyncErrors(async(req,res,next) =>{
             const blog = await Blog.create({
                   title,
                   description,
+                  user: req.user._id,
                   images: req.files ? req.files.map(file => file.filename) : []
             });
 
@@ -101,7 +102,7 @@ exports.getAdminAllBlogs = catchAsyncErrors(async(req,res,next)=>{
 
 exports.getSingleBlog = catchAsyncErrors(async(req,res,next) =>{
 
-      const blog = await Blog.findById(req.params.id);
+      const blog = await Blog.findById(req.params.id).populate('user', 'name');
       if(!blog) {
             return next (new ErrorHandler('no blog found'));
       }

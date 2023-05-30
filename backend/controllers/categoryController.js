@@ -2,7 +2,7 @@
 const Category = require('../models/category');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-
+const Product = require('../models/product')
 exports.newCategory = catchAsyncErrors(async(req,res,next)=>{
 
     const category = await Category.create(req.body);
@@ -28,7 +28,7 @@ exports.newCategory = catchAsyncErrors(async(req,res,next)=>{
 
  exports.getSingleCategory = catchAsyncErrors(async(req,res,next)=>{
 
-    const category = await Category.findById(req.params.id)
+    const category = await Category.findById(req.params.id).populate('products','name images')
     if(!category){
           return next(new ErrorHandler('no category found with this ID',404))
     }
@@ -66,7 +66,13 @@ exports.deleteCategory = catchAsyncErrors (async(req,res,next)=>{
     
     }
 
-    await category.remove();
+    const productIds = category.products;
+
+    // Delete the category and associated products
+    const deletedCategory = await Category.findByIdAndDelete(category);
+    await Product.deleteMany({ _id: { $in: productIds } });
+
+    //await category.remove();
 
     res.status(200).json({
           success : true,

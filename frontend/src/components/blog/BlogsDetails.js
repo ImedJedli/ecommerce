@@ -4,6 +4,7 @@ import { Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { clearErrors, getSingleBlog } from "../../actions/blogActions";
+
 import Loader from "../layout/Loader";
 
 
@@ -12,20 +13,24 @@ const BlogsDetails = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
+  const { loading, error, blog  } = useSelector((state) => state.blogDetails);
+  const { user } = useSelector((state) => state.userDetails);
+
+
   useEffect(() => {
     if (id) {
       dispatch(getSingleBlog(id));
     }
   }, [dispatch, id]);
 
-  const { loading, error, blog } = useSelector((state) => state.blogDetails);
-
+  
   useEffect(() => {
+    
     if (error) {
       alert.show(error);
       dispatch(clearErrors());
     }
-  }, [error, alert, dispatch]);
+  }, [error, alert,blog, dispatch]);
 
   const handleFacebookShare = () => {
 
@@ -81,6 +86,10 @@ const BlogsDetails = () => {
               {blog && (
                 <Fragment>
                   <h3>{blog.title}</h3>
+                  <p className="info"> 
+          <a className="author"> Author : {blog.user && blog.user.name}</a>
+          <time> {blog.createdAt && blog.createdAt.substring(0, 10)}</time>
+          </p>
                   <p dangerouslySetInnerHTML={{ __html: blog.description }} />
 
                   

@@ -42,15 +42,22 @@ const CategoriesList = () => {
 
   }, [dispatch, alert, error, deleteError, isDeleted,navigate]);
 
-  const deleteCategoryHandler =(id) =>{
+  /* const deleteCategoryHandler =(id) =>{
     dispatch(deleteCategory(id))
-}
+} */
+
+const deleteCategoryHandler = (id) => {
+  if (window.confirm("Are you sure you want to delete this category?")) {
+    dispatch(deleteCategory(id));
+  }
+};
 
   const setCategories = () => {
     const data = {
       columns: [
         { label: "ID", field: "id", sort: "asc" },
         { label: "Name", field: "name", sort: "asc" },
+        { label: "Products", field: "products", sort: "asc" },
         { label: "Actions", field: "actions", sort: "asc" },
       ],
       rows: [],
@@ -58,14 +65,24 @@ const CategoriesList = () => {
 
     if (categories) {
       categories.forEach((category) => {
+        
         data.rows.push({
           id: category._id,
           name: category.name,
+          products: category.products.length,
           actions: (
             <Fragment>
+
+            <Link
+                to={`/categorie/${category._id}`}
+                className="btn btn-primary py-1 px-2"
+              >
+                <i className="fa fa-eye"></i>
+              </Link>
+
               <Link
                 to={`/category/${category._id}`}
-                className="btn btn-primary py-1 px-2"
+                className="btn btn-primary py-1 px-2 ml-2"
               >
                 <i className="fa fa-pencil"></i>
               </Link>

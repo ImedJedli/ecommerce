@@ -3,8 +3,8 @@ const ErrorHandler = require('../utils/errorHandler')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwToken');
 const sendEmail = require('../utils/sendEmail');
-const crypto = require('crypto')
-
+const crypto = require('crypto');
+const Order = require('../models/order')
 
 const fs = require('fs');
 
@@ -48,7 +48,7 @@ exports.registerUser = catchAsyncErrors(async(req,res,next) =>{
             if (userExists) {
               return next(new ErrorHandler('User already exists', 400));
             }
-        
+
             const user = await User.create ({
                   name,     
                   email,
@@ -290,6 +290,10 @@ exports.deleteUser = catchAsyncErrors (async(req,res,next)=>{
       
       }
 
+      //const orderIds = user.orderItems.map(orderItem => orderItem._id);
+      const deletedUser = await User.findByIdAndDelete(user);
+      await Order.deleteMany({ user: user });
+
       if (user.avatar !== 'default-avatar.jpg') {
             fs.unlink(`public/avatars/${user.avatar}`, (err) => {
               if (err) {
@@ -298,11 +302,12 @@ exports.deleteUser = catchAsyncErrors (async(req,res,next)=>{
             });
           }
 
-      await user.remove();
+      //await user.remove();
 
       res.status(200).json({
             success : true,
             msg: "user deleted",
+            deletedUser,
             user
       })
 })
