@@ -320,8 +320,8 @@ footer {
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  border: 6px solid #3D4F91;
-  border-color: #3D4F91 transparent;
+  border: 6px solid #fdb78f;
+  border-color: #fdb78f transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
@@ -332,6 +332,8 @@ footer {
     transform: rotate(360deg);
   }
 }
+
+
 
 /* Cart */
 

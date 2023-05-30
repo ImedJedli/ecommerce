@@ -208,7 +208,7 @@ function StatusOrder() {
                         statusError ? "is-invalid" : ""
                       }`}
                     >
-                      <option value=""> Choose category </option>
+                      <option value=""> Order status </option>
                       <option value="Processing">Processing</option>
                       <option value="Shipped">Shipped</option>
                       <option value="Delivered">Delivered</option>

@@ -129,7 +129,7 @@ return (
             <div className="col-lg-12">
               <div className="login-form border p-5">
                 <div className="text-center heading">
-                  <h2 className="mb-2">Create blog</h2>
+                  <h2 className="mb-2">Update product</h2>
                 </div>
                 <form
                   onSubmit={submitHandler}

@@ -56,6 +56,7 @@ const handleAllCategories = () => {
     
   }
   useEffect(() => {
+    
    
     if (error) {
       return alert.show(error);

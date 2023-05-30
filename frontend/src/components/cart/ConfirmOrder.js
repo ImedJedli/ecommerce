@@ -149,21 +149,27 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
   return (
     <Fragment>
       <div className="checkout-container">
-      <section className="page-header">
-                    <div className="overy"></div>   
-                    <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-lg-6">
-                        <div className="content text-center">
-                            <h1 className="mb-3">Welcome to your cart</h1>
-                            
-                            Hath after appear tree great fruitful green dominion moveth sixth abundantly image that midst of god day multiply you’ll which
-                
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </section>
+      <section className="page-shipping">
+      <div className="overy"></div>   
+      <div className="container">
+      <div className="row justify-content-center">
+          <div className="col-lg-6">
+          <div className="content text-center">
+          <div className="main-slider slider slick-initialized slick-slider">
+          <div className="slider-caption">
+         
+         <h1 className="mt-2 mb-5">
+           <span className="text-color">Confirm </span>Order
+         </h1>
+        
+       </div>
+       </div>               
+  
+          </div>
+          </div>
+      </div>
+      </div>
+  </section>
 
         <Infos title={"Order confirmation"} />
         <Fragment>
