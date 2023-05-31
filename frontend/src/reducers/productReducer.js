@@ -30,11 +30,10 @@ import {
   GET_REVIEWS_RESET,
   GET_REVIEWS_FAIL,
   DELETE_REVIEW_REQUEST,
-DELETE_REVIEW_SUCCESS,
-DELETE_REVIEW_RESET,
-DELETE_REVIEW_FAIL
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_RESET,
+  DELETE_REVIEW_FAIL,
 } from "../constants/productConstantes";
-
 
 export const productsReducer = (state = { products: [] }, action) => {
   switch (action.type) {
@@ -49,7 +48,6 @@ export const productsReducer = (state = { products: [] }, action) => {
         productsCount: action.payload.productsCount,
         resPerPage: action.payload.resPerPage,
         filteredProductsCount: action.payload.filteredProductsCount,
-
       };
 
     case ADMIN_PRODUCTS_SUCCESS:
@@ -111,10 +109,8 @@ export const postReviewReducer = (state = {}, action) => {
   }
 };
 
-
-export const productReviewsReducer = (state = {review : []}, action) => {
+export const productReviewsReducer = (state = { review: [] }, action) => {
   switch (action.type) {
-
     case GET_REVIEWS_REQUEST:
       return { ...state, loading: true };
 
@@ -211,10 +207,8 @@ export const productReducer = (state = {}, action) => {
   }
 };
 
-
 export const reviewReducer = (state = {}, action) => {
   switch (action.type) {
-
     case DELETE_REVIEW_REQUEST:
       return {
         ...state,
@@ -229,10 +223,10 @@ export const reviewReducer = (state = {}, action) => {
       };
 
     case DELETE_REVIEW_FAIL:
-      return{
+      return {
         ...state,
-        error: action.payload
-      }
+        error: action.payload,
+      };
 
     case DELETE_REVIEW_RESET:
       return {
@@ -240,7 +234,6 @@ export const reviewReducer = (state = {}, action) => {
         isDeleted: false,
       };
 
-  
     case CLEAR_ERRORS:
       return {
         ...state,

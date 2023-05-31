@@ -1,6 +1,5 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect , useState} from "react";
-import { useAlert } from "react-alert";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { allUsers, clearErrors, deleteUser } from "../../actions/userAction";
@@ -8,32 +7,31 @@ import { DELETE_USER_RESET } from "../../constants/userConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import {  toast } from 'react-toastify';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
 
 function UsersList() {
-  const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
   const { loading, error, users } = useSelector((state) => state.allUsers);
-  const { isDeleted } = useSelector(state => state.user);
+  const { isDeleted } = useSelector((state) => state.user);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
-  
+
   const deleteUserHandler = (id) => {
     setUserToDelete(id);
     setShowConfirmation(true);
   };
-  
+
   const confirmDelete = () => {
     dispatch(deleteUser(userToDelete));
     setShowConfirmation(false);
   };
-  
+
   const cancelDelete = () => {
     setUserToDelete(null);
     setShowConfirmation(false);
@@ -48,15 +46,11 @@ function UsersList() {
     }
 
     if (isDeleted) {
-      toast.success('User deleted successfully');
-      navigate('/admin/users');
-      dispatch({ type: DELETE_USER_RESET })
-  }
-  }, [dispatch, toast, error,navigate,isDeleted]);
-
-  /* const deleteUserHandler = (id) => {
-    dispatch(deleteUser(id));
-  }; */
+      toast.success("User deleted successfully");
+      navigate("/admin/users");
+      dispatch({ type: DELETE_USER_RESET });
+    }
+  }, [dispatch, toast, error, navigate, isDeleted]);
 
   const setUsers = () => {
     const data = {
@@ -88,7 +82,10 @@ function UsersList() {
                 <i className="fa fa-pencil"></i>
               </Link>
 
-              <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteUserHandler(user._id)}>
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                onClick={() => deleteUserHandler(user._id)}
+              >
                 <i className="fa fa-trash"></i>
               </button>
             </Fragment>
@@ -116,30 +113,30 @@ function UsersList() {
               <Loader />
             ) : (
               <Fragment>
-              <MDBDataTable
-                data={setUsers()}
-                className="px-3"
-                bordered
-                striped
-                hover
-              />
-              <Modal show={showConfirmation} onHide={cancelDelete}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Confirmation</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Are you sure you want to delete this user ?
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={cancelDelete}>
-                        Cancel
-                      </Button>
-                      <Button variant="danger" onClick={confirmDelete}>
-                        Delete
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </Fragment>
+                <MDBDataTable
+                  data={setUsers()}
+                  className="px-3"
+                  bordered
+                  striped
+                  hover
+                />
+                <Modal show={showConfirmation} onHide={cancelDelete}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Confirmation</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure you want to delete this user ?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={cancelDelete}>
+                      Cancel
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                      Delete
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </Fragment>
             )}
           </Fragment>
         </div>

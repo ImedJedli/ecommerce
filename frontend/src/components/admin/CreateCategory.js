@@ -1,38 +1,30 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addCategory, clearErrors } from "../../actions/categoryActions";
-import {
-  CREATE_CATEGORY_RESET
-} from "../../constants/categoryConstantes";
+import { CREATE_CATEGORY_RESET } from "../../constants/categoryConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const CreateCategory = () => {
   const navigate = useNavigate();
   const [category, setCategory] = useState({
-    name: ""
+    name: "",
   });
 
   const [name, setName] = useState("");
-
-
 
   //const { name } = category;
 
   const [nameError, setNameError] = useState("");
 
-  const alert = useAlert();
   const dispatch = useDispatch();
 
   const { error, loading, success } = useSelector((state) => state.newCategory);
   const { categories } = useSelector((state) => state.allCategories); // Access the categories array from Redux state
-
 
   useEffect(() => {
     if (error) {
@@ -43,13 +35,13 @@ const CreateCategory = () => {
       }
       dispatch(clearErrors());
     }
-      
+
     if (success) {
       dispatch({ type: CREATE_CATEGORY_RESET });
       toast.success("category created successfully");
       navigate("/categories");
     }
-  }, [dispatch, alert, toast,error, success, navigate]);
+  }, [dispatch, alert, toast, error, success, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -70,7 +62,6 @@ const CreateCategory = () => {
   const onChange = (e) => {
     setCategory({ ...category, [e.target.name]: e.target.value });
   };
-
 
   return (
     <Fragment>
@@ -109,15 +100,15 @@ const CreateCategory = () => {
                             <div className="invalid-feedback">{nameError}</div>
                           )}
                         </div>
-      
+
                         <button
-              id="register_button"
-              type="submit"
-              className="btn btn-dark btn-lg btn-block"
-              disabled={loading ? true : false}
-            >
-              Create
-            </button>
+                          id="register_button"
+                          type="submit"
+                          className="btn btn-dark btn-lg btn-block"
+                          disabled={loading ? true : false}
+                        >
+                          Create
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -128,7 +119,6 @@ const CreateCategory = () => {
         </div>
       </div>
     </Fragment>
-    
   );
 };
 

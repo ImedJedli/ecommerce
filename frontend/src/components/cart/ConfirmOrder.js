@@ -1,109 +1,66 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  removeItemCart,
-  saveShippingInfo
-} from "../../actions/cartActions";
+import { removeItemCart, saveShippingInfo } from "../../actions/cartActions";
 import { clearErrors, createOrder } from "../../actions/orderActions";
 import Infos from "../layout/Infos";
+import { toast } from "react-toastify";
 
 const ConfirmOrder = () => {
-  const alert = useAlert();
+  const [code, setCode] = useState("");
+  const [discount, setDiscount] = useState(0);
 
-    const [code, setCode] = useState("");
-    const [discount, setDiscount] = useState(0);
+  const applyCoupon = () => {
+    fetch(`/api/v1/coupon/coupons?code=${code}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success === false && data.message) {
+          toast.error(data.message);
+        } else if (data.coupon) {
+          const coupon = data.coupon;
+          const usedCount = data.usedCount;
+          const usageLimit = data.usageLimit;
 
-    const applyCoupon = () => {
-      fetch(`/api/v1/coupon/coupons?code=${code}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success === false && data.message) {
-            alert.error(data.message);
-          } else if (data.coupon) {
-            const coupon = data.coupon;
-            const usedCount = data.usedCount; 
-            const usageLimit = data.usageLimit;
-    
-            console.log('usedCount:', usedCount);
-            console.log('usageLimit:', usageLimit);
-    
-            if (usedCount >= usageLimit) {
-              alert.error("Coupon has reached its usage limit.");
-            } else {
-              setDiscount(coupon.discount);
-              alert.success("Coupon applied successfully!");
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          alert.error("Failed to apply the coupon.");
-        });
-    };
-    
+          console.log("usedCount:", usedCount);
+          console.log("usageLimit:", usageLimit);
 
-    /* const applyCoupon = () => {
-     
-      fetch(`/api/v1/coupon/coupons?code=${code}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('data:', data);
-
-
-          if (data.error) {
-            alert.error(data.error);
+          if (usedCount >= usageLimit) {
+            toast.error("Coupon has reached its usage limit.");
           } else {
-            const coupon = data.coupon;
-            const usedCount = data.usedCount; 
-            const usageLimit = data.usageLimit;
+            setDiscount(coupon.discount);
+            toast.success("Coupon applied successfully!");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to apply the coupon.");
+      });
+  };
 
-            console.log('usedCount:' ,usedCount);
-            console.log('usageLimit:' ,usageLimit);
-            
-            
-            if(usedCount >= usageLimit){
-              alert.error("Coupon has reached its usage limit.")
-            }
-
-            else{
-              setDiscount(coupon.discount);
-              alert.success("Coupon applied successfully!");
-            }
-
-            
-          } 
-        })
-        .catch((error) => {
-          console.error(error);
-          alert.error("Failed to apply the coupon.");
-        });
-    }; */
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useParams();
 
-  const { cartItems, shippingInfo ,paymentInfo} = useSelector((state) => state.cart);
+  const { cartItems, shippingInfo, paymentInfo } = useSelector(
+    (state) => state.cart
+  );
   const { user } = useSelector((state) => state.auth);
   const itemsPrice =
     cartItems.length > 0
       ? cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
       : 0;
   const shippingPrice = itemsPrice > 300 || !shippingInfo ? 0 : 7;
-  const totalPrice = ((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2);
-console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
+  const totalPrice = ((itemsPrice + shippingPrice) * (1 - discount)).toFixed(2);
+  console.log(((itemsPrice + shippingPrice) * (1 - discount)).toFixed(2));
   const { error, success } = useSelector((state) => state.newOrder);
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, error, success, navigate]);
-
-  
-  
+  }, [dispatch, toast, error, success, navigate]);
 
   const proceedToPaymentHandler = () => {
     const order = {
@@ -116,14 +73,13 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
         totalPrice,
       },
     };
-  
+
     localStorage.setItem("orderDetails", JSON.stringify(order));
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
     localStorage.removeItem("cartItems");
 
-  
-    dispatch(saveShippingInfo(shippingInfo)); 
+    dispatch(saveShippingInfo(shippingInfo));
     dispatch(
       createOrder(
         order,
@@ -131,45 +87,37 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
         cartItems,
         itemsPrice,
         shippingPrice,
-        totalPrice,
+        totalPrice
       )
     ).then(() => {
-      alert.success("Order sent successfully!");
-      //dispatch(removeItemCart([]));
+      toast.success("Order sent successfully!");
       navigate("/orders/me");
     });
-  
+
     console.log("Order:", order);
   };
-  
-
-  
-  
 
   return (
     <Fragment>
       <div className="checkout-container">
-      <section className="page-shipping">
-      <div className="overy"></div>   
-      <div className="container">
-      <div className="row justify-content-center">
-          <div className="col-lg-6">
-          <div className="content text-center">
-          <div className="main-slider slider slick-initialized slick-slider">
-          <div className="slider-caption">
-         
-         <h1 className="mt-2 mb-5">
-           <span className="text-color">Confirm </span>Order
-         </h1>
-        
-       </div>
-       </div>               
-  
+        <section className="page-shipping">
+          <div className="overy"></div>
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-6">
+                <div className="content text-center">
+                  <div className="main-slider slider slick-initialized slick-slider">
+                    <div className="slider-caption">
+                      <h1 className="mt-2 mb-5">
+                        <span className="text-color">Confirm </span>Order
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          </div>
-      </div>
-      </div>
-  </section>
+        </section>
 
         <Infos title={"Order confirmation"} />
         <Fragment>
@@ -230,30 +178,43 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
                               </tr>
                             </Fragment>
                           ))}
-                                                                  <tr>
-                                            <td colSpan="6" className="actions">
-                                                <div className="coupon">
-                                                    <input type="text" name="coupon_code" className="input-text form-control" id="coupon_code"   value={code}
-    onChange={(e) => setCode(e.target.value)}
-    placeholder="Coupon code" /> 
+                          <tr>
+                            <td colSpan="6" className="actions">
+                              <div className="coupon">
+                                <input
+                                  type="text"
+                                  name="coupon_code"
+                                  className="input-text form-control"
+                                  id="coupon_code"
+                                  value={code}
+                                  onChange={(e) => setCode(e.target.value)}
+                                  placeholder="Coupon code"
+                                />
 
-                                                    <button
-    type="button"
-    className="btn btn-black btn-small ml-4"
-    name="apply_coupon"
-    value="Apply coupon"
-    onClick={applyCoupon}
-    
-  >
-    Apply coupon
-    </button>
-                                                    <span className="float-right mt-3 mt-lg-0">
-                                                    </span>
-                                                </div>
-                                                <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="27da9ce3e8" />
-                                                <input type="hidden" name="_wp_http_referer" value="/cart/" />
-                                                </td>
-                                        </tr>
+                                <button
+                                  type="button"
+                                  className="btn btn-black btn-small ml-4"
+                                  name="apply_coupon"
+                                  value="Apply coupon"
+                                  onClick={applyCoupon}
+                                >
+                                  Apply coupon
+                                </button>
+                                <span className="float-right mt-3 mt-lg-0"></span>
+                              </div>
+                              <input
+                                type="hidden"
+                                id="woocommerce-cart-nonce"
+                                name="woocommerce-cart-nonce"
+                                value="27da9ce3e8"
+                              />
+                              <input
+                                type="hidden"
+                                name="_wp_http_referer"
+                                value="/cart/"
+                              />
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </form>
@@ -317,8 +278,6 @@ console.log(((itemsPrice + shippingPrice )* (1 - discount)).toFixed(2))
                             <p>Please log in to confirm your order.</p>
                           </div>
                         )}
-
-
                       </div>
                     </div>
                   </div>

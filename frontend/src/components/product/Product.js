@@ -1,51 +1,45 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-function product({ product ,col}) {
-
-  const [isSaved, setIsSaved] = useState(false); // State to track if the product is saved in the wishlist
-
+function product({ product, col }) {
+  const [isSaved, setIsSaved] = useState(false);
 
   const handleSaveToWishlist = () => {
-    // Toggle the save status when the heart icon is clicked
     setIsSaved(!isSaved);
 
-    // Update the local storage with the saved product
-    const savedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const savedProducts = JSON.parse(localStorage.getItem("wishlist")) || [];
     const isProductSaved = savedProducts.some((p) => p._id === product._id);
     if (isProductSaved) {
-      // Item is already in the wishlist, no need to add it again
       return;
     }
     if (isSaved) {
-      // Remove the product from the wishlist
-      const updatedWishlist = savedProducts.filter((p) => p._id !== product._id);
-      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      const updatedWishlist = savedProducts.filter(
+        (p) => p._id !== product._id
+      );
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     } else {
-      // Add the product to the wishlist
       savedProducts.push(product);
-      localStorage.setItem('wishlist', JSON.stringify(savedProducts));
+      localStorage.setItem("wishlist", JSON.stringify(savedProducts));
     }
   };
 
-
   return (
-      <div className="col-lg-3 col-12 col-md-6 col-sm-6 mb-5">
+    <div className="col-lg-3 col-12 col-md-6 col-sm-6 mb-5">
       <div className="product">
-        <div className="product-wrap" >
-        <Link to={`/product/${product._id}`}>
+        <div className="product-wrap">
+          <Link to={`/product/${product._id}`}>
             <img
-              className="img-fluid w-100 mb-3 img-first" 
+              className="img-fluid w-100 mb-3 img-first"
               src={`http://localhost:4000/products/${product.images[0]}`}
               alt="product-img"
-              style={{ objectFit: 'cover', height: '200px' }}
+              style={{ objectFit: "cover", height: "200px" }}
             />
           </Link>
           <Link to={`/product/${product._id}`}>
             <img
               className="img-fluid w-100 mb-3 img-second"
               src={`http://localhost:4000/products/${product.images[1]}`}
-              style={{ objectFit: 'cover', height: '200px' }}
+              style={{ objectFit: "cover", height: "200px" }}
             />
           </Link>
         </div>
@@ -84,7 +78,7 @@ function product({ product ,col}) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default product;

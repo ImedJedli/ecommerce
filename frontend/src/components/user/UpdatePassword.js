@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  updatePassword
-} from "../../actions/userAction";
+import { updatePassword } from "../../actions/userAction";
 import { UPDATE_PASSWORD_RESET } from "../../constants/userConstantes";
 import Infos from "../layout/Infos";
+import { toast } from "react-toastify";
 
 const UpdatePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -14,20 +12,19 @@ const UpdatePassword = () => {
 
   const navigate = useNavigate();
 
-  const alert = useAlert();
   const dispatch = useDispatch();
   const { error, isUpdated, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (isUpdated) {
-      alert.success("password updated !");
+      toast.success("password updated !");
       navigate("/me");
 
       dispatch({
         type: UPDATE_PASSWORD_RESET,
       });
     }
-  }, [dispatch, alert, error, navigate, isUpdated]);
+  }, [dispatch, toast, error, navigate, isUpdated]);
 
   const submitHandler = (e) => {
     e.preventDefault();

@@ -41,10 +41,7 @@ import {
   DELETE_USER_RESET,
 } from "../constants/userConstantes";
 
-export const authReducer = (
-  state = {  isAuthenticated: false },
-  action
-) => {
+export const authReducer = (state = { isAuthenticated: false }, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
     case REGISTER_USER_REQUEST:
@@ -53,7 +50,6 @@ export const authReducer = (
         ...state,
         loading: true,
         isAuthenticated: false,
-        
       };
 
     case LOGIN_SUCCESS:
@@ -74,19 +70,19 @@ export const authReducer = (
         user: null,
       };
 
-      case LOAD_USER_FAIL:
-        return {
-            loading: false,
-            isAuthenticated: false,
-            user: null,
-            error: action.payload
-        }
+    case LOAD_USER_FAIL:
+      return {
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        error: action.payload,
+      };
 
-        case LOGOUT_FAIL:
-          return {
-              ...state,
-              error: action.payload
-          }
+    case LOGOUT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
 
     case LOGIN_FAIL:
     case REGISTER_USER_FAIL:
@@ -97,7 +93,6 @@ export const authReducer = (
         user: null,
         error: action.payload,
       };
-
 
     case CLEAR_ERRORS:
       return { ...state, error: null };

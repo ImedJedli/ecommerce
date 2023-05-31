@@ -2,24 +2,21 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "jquery/dist/jquery.slim.min.js";
 import "popper.js/dist/umd/popper.min.js";
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import { logout } from "../../actions/userAction";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 import "../../App.css";
 
-const Header =() => {
-
+const Header = () => {
   const handleHomeClick = () => {
     window.location.reload();
   };
 
   const { cartItems } = useSelector((state) => state.cart);
   const navigate = useNavigate();
-  const alert = useAlert();
   const dispatch = useDispatch();
 
   const { user, loading } = useSelector((state) => state.auth);
@@ -32,9 +29,7 @@ const Header =() => {
   const [wishlistCount, setWishlistCount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
-
   useEffect(() => {
-    // Load the saved products from the local storage
     const savedProducts = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlistCount(savedProducts.length);
   }, []);
@@ -46,7 +41,10 @@ const Header =() => {
         id="navbar"
       >
         <div className="container">
-          <Link className="navbar-brand font-weight-bold" to={{ pathname: "/", state: { page: 1 } }}>
+          <Link
+            className="navbar-brand font-weight-bold"
+            to={{ pathname: "/", state: { page: 1 } }}
+          >
             DropSell
           </Link>
           <button
@@ -167,7 +165,6 @@ const Header =() => {
                         to="/"
                         onClick={logoutHandler}
                       >
-
                         Logout
                       </Link>
                     </div>
@@ -177,7 +174,6 @@ const Header =() => {
                     <Link
                       to="/login"
                       className="nav-link dropdown-toggle"
-                     
                       id="navbarDropdown5"
                       role="button"
                       data-delay="350"
@@ -211,13 +207,11 @@ const Header =() => {
               <i className="fa fa-heart"></i>
               <span className="badge">{wishlistCount}</span>
             </Link>
-
-           
           </div>
         </div>
       </div>
     </Fragment>
   );
-}
+};
 
 export default Header;

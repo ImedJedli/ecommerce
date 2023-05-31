@@ -4,8 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { clearErrors, resetPassword } from "../../actions/userAction";
 import Infos from "../layout/Infos";
 import { toast } from "react-toastify";
+import Sidebar from "./Sidebar";
 
-const NewPassword = ({ history, match }) => {
+const AdminPasswordUpdate = ({ history, match }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { token } = useParams();
@@ -41,9 +42,14 @@ const NewPassword = ({ history, match }) => {
 
   return (
     <Fragment>
+    <div className="row">
+      <div className="col-12 col-md-2">
+        <Sidebar />
+      </div>
+      
       <Infos title={"New password reset"} />
       <div className="row wrapper">
-        <div className="col-10 col-lg-5">
+        <div className="">
           <form className="shadow-lg" onSubmit={submitHandler}>
             <h1 className="mb-3">New Password</h1>
 
@@ -80,8 +86,9 @@ const NewPassword = ({ history, match }) => {
           </form>
         </div>
       </div>
+      </div>
     </Fragment>
   );
 };
 
-export default NewPassword;
+export default AdminPasswordUpdate;

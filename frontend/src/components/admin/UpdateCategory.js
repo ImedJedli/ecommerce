@@ -1,66 +1,63 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { clearErrors, getSingleCategory, updateCategory } from "../../actions/categoryActions";
+import {
+  clearErrors,
+  getSingleCategory,
+  updateCategory,
+} from "../../actions/categoryActions";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const UpdateCategory =() => {
+const UpdateCategory = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-      const { id } = useParams();
-      const alert = useAlert();
-      const navigate = useNavigate()
-      const dispatch = useDispatch();
+  const [name, setName] = useState("");
 
-      const [name , setName] = useState('');
+  const { loading, error: updateError } = useSelector(
+    (state) => state.allCategories
+  );
+  const { error, category } = useSelector((state) => state.categoryDetails);
 
-      const { loading, error: updateError } = useSelector((state) => state.allCategories);
-      const {error ,category} = useSelector((state) => state.categoryDetails);
+  const categoryId = id;
 
-      const categoryId= id
+  useEffect(() => {
+    if (category && category._id !== categoryId) {
+      dispatch(getSingleCategory(categoryId));
+    } else {
+      setName(category.name);
+    }
 
-      useEffect(() =>{
-            if (category && category._id !== categoryId) {
-                  dispatch(getSingleCategory(categoryId))
-            }
-            else {
-                  setName(category.name);
-            }
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
 
-            if(error){
-                  alert.error(error);
-                  dispatch(clearErrors())
-            }
+    if (updateError) {
+      alert.error(updateError);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, alert, error, updateError, category, categoryId]);
 
-            if(updateError){
-                  alert.error(updateError);
-                  dispatch(clearErrors())
-            }
-      },[dispatch, alert, error,updateError,category,categoryId])
+  const submitHandler = (e) => {
+    e.preventDefault();
 
+    const formData = new FormData();
+    formData.set("name", name);
 
-      const submitHandler =(e) =>{
-            e.preventDefault();
-            
-            const formData = new FormData();
-            formData.set('name', name);
-
-            dispatch(updateCategory(category._id,formData))
-            .then(() => {
-              alert.success('Category is updated successfully !');
-              navigate('/categories'); 
-            });
-      }
-
-  
+    dispatch(updateCategory(category._id, formData)).then(() => {
+      alert.success("Category is updated successfully !");
+      navigate("/categories");
+    });
+  };
 
   return (
-   
- <Fragment>
+    <Fragment>
       <Infos title="create blog" />
       <div className="row">
         <div className="col-lg-3">
@@ -90,15 +87,15 @@ const UpdateCategory =() => {
                             className="form-control "
                           />
                         </div>
-      
+
                         <button
-              id="register_button"
-              type="submit"
-              className="btn btn-dark btn-lg btn-block"
-              disabled={loading ? true : false}
-            >
-              Update
-            </button>
+                          id="register_button"
+                          type="submit"
+                          className="btn btn-dark btn-lg btn-block"
+                          disabled={loading ? true : false}
+                        >
+                          Update
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -109,8 +106,7 @@ const UpdateCategory =() => {
         </div>
       </div>
     </Fragment>
+  );
+};
 
-  )
-}
-
-export default UpdateCategory
+export default UpdateCategory;

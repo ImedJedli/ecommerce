@@ -19,7 +19,7 @@ import {
   NEW_BLOG_SUCCESS,
   UPDATE_BLOG_FAIL,
   UPDATE_BLOG_REQUEST,
-  UPDATE_BLOG_SUCCESS
+  UPDATE_BLOG_SUCCESS,
 } from "../constants/blogConstantes";
 
 export const getAllBlogs = (currentPage = 1) => async (dispatch) => {
@@ -32,8 +32,6 @@ export const getAllBlogs = (currentPage = 1) => async (dispatch) => {
     }
 
     const { data } = await axios.get(link);
-    console.log("data",data);
-
 
     dispatch({
       type: ALL_BLOGS_SUCCESS,
@@ -57,9 +55,7 @@ export const getSingleBlog = (id) => async (dispatch) => {
       type: BLOG_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `/api/v1/blogs/blog/${id}`
-    );
+    const { data } = await axios.get(`/api/v1/blogs/blog/${id}`);
     dispatch({
       type: BLOG_DETAILS_SUCCESS,
       payload: data.blog,
@@ -102,23 +98,21 @@ export const updateBlog = (id, blogData) => async (dispatch) => {
 
 export const deleteBlog = (id) => async (dispatch) => {
   try {
+    dispatch({ type: DELETE_BLOG_REQUEST });
 
-      dispatch({ type: DELETE_BLOG_REQUEST })
+    const { data } = await axios.delete(`/api/v1/admin/blog/${id}`);
 
-      const { data } = await axios.delete(`/api/v1/admin/blog/${id}`)
-
-      dispatch({
-          type: DELETE_BLOG_SUCCESS,
-          payload: data.success
-      })
-
+    dispatch({
+      type: DELETE_BLOG_SUCCESS,
+      payload: data.success,
+    });
   } catch (error) {
-      dispatch({
-          type: DELETE_BLOG_FAIL,
-          payload: error.response.data.message
-      })
+    dispatch({
+      type: DELETE_BLOG_FAIL,
+      payload: error.response.data.message,
+    });
   }
-}
+};
 
 export const getAdminBlogs = () => async (dispatch) => {
   try {
@@ -126,9 +120,7 @@ export const getAdminBlogs = () => async (dispatch) => {
       type: ADMIN_BLOGS_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `/api/v1/admin/blogs`
-    );
+    const { data } = await axios.get(`/api/v1/admin/blogs`);
     dispatch({
       type: ADMIN_BLOGS_SUCCESS,
       payload: data.blogs,
@@ -165,7 +157,7 @@ export const newBlog = (blogData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_BLOG_FAIL,
-      payload: error.response && error.response.data.message
+      payload: error.response && error.response.data.message,
     });
   }
 };
@@ -175,4 +167,3 @@ export const clearErrors = () => async (dispatch) => {
     type: CLEAR_ERRORS,
   });
 };
-

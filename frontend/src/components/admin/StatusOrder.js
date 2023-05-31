@@ -1,8 +1,5 @@
-import {
-  PDFDownloadLink
-} from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
@@ -14,10 +11,8 @@ import { UPDATE_ORDER_RESET } from "../../constants/orderConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import GenerateInvoice from "./GenerateInvoice";
-import { sendInvoiceByEmail } from "./SendInvoiceByEmail";
 import Sidebar from "./Sidebar";
-import {  toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 function StatusOrder() {
   const { id } = useParams();
@@ -28,7 +23,6 @@ function StatusOrder() {
   const [status, setStatus] = useState("");
 
   const dispatch = useDispatch();
-  const alert = useAlert();
   const { loading, order = {} } = useSelector((state) => state.orderDetails);
   const { error, isUpdated } = useSelector((state) => state.order);
 
@@ -72,22 +66,11 @@ function StatusOrder() {
       formData.set("orderStatus", status);
 
       dispatch(updateOrder(id, formData));
-
     }
   };
 
   const shippingDetails =
     shippingInfo && `${shippingInfo.adress}, ${shippingInfo.city}`;
-
-  const sendInvoice = async () => {
-    try {
-      const response = await sendInvoiceByEmail(orderId, user.email);
-      // Handle the response, display a success message or handle any errors
-      alert.success("Invoice sent successfully");
-    } catch (error) {
-      alert.error("Failed to send invoice");
-    }
-  };
 
   return (
     <Fragment>
@@ -126,7 +109,8 @@ function StatusOrder() {
                   </p>
 
                   <p>
-                    <b>Shipping:</b> {paymentInfo && paymentInfo.shippingPrice} DT
+                    <b>Shipping:</b> {paymentInfo && paymentInfo.shippingPrice}{" "}
+                    DT
                   </p>
 
                   <hr />
@@ -145,56 +129,85 @@ function StatusOrder() {
                   <h4 className="my-4">Order Items:</h4>
                   <hr />
                   <div className="cart-item my-1">
-
-                                      <section className="cart shopping page-wrapper">
-                    <div className="container">
+                    <section className="cart shopping page-wrapper">
+                      <div className="container">
                         <div className="row justify-content-center">
-                        <div className="col-lg-12">
+                          <div className="col-lg-12">
                             <div className="product-list">
-                                <form className="cart-form">
-                                    <table className="table shop_table shop_table_responsive cart" cellSpacing="0">
-                                        <thead>
-                                        <tr>
-                                            <th className="product-thumbnail">Image</th>
-                                            <th className="product-name">Product</th>
-                                            <th className="product-subtotal">Price</th>
-                                            <th className="product-subtotal">Quantity</th>
-                                        </tr>
-                                        </thead>
-                
-                                        <tbody>
-    
-                                        {orderItems && orderItems.map((item) => (
+                              <form className="cart-form">
+                                <table
+                                  className="table shop_table shop_table_responsive cart"
+                                  cellSpacing="0"
+                                >
+                                  <thead>
+                                    <tr>
+                                      <th className="product-thumbnail">
+                                        Image
+                                      </th>
+                                      <th className="product-name">Product</th>
+                                      <th className="product-subtotal">
+                                        Price
+                                      </th>
+                                      <th className="product-subtotal">
+                                        Quantity
+                                      </th>
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    {orderItems &&
+                                      orderItems.map((item) => (
                                         <Fragment key={item.product}>
-                                        <tr className="cart_item">
-                                            <td className="product-thumbnail" data-title="Thumbnail">
-                                                <Link to={`/product/${item.product}`}><img src={`http://localhost:4000/products/${item.image}`} className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" /></Link>
-                                            </td>
-                
-                                            <td className="product-name" data-title="Product">
-                                                <Link to={`/product/${item.product}`}>{item.name}</Link>
-                                            </td>
-                                            <td className="product-remove" data-title="Remove">
-                                            <p>{item.price} DT</p>
+                                          <tr className="cart_item">
+                                            <td
+                                              className="product-thumbnail"
+                                              data-title="Thumbnail"
+                                            >
+                                              <Link
+                                                to={`/product/${item.product}`}
+                                              >
+                                                <img
+                                                  src={`http://localhost:4000/products/${item.image}`}
+                                                  className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+                                                  alt=""
+                                                />
+                                              </Link>
                                             </td>
 
-                                            <td className="product-remove" data-title="Remove">
-                                            <p>{item.quantity} Item(s)</p>
-
+                                            <td
+                                              className="product-name"
+                                              data-title="Product"
+                                            >
+                                              <Link
+                                                to={`/product/${item.product}`}
+                                              >
+                                                {item.name}
+                                              </Link>
                                             </td>
-                                        </tr>
-                                       </Fragment>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                </form>
+                                            <td
+                                              className="product-remove"
+                                              data-title="Remove"
+                                            >
+                                              <p>{item.price} DT</p>
+                                            </td>
+
+                                            <td
+                                              className="product-remove"
+                                              data-title="Remove"
+                                            >
+                                              <p>{item.quantity} Item(s)</p>
+                                            </td>
+                                          </tr>
+                                        </Fragment>
+                                      ))}
+                                  </tbody>
+                                </table>
+                              </form>
                             </div>
+                          </div>
                         </div>
-                        </div>
- 
-                        </div>
+                      </div>
                     </section>
-                    
                   </div>
                 </div>
 
@@ -224,17 +237,16 @@ function StatusOrder() {
                     Update Status
                   </button>
 
-
-                 <button  className="btn btn-primary btn-block">   
-                  <PDFDownloadLink
-                    document={<GenerateInvoice order={order} />}
-                    fileName="order.pdf"
-                  >
-                    {({ loading }) =>
-                      loading ? "Generating PDF..." : "Download Invoice"
-                    }
-                  </PDFDownloadLink>
-                  </button>    
+                  <button className="btn btn-primary btn-block">
+                    <PDFDownloadLink
+                      document={<GenerateInvoice order={order} />}
+                      fileName="order.pdf"
+                    >
+                      {({ loading }) =>
+                        loading ? "Generating PDF..." : "Download Invoice"
+                      }
+                    </PDFDownloadLink>
+                  </button>
                 </div>
               </div>
             )}

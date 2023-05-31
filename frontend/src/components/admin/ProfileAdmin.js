@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
+import Sidebar from "./Sidebar";
 
-const Profile = () => {
+const ProfileAdmin = () => {
   console.log(
     "state.auth:",
     useSelector((state) => state.auth)
@@ -15,7 +16,10 @@ const Profile = () => {
   );
 
   return (
-    <div className="card">
+      <div className="row">
+      <div className="col-12 col-md-2">
+        <Sidebar />
+      </div>
       {loading ? (
         <Loader />
       ) : (
@@ -70,7 +74,7 @@ const Profile = () => {
                 )}
 
                 <Link
-                  to="/password/update"
+                  to="/admin/password/update"
                   className="btn btn-primary btn-block mt-3"
                 >
                   Change Password
@@ -84,4 +88,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileAdmin;

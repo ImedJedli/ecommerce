@@ -1,35 +1,30 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addCoupon, clearErrors } from "../../actions/couponActions";
-import {
-  CREATE_COUPON_RESET
-} from "../../constants/couponConstantes";
+import { CREATE_COUPON_RESET } from "../../constants/couponConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const CreateCoupon = () => {
   const navigate = useNavigate();
   const [coupon, setCoupon] = useState({
     code: "",
     discount: "",
-    usageLimit:""
+    usageLimit: "",
   });
 
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState("");
-  const [usageLimit , setUsageLimit] = useState("")
-
+  const [usageLimit, setUsageLimit] = useState("");
 
   const [codeError, setCodeError] = useState("");
   const [discountError, setDiscountError] = useState("");
-  const [usageLimitError , setUsageLimitError] = useState("")
+  const [usageLimitError, setUsageLimitError] = useState("");
 
-  const alert = useAlert();
   const dispatch = useDispatch();
 
   const { error, loading, success } = useSelector((state) => state.newCoupon);
@@ -76,7 +71,7 @@ const CreateCoupon = () => {
     const formData = new FormData();
     formData.set("code", code);
     formData.set("discount", discount);
-    formData.set('usageLimit' , usageLimit);
+    formData.set("usageLimit", usageLimit);
     dispatch(addCoupon(formData));
   };
 
@@ -89,8 +84,8 @@ const CreateCoupon = () => {
   };
 
   const handleUsageLimitChange = (value) => {
-      setUsageLimit(value);
-    };
+    setUsageLimit(value);
+  };
 
   return (
     <Fragment>
@@ -135,44 +130,43 @@ const CreateCoupon = () => {
                           <input
                             value={discount}
                             onChange={(e) => setDiscount(e.target.value)}
-                           
                             className={`form-control ${
                               discountError ? "is-invalid" : ""
                             }`}
                             placeholder="Discount"
                           />
                           {discountError && (
-                            <div className="invalid-feedback">{discountError}</div>
+                            <div className="invalid-feedback">
+                              {discountError}
+                            </div>
                           )}
-                          
                         </div>
-
 
                         <div className="form-group mb-4">
                           <label htmlFor="#">Usage Limit</label>
                           <input
                             value={usageLimit}
                             onChange={(e) => setUsageLimit(e.target.value)}
-                            
                             className={`form-control ${
                               usageLimitError ? "is-invalid" : ""
                             }`}
                             placeholder="Usage Limit"
                           />
                           {usageLimitError && (
-                            <div className="invalid-feedback">{usageLimitError}</div>
+                            <div className="invalid-feedback">
+                              {usageLimitError}
+                            </div>
                           )}
-                          
                         </div>
-      
+
                         <button
-              id="register_button"
-              type="submit"
-              className="btn btn-dark btn-lg btn-block"
-              disabled={loading ? true : false}
-            >
-              Create
-            </button>
+                          id="register_button"
+                          type="submit"
+                          className="btn btn-dark btn-lg btn-block"
+                          disabled={loading ? true : false}
+                        >
+                          Create
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -183,7 +177,6 @@ const CreateCoupon = () => {
         </div>
       </div>
     </Fragment>
-    
   );
 };
 

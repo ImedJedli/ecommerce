@@ -1,46 +1,56 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect , useState} from "react";
-import { useAlert } from "react-alert";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { allOrders, clearErrors, deleteOrder } from "../../actions/orderActions";
+import {
+  allOrders,
+  clearErrors,
+  deleteOrder,
+} from "../../actions/orderActions";
 import { DELETE_ORDER_RESET } from "../../constants/orderConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
-import Sidebar from './Sidebar';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import {  toast } from 'react-toastify';
+import Sidebar from "./Sidebar";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
 
 const OrdersList = () => {
-
-  const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  
-  const { loading, error, orders ,order = {}} = useSelector((state) => state.allOrders);
-  const {  shippingInfo,orderItems,paymentInfo,user,totalPrice,orderStatus } = order;
+
+  const { loading, error, orders, order = {} } = useSelector(
+    (state) => state.allOrders
+  );
+  const {
+    shippingInfo,
+    orderItems,
+    paymentInfo,
+    user,
+    totalPrice,
+    orderStatus,
+  } = order;
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
-  
+
   const deleteOrderHandler = (id) => {
     setOrderToDelete(id);
     setShowConfirmation(true);
   };
-  
+
   const confirmDelete = () => {
     dispatch(deleteOrder(orderToDelete));
     setShowConfirmation(false);
   };
-  
+
   const cancelDelete = () => {
     setOrderToDelete(null);
     setShowConfirmation(false);
   };
 
-  const {isDeleted} = useSelector(state => state.order)
+  const { isDeleted } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(allOrders());
@@ -50,19 +60,13 @@ const OrdersList = () => {
       dispatch(clearErrors());
     }
 
-    if (isDeleted){
-      toast.success('Order deleted ');
-      navigate('/admin/orders');
-      dispatch({type : DELETE_ORDER_RESET})
+    if (isDeleted) {
+      toast.success("Order deleted ");
+      navigate("/admin/orders");
+      dispatch({ type: DELETE_ORDER_RESET });
     }
-  
-  }, [dispatch, toast, error,navigate,isDeleted]);
+  }, [dispatch, toast, error, navigate, isDeleted]);
 
-  /* const deleteOrderHandler =(id) =>{
-    dispatch(deleteOrder(id))
-  } */
-
-   
   const setOrders = () => {
     const data = {
       columns: [
@@ -74,17 +78,21 @@ const OrdersList = () => {
       ],
 
       rows: [],
-    }
-    
+    };
+
     if (orders) {
-      orders.forEach(order => {
+      orders.forEach((order) => {
         data.rows.push({
           id: order._id,
           numOfItems: order.orderItems.length,
           amount: `${order.paymentInfo.totalPrice} DT`,
-          status: order.paymentInfo.orderStatus && String(order.paymentInfo.orderStatus).includes('Delivered')
-                              ? <p style={{color : 'green'}}>{order.paymentInfo.orderStatus}</p>
-                              : <p style={{color : 'red'}}>{order.paymentInfo.orderStatus}</p>,
+          status:
+            order.paymentInfo.orderStatus &&
+            String(order.paymentInfo.orderStatus).includes("Delivered") ? (
+              <p style={{ color: "green" }}>{order.paymentInfo.orderStatus}</p>
+            ) : (
+              <p style={{ color: "red" }}>{order.paymentInfo.orderStatus}</p>
+            ),
 
           actions: (
             <Fragment>
@@ -94,8 +102,11 @@ const OrdersList = () => {
               >
                 <i className="fa fa-eye"></i>
               </Link>
-  
-              <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteOrderHandler(order._id)}>
+
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                onClick={() => deleteOrderHandler(order._id)}
+              >
                 <i className="fa fa-trash"></i>
               </button>
             </Fragment>
@@ -103,13 +114,12 @@ const OrdersList = () => {
         });
       });
     }
-  
+
     return data;
-  }
+  };
 
   return (
-
-      <Fragment>
+    <Fragment>
       <Infos title={"All orders"} />
       <div className="row">
         <div className="col-12 col-md-2">
@@ -124,36 +134,36 @@ const OrdersList = () => {
               <Loader />
             ) : (
               <Fragment>
-              <MDBDataTable
-                data={setOrders()}
-                className="px-3"
-                bordered
-                striped
-                hover
-              />
-              <Modal show={showConfirmation} onHide={cancelDelete}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Confirmation</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Are you sure you want to delete this order ?
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={cancelDelete}>
-                        Cancel
-                      </Button>
-                      <Button variant="danger" onClick={confirmDelete}>
-                        Delete
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </Fragment>
+                <MDBDataTable
+                  data={setOrders()}
+                  className="px-3"
+                  bordered
+                  striped
+                  hover
+                />
+                <Modal show={showConfirmation} onHide={cancelDelete}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Confirmation</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure you want to delete this order ?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={cancelDelete}>
+                      Cancel
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                      Delete
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </Fragment>
             )}
           </Fragment>
         </div>
       </div>
     </Fragment>
-  )
-}
+  );
+};
 
-export default OrdersList
+export default OrdersList;

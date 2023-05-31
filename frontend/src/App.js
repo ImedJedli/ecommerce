@@ -12,12 +12,8 @@ import { useLocation } from "react-router-dom";
 
 import Login from "./components/user/Login";
 
-import {
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  Outlet,
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Error from "./components/layout/Error"
 import Cart from "./components/cart/Cart";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import Shipping from "./components/cart/Shipping";
@@ -42,7 +38,7 @@ import ProductReviews from "./components/admin/ProductReviews";
 import ProductsList from "./components/admin/ProductsList";
 import CouponsList from "./components/admin/CouponsList";
 import CreateCoupon from "./components/admin/CreateCoupon";
-import UpdateCoupon from "./components/admin/UpdateCoupon"
+import UpdateCoupon from "./components/admin/UpdateCoupon";
 import StatusOrder from "./components/admin/StatusOrder";
 import UpdateBlog from "./components/admin/UpdateBlog";
 import UpdateCategory from "./components/admin/UpdateCategory";
@@ -53,6 +49,8 @@ import Blogs from "./components/blog/Blogs";
 import BlogDetails from "./components/blog/BlogsDetails";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import CategoriesProducts from "./components/admin/CategoriesProducts";
+import ProfileAdmin from "./components/admin/ProfileAdmin";
+import AdminPasswordUpdate from "./components/admin/AdminPasswordUpdate";
 
 
 // <Route path="/shipping" element={<Shipping />} />
@@ -68,10 +66,9 @@ function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isAdmin = user && user.role === "admin";
 
+  console.log("auth:", isAuthenticated);
+  console.log("rolleee", isAdmin);
 
-  console.log('auth:',isAuthenticated)
-  console.log("rolleee",isAdmin)
- 
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,8 +78,6 @@ function App() {
     }
   }, [dispatch, isAuthenticated]);
 
-
-
   /* //           <Route
 path="/dashboard"
 element={<ProtectedRoute component={Dashboard} />}
@@ -91,9 +86,11 @@ element={<ProtectedRoute component={Dashboard} />}
   /* {!isAdmin && <Header />} */
   return (
     <Router>
-    {!isAdmin && <Header />}
+      {!isAdmin && <Header />}
 
       <Routes>
+      <Route path="*" element={<Error />} />
+
         <Route path="/" element={<Home />} exact />
         <Route path="/search/:keyword" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -101,6 +98,8 @@ element={<ProtectedRoute component={Dashboard} />}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        <Route path="/admin/me" element={<ProfileAdmin/>} />
+        <Route path="/admin/password/update" element={<AdminPasswordUpdate />} />
         <Route path="/me" element={<Profile />} exact />
         <Route path="/me/update" element={<UpdateProfile />} exact />
         <Route path="/password/update" element={<UpdatePassword />} exact />
@@ -115,11 +114,8 @@ element={<ProtectedRoute component={Dashboard} />}
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/shipping" element={<Shipping />} />
 
-        <Route
-path="/dashboard"
-element={<Dashboard />}
-/> 
-      <Route path="/categorie/:id" element={<CategoriesProducts />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/categorie/:id" element={<CategoriesProducts />} />
 
         <Route path="/admin/coupons" element={<CouponsList />} />
         <Route path="/coupon/:id" element={<UpdateCoupon />} />
@@ -141,6 +137,7 @@ element={<Dashboard />}
         <Route path="/admin/category" element={<CreateCategory />} />
         <Route path="/categories" element={<CategoriesList />} />
         <Route path="/category/:id" element={<UpdateCategory />} />
+        
 
         <Route path="/admin/blogs" isAdmin={true} element={<BlogsList />} />
         <Route

@@ -18,34 +18,33 @@ import {
   ORDER_DETAILS_SUCCESS,
   UPDATE_ORDER_FAIL,
   UPDATE_ORDER_REQUEST,
-  UPDATE_ORDER_SUCCESS
+  UPDATE_ORDER_SUCCESS,
 } from "../constants/orderConstantes";
 
-
-export const createOrder = ( order,
+export const createOrder = (
+  order,
   shippingInfo,
   cartItems,
   itemsPrice,
   paymentInfo,
   shippingPrice,
-  totalPrice,
-  ) => async (dispatch, getState) => {
+  totalPrice
+) => async (dispatch, getState) => {
   try {
     dispatch({ type: CREATE_ORDER_REQUEST });
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
 
-    const { data } = await axios.post('/api/v4/order/new', order, config);
+    const { data } = await axios.post("/api/v4/order/new", order, config);
 
     dispatch({
       type: CREATE_ORDER_SUCCESS,
       payload: data,
     });
-
   } catch (error) {
     dispatch({
       type: CREATE_ORDER_FAIL,
@@ -53,8 +52,6 @@ export const createOrder = ( order,
     });
   }
 };
-
-
 
 export const myOrders = () => async (dispatch) => {
   try {
@@ -133,16 +130,11 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
   }
 };
 
-
 export const deleteOrder = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ORDER_REQUEST });
 
- 
-
-    const { data } = await axios.delete(
-      `/api/v4/admin/order/${id}`
-    );
+    const { data } = await axios.delete(`/api/v4/admin/order/${id}`);
 
     dispatch({
       type: DELETE_ORDER_SUCCESS,

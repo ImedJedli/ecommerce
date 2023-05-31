@@ -15,7 +15,7 @@ import {
   DELETE_CATEGORY_SUCCESS,
   UPDATE_CATEGORY_FAIL,
   UPDATE_CATEGORY_REQUEST,
-  UPDATE_CATEGORY_SUCCESS
+  UPDATE_CATEGORY_SUCCESS,
 } from "../constants/categoryConstantes";
 
 export const addCategory = (categoryData) => async (dispatch) => {
@@ -43,22 +43,18 @@ export const addCategory = (categoryData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_CATEGORY_FAIL,
-      payload: error.response && error.response.data.message
+      payload: error.response && error.response.data.message,
     });
   }
 };
 
 export const getAllCategories = () => async (dispatch) => {
   try {
-
-    console.log("Dispatching ALL_CATEGORY_REQUEST");
-
     dispatch({
       type: ALL_CATEGORY_REQUEST,
     });
 
     const { data } = await axios.get("/api/v1/categories");
-    console.log("API response for categories:", data);
 
     dispatch({
       type: ALL_CATEGORY_SUCCESS,
@@ -73,25 +69,23 @@ export const getAllCategories = () => async (dispatch) => {
 };
 
 export const getSingleCategory = (id) => async (dispatch) => {
-      try {
-        dispatch({
-          type: CATEGORY_DETAILS_REQUEST,
-        });
-    
-        const { data } = await axios.get(
-          `/api/v1/category/${id}`
-        );
-        dispatch({
-          type: CATEGORY_DETAILS_SUCCESS,
-          payload: data.category,
-        });
-      } catch (error) {
-        dispatch({
-          type: CATEGORY_DETAILS_FAIL,
-          payload: error.message,
-        });
-      }
-    };
+  try {
+    dispatch({
+      type: CATEGORY_DETAILS_REQUEST,
+    });
+
+    const { data } = await axios.get(`/api/v1/category/${id}`);
+    dispatch({
+      type: CATEGORY_DETAILS_SUCCESS,
+      payload: data.category,
+    });
+  } catch (error) {
+    dispatch({
+      type: CATEGORY_DETAILS_FAIL,
+      payload: error.message,
+    });
+  }
+};
 
 export const updateCategory = (id, categoryData) => async (dispatch) => {
   try {
@@ -112,11 +106,8 @@ export const updateCategory = (id, categoryData) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_CATEGORY_SUCCESS,
-      payload: data.success
+      payload: data.success,
     });
-
-    console.log('Update category success action dispatched');
-
   } catch (error) {
     dispatch({
       type: UPDATE_CATEGORY_FAIL,

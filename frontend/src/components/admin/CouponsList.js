@@ -1,41 +1,43 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect ,useState } from "react";
-import { useAlert } from "react-alert";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { clearErrors, deleteCoupon, getAllCoupons} from "../../actions/couponActions";
+import {
+  clearErrors,
+  deleteCoupon,
+  getAllCoupons,
+} from "../../actions/couponActions";
 import { DELETE_COUPON_RESET } from "../../constants/couponConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import {  toast } from 'react-toastify';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
 
 const CouponsList = () => {
-  const alert = useAlert();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { loading, error, coupons } = useSelector(
-    (state) => state.allCoupons
-  );
+  const { loading, error, coupons } = useSelector((state) => state.allCoupons);
 
-  const { error : deleteError, isDeleted} = useSelector(state => state.coupon)
+  const { error: deleteError, isDeleted } = useSelector(
+    (state) => state.coupon
+  );
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [couponToDelete, setCouponToDelete] = useState(null);
-  
+
   const deleteCouponHandler = (id) => {
     setCouponToDelete(id);
     setShowConfirmation(true);
   };
-  
+
   const confirmDelete = () => {
     dispatch(deleteCoupon(couponToDelete));
     setShowConfirmation(false);
   };
-  
+
   const cancelDelete = () => {
     setCouponToDelete(null);
     setShowConfirmation(false);
@@ -54,17 +56,12 @@ const CouponsList = () => {
       dispatch(clearErrors());
     }
 
-    if(isDeleted){
-      toast.success('coupon deleted');
-      dispatch({type: DELETE_COUPON_RESET});
+    if (isDeleted) {
+      toast.success("coupon deleted");
+      dispatch({ type: DELETE_COUPON_RESET });
       navigate("/admin/coupons");
     }
-
-  }, [dispatch, toast, error, deleteError, isDeleted,navigate]);
-
-/*   const deleteCouponHandler =(id) =>{
-    dispatch(deleteCoupon(id))
-} */
+  }, [dispatch, toast, error, deleteError, isDeleted, navigate]);
 
   const setCoupons = () => {
     const data = {
@@ -96,11 +93,11 @@ const CouponsList = () => {
                 <i className="fa fa-pencil"></i>
               </Link>
 
-              <button
-                className="btn btn-danger py-1 px-2 ml-2"
-               
-              >
-                <i className="fa fa-trash" onClick={() => deleteCouponHandler(coupon._id)}></i>
+              <button className="btn btn-danger py-1 px-2 ml-2">
+                <i
+                  className="fa fa-trash"
+                  onClick={() => deleteCouponHandler(coupon._id)}
+                ></i>
               </button>
             </Fragment>
           ),
@@ -108,12 +105,10 @@ const CouponsList = () => {
       });
     }
     return data;
-
   };
 
   return (
-
-      <Fragment>
+    <Fragment>
       <Infos title={"All Categories"} />
       <div className="row">
         <div className="col-12 col-md-2">
@@ -128,39 +123,36 @@ const CouponsList = () => {
               <Loader />
             ) : (
               <Fragment>
-              <MDBDataTable
-                data={setCoupons()}
-                className="px-3"
-                bordered
-                striped
-                hover
-              />
-              <Modal show={showConfirmation} onHide={cancelDelete}>
-              <Modal.Header closeButton>
-                <Modal.Title>Confirmation</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-              Are you sure you want to delete this coupon ?
-
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={cancelDelete}>
-                  Cancel
-                </Button>
-                <Button variant="danger" onClick={confirmDelete}>
-                  Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
-            </Fragment>
+                <MDBDataTable
+                  data={setCoupons()}
+                  className="px-3"
+                  bordered
+                  striped
+                  hover
+                />
+                <Modal show={showConfirmation} onHide={cancelDelete}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Confirmation</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure you want to delete this coupon ?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={cancelDelete}>
+                      Cancel
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                      Delete
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </Fragment>
             )}
           </Fragment>
         </div>
       </div>
     </Fragment>
-
-  )
-  
+  );
 };
 
 export default CouponsList;

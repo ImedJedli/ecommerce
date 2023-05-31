@@ -1,38 +1,42 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect , useState } from "react";
-import { useAlert } from "react-alert";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { clearErrors, deleteProduct, getAdminProducts } from "../../actions/productActions";
+import {
+  clearErrors,
+  deleteProduct,
+  getAdminProducts,
+} from "../../actions/productActions";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import {  toast } from 'react-toastify';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
 
 import { DELETE_PRODUCT_RESET } from "../../constants/productConstantes";
-import Sidebar from './Sidebar';
+import Sidebar from "./Sidebar";
 
 const ProductsList = () => {
-  const alert = useAlert();
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { loading, error, products } = useSelector((state) => state.products);
-  const { error : deleteError, isDeleted} = useSelector(state => state.product)
+  const { error: deleteError, isDeleted } = useSelector(
+    (state) => state.product
+  );
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
-  
+
   const deleteProductHandler = (id) => {
     setProductToDelete(id);
     setShowConfirmation(true);
   };
-  
+
   const confirmDelete = () => {
     dispatch(deleteProduct(productToDelete));
     setShowConfirmation(false);
   };
-  
+
   const cancelDelete = () => {
     setProductToDelete(null);
     setShowConfirmation(false);
@@ -45,22 +49,18 @@ const ProductsList = () => {
       toast.error(error);
       dispatch(clearErrors());
     }
-  
+
     if (deleteError) {
       toast.error(deleteError);
       dispatch(clearErrors());
     }
 
-    if(isDeleted){
-      toast.success('product deleted');
-      dispatch({type: DELETE_PRODUCT_RESET});
+    if (isDeleted) {
+      toast.success("product deleted");
+      dispatch({ type: DELETE_PRODUCT_RESET });
       navigate("/admin/products");
     }
-  }, [dispatch, toast, error, deleteError, isDeleted,navigate]);
-
-  /*  const deleteProductHandler =(id) =>{
-      dispatch(deleteProduct(id))
-  } */
+  }, [dispatch, toast, error, deleteError, isDeleted, navigate]);
 
   const setProducts = () => {
     const data = {
@@ -73,10 +73,10 @@ const ProductsList = () => {
       ],
 
       rows: [],
-    }
-    
+    };
+
     if (products) {
-      products.forEach(product => {
+      products.forEach((product) => {
         data.rows.push({
           id: product._id,
           name: product.name,
@@ -90,8 +90,11 @@ const ProductsList = () => {
               >
                 <i className="fa fa-pencil"></i>
               </Link>
-  
-              <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteProductHandler(product._id)}>
+
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                onClick={() => deleteProductHandler(product._id)}
+              >
                 <i className="fa fa-trash"></i>
               </button>
             </Fragment>
@@ -99,11 +102,9 @@ const ProductsList = () => {
         });
       });
     }
-  
-    return data;
-  }
 
- 
+    return data;
+  };
 
   return (
     <Fragment>
@@ -121,36 +122,36 @@ const ProductsList = () => {
               <Loader />
             ) : (
               <Fragment>
-              <MDBDataTable
-                data={setProducts()}
-                className="px-3"
-                bordered
-                striped
-                hover
-              />
-              <Modal show={showConfirmation} onHide={cancelDelete}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Confirmation</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Are you sure you want to delete this product ?
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={cancelDelete}>
-                        Cancel
-                      </Button>
-                      <Button variant="danger" onClick={confirmDelete}>
-                        Delete
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </Fragment>
+                <MDBDataTable
+                  data={setProducts()}
+                  className="px-3"
+                  bordered
+                  striped
+                  hover
+                />
+                <Modal show={showConfirmation} onHide={cancelDelete}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Confirmation</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure you want to delete this product ?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={cancelDelete}>
+                      Cancel
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                      Delete
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </Fragment>
             )}
           </Fragment>
         </div>
       </div>
     </Fragment>
   );
-}
+};
 
 export default ProductsList;

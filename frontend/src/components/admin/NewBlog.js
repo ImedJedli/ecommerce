@@ -1,12 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearErrors, newBlog } from "../../actions/blogActions";
 import { NEW_BLOG_RESET } from "../../constants/blogConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -20,7 +19,6 @@ const NewBlog = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, success } = useSelector((state) => state.newBlog);
@@ -51,17 +49,14 @@ const NewBlog = () => {
     setTitleError("");
     setDescriptionError("");
 
-    //let isValid = true;
     if (!title.trim()) {
       setTitleError("Title is required");
-      //isValid = false;
-      return
+      return;
     }
 
     if (!description.trim()) {
       setDescriptionError("Description is required");
-      //isValid = false;
-      return
+      return;
     }
 
     const formData = new FormData();
@@ -137,7 +132,9 @@ const NewBlog = () => {
                             style={{ height: "100%" }}
                           />
                           {descriptionError && (
-                            <div className="invalid-feedback">{descriptionError}</div>
+                            <div className="invalid-feedback">
+                              {descriptionError}
+                            </div>
                           )}
                         </div>
 

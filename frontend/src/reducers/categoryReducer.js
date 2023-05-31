@@ -13,14 +13,12 @@ import {
   UPDATE_CATEGORY_FAIL,
   UPDATE_CATEGORY_RESET,
   CATEGORY_DETAILS_REQUEST,
-CATEGORY_DETAILS_SUCCESS,
-CATEGORY_DETAILS_FAIL,
-DELETE_CATEGORY_REQUEST,
-DELETE_CATEGORY_SUCCESS,
-DELETE_CATEGORY_FAIL,
-DELETE_CATEGORY_RESET 
-
-
+  CATEGORY_DETAILS_SUCCESS,
+  CATEGORY_DETAILS_FAIL,
+  DELETE_CATEGORY_REQUEST,
+  DELETE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_FAIL,
+  DELETE_CATEGORY_RESET,
 } from "../constants/categoryConstantes";
 
 export const createCategoryReducer = (state = { category: {} }, action) => {
@@ -61,23 +59,20 @@ export const allCategoriesReducer = (state = { categories: [] }, action) => {
   switch (action.type) {
     case ALL_CATEGORY_REQUEST:
       return {
-       
         loading: true,
-        categories: []
+        categories: [],
       };
 
     case ALL_CATEGORY_SUCCESS:
       return {
-        
         loading: false,
         categories: action.payload,
       };
 
     case ALL_CATEGORY_FAIL:
       return {
-        
         loading: false,
-        
+
         error: action.payload,
       };
     default:
@@ -105,10 +100,9 @@ export const categoryDetailsReducer = (state = { category: {} }, action) => {
 };
 
 export const categoryReducer = (state = {}, action) => {
-
   switch (action.type) {
     case UPDATE_CATEGORY_REQUEST:
-      case DELETE_CATEGORY_REQUEST:
+    case DELETE_CATEGORY_REQUEST:
       return {
         ...state,
         loading: true,
@@ -120,12 +114,12 @@ export const categoryReducer = (state = {}, action) => {
         isUpdated: action.payload,
       };
 
-      case DELETE_CATEGORY_SUCCESS:
-        return{
-          ...state,
-          loading:false,
-          isDeleted : action.payload
-        }
+    case DELETE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isDeleted: action.payload,
+      };
 
     case UPDATE_CATEGORY_RESET:
       return {
@@ -133,14 +127,14 @@ export const categoryReducer = (state = {}, action) => {
         isUpdated: false,
       };
 
-      case DELETE_CATEGORY_RESET:
+    case DELETE_CATEGORY_RESET:
       return {
         ...state,
         isDeleted: false,
       };
 
     case UPDATE_CATEGORY_FAIL:
-      case DELETE_CATEGORY_FAIL:
+    case DELETE_CATEGORY_FAIL:
       return {
         ...state,
         error: action.payload,

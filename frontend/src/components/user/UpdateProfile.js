@@ -1,20 +1,21 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loadUser, updateProfile } from "../../actions/userAction";
 import { UPDATE_PROFILE_RESET } from "../../constants/userConstantes";
 import Infos from "../layout/Infos";
+import { toast } from "react-toastify";
 
 const UpdateProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("/assets/images/avatar.png");
+  const [avatarPreview, setAvatarPreview] = useState(
+    "/assets/images/avatar.png"
+  );
 
   const navigate = useNavigate();
 
-  const alert = useAlert();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { error, isUpdated, loading } = useSelector((state) => state.user);
@@ -30,14 +31,14 @@ const UpdateProfile = () => {
       }
     }
     if (isUpdated) {
-      alert.success("user updated !");
+      toast.success("user updated !");
       dispatch(loadUser());
       navigate("/me");
       dispatch({
         type: UPDATE_PROFILE_RESET,
       });
     }
-  }, [dispatch, alert, error, navigate, isUpdated]);
+  }, [dispatch, toast, error, navigate, isUpdated]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -61,8 +62,6 @@ const UpdateProfile = () => {
     };
     reader.readAsDataURL(file);
   };
-
-
 
   return (
     <Fragment>
@@ -123,7 +122,10 @@ const UpdateProfile = () => {
                             <div>
                               <figure className="avatar mr-3 item-rtl">
                                 <img
-                                  src={avatarPreview || "/assetes/images/avatar.png"}
+                                  src={
+                                    avatarPreview ||
+                                    "/assetes/images/avatar.png"
+                                  }
                                   className="rounded-circle"
                                   alt="Avatar Preview"
                                 />

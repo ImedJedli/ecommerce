@@ -1,13 +1,47 @@
-import React from 'react';
+import React from "react";
 
 const Error = () => {
   return (
+
+    /* <div className="login-container">
+            
+                      <div className="text-center heading">
+                        <div className="mb-2">
+                        <img className="error-img" src="/assets/images/error.jpg" alt="404 Not Found" style={{width: "30%"}}/>
+
+                        </div>   
+                      </div>
+
+              
+            </div> */
+
+            <section class="page_404">
+  <div class="container">
+    <div class="row"> 
+    <div class="col-sm-12 ">
+    <div class="col-sm-10 col-sm-offset-1  text-center">
+    <div class="four_zero_four_bg">
+      <h1 class="text-center ">404</h1>
     
-    <div className="error-container">
-      <img className="error-img" src="/images/error.jpg" alt="404 Not Found"/>
+    
     </div>
     
+    <div class="contant_box_404">
+    <h3 class="h2">
+    Look like you're lost
+    </h3>
+    
+    <p>the page you are looking for not avaible!</p>
+    
+    <a href="/" class="link_404">Go to Home</a>
+  </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+          
   );
-}
+};
 
-export default Error; 
+export default Error;
