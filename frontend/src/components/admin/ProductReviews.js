@@ -8,6 +8,9 @@ import { DELETE_REVIEW_RESET } from "../../constants/productConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 function ProductReviews() {
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -18,6 +21,24 @@ function ProductReviews() {
   const { error, reviews } = useSelector(state => state.productReviews);
   const { isDeleted } = useSelector((state) => state.review);
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
+  
+  const deleteReviewHandler = (id) => {
+    setReviewToDelete(id);
+    setShowConfirmation(true);
+  };
+  
+  const confirmDelete = () => {
+    dispatch(deleteProductReview(reviewToDelete,productId));
+    setShowConfirmation(false);
+  };
+  
+  const cancelDelete = () => {
+    setReviewToDelete(null);
+    setShowConfirmation(false);
+  };
+
 
   useEffect(() => {
     if (error) {
@@ -26,19 +47,20 @@ function ProductReviews() {
     }
 
     if (productId !== "") {
-      dispatch(getProductsReviews(productId));
+      dispatch(getProductsReviews(productId,));
     }
 
     if (isDeleted) {
  alert.success('User deleted successfully');
+      dispatch({ type: DELETE_REVIEW_RESET })
      navigate('/admin/reviews');
-     dispatch({ type: DELETE_REVIEW_RESET })
+     
     }
   }, [dispatch, alert, error, productId,isDeleted, navigate]);
 
-  const deleteReviewHandler = (id) => {
+ /*  const deleteReviewHandler = (id) => {
   dispatch(deleteProductReview(id,productId));
-  };
+  }; */
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -105,20 +127,12 @@ function ProductReviews() {
                     />
                   </div>
 
-          {/*         <button
-                    id="search_button"
-                    type="button"
-                    className="btn btn-primary btn-block py-2" 
-                    onClick={submitHandler}
-                  >
-                    SEARCH
-                  </button> */}
                 </form>
               </div>
             </div>
 
             {reviews && reviews.length > 0 ? (
-             
+             <Fragment>
               <MDBDataTable
                 data={setReviews()}
                 className="px-3"
@@ -126,6 +140,23 @@ function ProductReviews() {
                 striped
                 hover
               />
+              <Modal show={showConfirmation} onHide={cancelDelete}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Are you sure you want to delete this review ?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={cancelDelete}>
+                        Cancel
+                      </Button>
+                      <Button variant="danger" onClick={confirmDelete}>
+                        Delete
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Fragment>
             ) : (
                   <p className="mt-5 text-center"> No Reviews</p>
             )}

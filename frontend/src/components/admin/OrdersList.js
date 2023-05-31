@@ -1,5 +1,5 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect , useState} from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import { DELETE_ORDER_RESET } from "../../constants/orderConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Sidebar from './Sidebar';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const OrdersList = () => {
 
@@ -18,6 +20,24 @@ const OrdersList = () => {
   
   const { loading, error, orders ,order = {}} = useSelector((state) => state.allOrders);
   const {  shippingInfo,orderItems,paymentInfo,user,totalPrice,orderStatus } = order;
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [orderToDelete, setOrderToDelete] = useState(null);
+  
+  const deleteOrderHandler = (id) => {
+    setOrderToDelete(id);
+    setShowConfirmation(true);
+  };
+  
+  const confirmDelete = () => {
+    dispatch(deleteOrder(orderToDelete));
+    setShowConfirmation(false);
+  };
+  
+  const cancelDelete = () => {
+    setOrderToDelete(null);
+    setShowConfirmation(false);
+  };
 
   const {isDeleted} = useSelector(state => state.order)
 
@@ -37,9 +57,9 @@ const OrdersList = () => {
   
   }, [dispatch, alert, error,navigate,isDeleted]);
 
-  const deleteOrderHandler =(id) =>{
+  /* const deleteOrderHandler =(id) =>{
     dispatch(deleteOrder(id))
-  }
+  } */
 
    
   const setOrders = () => {
@@ -102,6 +122,7 @@ const OrdersList = () => {
             {loading ? (
               <Loader />
             ) : (
+              <Fragment>
               <MDBDataTable
                 data={setOrders()}
                 className="px-3"
@@ -109,6 +130,23 @@ const OrdersList = () => {
                 striped
                 hover
               />
+              <Modal show={showConfirmation} onHide={cancelDelete}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Are you sure you want to delete this order ?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={cancelDelete}>
+                        Cancel
+                      </Button>
+                      <Button variant="danger" onClick={confirmDelete}>
+                        Delete
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Fragment>
             )}
           </Fragment>
         </div>

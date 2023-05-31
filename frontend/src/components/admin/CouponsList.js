@@ -1,5 +1,5 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect ,useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,8 @@ import { DELETE_COUPON_RESET } from "../../constants/couponConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const CouponsList = () => {
   const alert = useAlert();
@@ -20,6 +22,23 @@ const CouponsList = () => {
 
   const { error : deleteError, isDeleted} = useSelector(state => state.coupon)
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [couponToDelete, setCouponToDelete] = useState(null);
+  
+  const deleteCouponHandler = (id) => {
+    setCouponToDelete(id);
+    setShowConfirmation(true);
+  };
+  
+  const confirmDelete = () => {
+    dispatch(deleteCoupon(couponToDelete));
+    setShowConfirmation(false);
+  };
+  
+  const cancelDelete = () => {
+    setCouponToDelete(null);
+    setShowConfirmation(false);
+  };
 
   useEffect(() => {
     dispatch(getAllCoupons());
@@ -42,9 +61,9 @@ const CouponsList = () => {
 
   }, [dispatch, alert, error, deleteError, isDeleted,navigate]);
 
-  const deleteCouponHandler =(id) =>{
+/*   const deleteCouponHandler =(id) =>{
     dispatch(deleteCoupon(id))
-}
+} */
 
   const setCoupons = () => {
     const data = {
@@ -107,6 +126,7 @@ const CouponsList = () => {
             {loading ? (
               <Loader />
             ) : (
+              <Fragment>
               <MDBDataTable
                 data={setCoupons()}
                 className="px-3"
@@ -114,6 +134,24 @@ const CouponsList = () => {
                 striped
                 hover
               />
+              <Modal show={showConfirmation} onHide={cancelDelete}>
+              <Modal.Header closeButton>
+                <Modal.Title>Confirmation</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              Are you sure you want to delete this coupon ?
+
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={cancelDelete}>
+                  Cancel
+                </Button>
+                <Button variant="danger" onClick={confirmDelete}>
+                  Delete
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            </Fragment>
             )}
           </Fragment>
         </div>

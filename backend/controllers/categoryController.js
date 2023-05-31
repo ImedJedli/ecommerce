@@ -5,6 +5,7 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Product = require('../models/product')
 exports.newCategory = catchAsyncErrors(async(req,res,next)=>{
 
+
     const category = await Category.create(req.body);
     res.status(201).json({
         success : true,

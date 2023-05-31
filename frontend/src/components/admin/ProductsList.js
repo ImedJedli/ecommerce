@@ -1,11 +1,13 @@
 import { MDBDataTable } from "mdbreact";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect , useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { clearErrors, deleteProduct, getAdminProducts } from "../../actions/productActions";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 import { DELETE_PRODUCT_RESET } from "../../constants/productConstantes";
 import Sidebar from './Sidebar';
@@ -16,6 +18,24 @@ const ProductsList = () => {
   const navigate = useNavigate()
   const { loading, error, products } = useSelector((state) => state.products);
   const { error : deleteError, isDeleted} = useSelector(state => state.product)
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  
+  const deleteProductHandler = (id) => {
+    setProductToDelete(id);
+    setShowConfirmation(true);
+  };
+  
+  const confirmDelete = () => {
+    dispatch(deleteProduct(productToDelete));
+    setShowConfirmation(false);
+  };
+  
+  const cancelDelete = () => {
+    setProductToDelete(null);
+    setShowConfirmation(false);
+  };
 
   useEffect(() => {
     dispatch(getAdminProducts());
@@ -37,9 +57,9 @@ const ProductsList = () => {
     }
   }, [dispatch, alert, error, deleteError, isDeleted,navigate]);
 
-   const deleteProductHandler =(id) =>{
+  /*  const deleteProductHandler =(id) =>{
       dispatch(deleteProduct(id))
-  }
+  } */
 
   const setProducts = () => {
     const data = {
@@ -99,6 +119,7 @@ const ProductsList = () => {
             {loading ? (
               <Loader />
             ) : (
+              <Fragment>
               <MDBDataTable
                 data={setProducts()}
                 className="px-3"
@@ -106,6 +127,23 @@ const ProductsList = () => {
                 striped
                 hover
               />
+              <Modal show={showConfirmation} onHide={cancelDelete}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Are you sure you want to delete this product ?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={cancelDelete}>
+                        Cancel
+                      </Button>
+                      <Button variant="danger" onClick={confirmDelete}>
+                        Delete
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Fragment>
             )}
           </Fragment>
         </div>

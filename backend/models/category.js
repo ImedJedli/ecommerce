@@ -5,6 +5,7 @@ const categorySchema =new mongoose.mongoose.Schema({
           type: String,
           required: [true, 'Please enter product name'],
           trim: true,
+          unique: true,
       },
       products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],  
       });

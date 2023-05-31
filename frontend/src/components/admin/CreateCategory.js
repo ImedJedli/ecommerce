@@ -20,6 +20,7 @@ const CreateCategory = () => {
   const [name, setName] = useState("");
 
 
+
   //const { name } = category;
 
   const [nameError, setNameError] = useState("");
@@ -28,10 +29,14 @@ const CreateCategory = () => {
   const dispatch = useDispatch();
 
   const { error, loading, success } = useSelector((state) => state.newCategory);
+  const { categories } = useSelector((state) => state.allCategories); // Access the categories array from Redux state
+
+
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
+      
     }
 
     if (success) {

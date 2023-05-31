@@ -10,14 +10,38 @@ import { DELETE_BLOG_RESET } from "../../constants/blogConstantes";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 function UsersList() {
+
+  
+
+  
   const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { loading, error, blogs } = useSelector((state) => state.allBlogs);
   const { isDeleted } = useSelector(state => state.blog);
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
+  
+  const deleteBlogHandler = (id) => {
+    setBlogToDelete(id);
+    setShowConfirmation(true);
+  };
+  
+  const confirmDelete = () => {
+    dispatch(deleteBlog(blogToDelete));
+    setShowConfirmation(false);
+  };
+  
+  const cancelDelete = () => {
+    setBlogToDelete(null);
+    setShowConfirmation(false);
+  };
 
   useEffect(() => {
     dispatch(getAdminBlogs());
@@ -29,14 +53,13 @@ function UsersList() {
 
     if (isDeleted) {
       alert.success('Blog deleted successfully');
+      dispatch({type: DELETE_BLOG_RESET});
       navigate('/admin/blogs');
-      dispatch({ type: DELETE_BLOG_RESET })
+     
   }
-  }, [dispatch, alert, error,navigate]);
+  }, [dispatch, alert, error, isDeleted,navigate]);
 
-  const deleteBlogHandler = (id) => {
-    dispatch(deleteBlog(id));
-  }; 
+  
   const [showFullDescription, setShowFullDescription] = useState(false);
 
 
@@ -114,6 +137,7 @@ function UsersList() {
             {loading ? (
               <Loader />
             ) : (
+              <Fragment>
               <MDBDataTable
                 data={setBlogs()}
                 className="px-3"
@@ -121,6 +145,25 @@ function UsersList() {
                 striped
                 hover
               />
+              <Modal show={showConfirmation} onHide={cancelDelete}>
+              <Modal.Header closeButton>
+                <Modal.Title>Confirmation</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Are you sure you want to delete this blog ?
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={cancelDelete}>
+                  Cancel
+                </Button>
+                <Button variant="danger" onClick={confirmDelete}>
+                  Delete
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            </Fragment>
+
+
             )}
           </Fragment>
         </div>

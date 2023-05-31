@@ -129,7 +129,7 @@ const CreateCoupon = () => {
                           <label htmlFor="#">Discount</label>
                           <input
                             value={discount}
-                            onChange={handleDiscountChange}
+                            onChange={(e) => setDiscount(e.target.value)}
                            
                             className={`form-control ${
                               discountError ? "is-invalid" : ""
@@ -147,7 +147,7 @@ const CreateCoupon = () => {
                           <label htmlFor="#">Usage Limit</label>
                           <input
                             value={usageLimit}
-                            onChange={handleUsageLimitChange}
+                            onChange={(e) => setUsageLimit(e.target.value)}
                             
                             className={`form-control ${
                               usageLimitError ? "is-invalid" : ""
