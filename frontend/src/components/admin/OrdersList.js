@@ -10,6 +10,7 @@ import Loader from "../layout/Loader";
 import Sidebar from './Sidebar';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {  toast } from 'react-toastify';
 
 const OrdersList = () => {
 
@@ -45,17 +46,17 @@ const OrdersList = () => {
     dispatch(allOrders());
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (isDeleted){
-      alert.success('Order deleted ');
+      toast.success('Order deleted ');
       navigate('/admin/orders');
       dispatch({type : DELETE_ORDER_RESET})
     }
   
-  }, [dispatch, alert, error,navigate,isDeleted]);
+  }, [dispatch, toast, error,navigate,isDeleted]);
 
   /* const deleteOrderHandler =(id) =>{
     dispatch(deleteOrder(id))

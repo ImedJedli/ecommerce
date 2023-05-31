@@ -8,6 +8,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const options = {
   timeout: 5000,
@@ -20,6 +22,8 @@ ReactDOM.render(
   <Provider store={store}>
     <AlertProvider template={AlertTemplate}{...options}>
     <App />
+    <ToastContainer position="bottom-right"
+    />
     </AlertProvider>
   </Provider>,
   document.getElementById('root')

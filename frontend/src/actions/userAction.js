@@ -73,7 +73,7 @@ localStorage.setItem("user", JSON.stringify(data.user));
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
-       payload: error.response.data.message
+      payload: error.response && error.response.data.message
     });
   }
 };
@@ -300,7 +300,8 @@ export const forgotPassword = (email) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FORGOT_PASSWORD_FAIL,
-      payload: error.response.data.message,
+      payload: error.response && error.response.data.message
+
     });
   }
 };

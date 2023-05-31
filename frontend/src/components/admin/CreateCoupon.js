@@ -10,6 +10,7 @@ import {
 } from "../../constants/couponConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 const CreateCoupon = () => {
   const navigate = useNavigate();
@@ -35,19 +36,19 @@ const CreateCoupon = () => {
   useEffect(() => {
     if (error) {
       if (error.response && error.response.data.message) {
-        alert.error(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert.error(error);
+        toast.error(error);
       }
       dispatch(clearErrors());
     }
 
     if (success) {
       dispatch({ type: CREATE_COUPON_RESET });
-      alert.success("coupon created successfully");
+      toast.success("coupon created successfully");
       navigate("/admin/coupons");
     }
-  }, [dispatch, alert, error, success, navigate]);
+  }, [dispatch, toast, error, success, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();

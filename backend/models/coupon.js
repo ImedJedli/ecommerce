@@ -4,16 +4,16 @@ const mongoose = require('mongoose')
 const couponSchema  = new mongoose.mongoose.Schema({
       code: {
             type: String,
-            required: true,
+            required: [true, 'Please enter coupon code'],
             unique: true,
           },
           discount: {
             type: Number,
-            required: true,
+            required: [true, 'Please enter coupon discount'],
           },
           isActive: {
             type: Boolean,
-            default: true,
+            
           },
           createdAt: {
             type: Date,
@@ -21,7 +21,7 @@ const couponSchema  = new mongoose.mongoose.Schema({
             
           },usageLimit: {
             type: Number,
-            default: 1,
+            required: [true, 'Please enter usage limit'],
           },
           usedCount: {
             type: Number,

@@ -7,19 +7,17 @@ const Product = require('../models/product');
 exports.newCategory = catchAsyncErrors(async(req,res,next)=>{
 
 
-    const {name }=req.body;
-    const categoryExists = await Category.findOne({ name });
+    const { name }=req.body;
+     const categoryExists = await Category.findOne({ name });
     if(categoryExists){
       return next(new ErrorHandler('category already exists', 404))
-    }
+    } 
 
-    const category = await Category.create(name);
+    const category = await Category.create(req.body);
     res.status(201).json({
         success : true,
         category
     })
-
-
 
 })
 

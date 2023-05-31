@@ -7,6 +7,7 @@ import { clearErrors, deleteProductReview, getProductsReviews } from "../../acti
 import { DELETE_REVIEW_RESET } from "../../constants/productConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -42,7 +43,7 @@ function ProductReviews() {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
@@ -51,12 +52,12 @@ function ProductReviews() {
     }
 
     if (isDeleted) {
- alert.success('User deleted successfully');
+ toast.success('Review deleted successfully');
       dispatch({ type: DELETE_REVIEW_RESET })
      navigate('/admin/reviews');
      
     }
-  }, [dispatch, alert, error, productId,isDeleted, navigate]);
+  }, [dispatch, toast, error, productId,isDeleted, navigate]);
 
  /*  const deleteReviewHandler = (id) => {
   dispatch(deleteProductReview(id,productId));

@@ -34,6 +34,7 @@ const upload = multer({
 
 exports.createBlog = catchAsyncErrors(async(req,res,next) =>{
 
+      
       upload(req,res,async function(err){
             if(err){
 
@@ -45,6 +46,10 @@ exports.createBlog = catchAsyncErrors(async(req,res,next) =>{
             }
 
             const {title, description} = req.body;
+
+            if (!title || !description) {
+                  return next(new ErrorHandler('Please provide both title and description', 400));
+                }
             
             const blog = await Blog.create({
                   title,
@@ -52,6 +57,8 @@ exports.createBlog = catchAsyncErrors(async(req,res,next) =>{
                   user: req.user._id,
                   images: req.files ? req.files.map(file => file.filename) : []
             });
+
+            
 
             res.status(201).json({
                   success : true,

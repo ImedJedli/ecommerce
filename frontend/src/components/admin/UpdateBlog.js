@@ -6,6 +6,7 @@ import { clearErrors, getSingleBlog, updateBlog } from "../../actions/blogAction
 import { UPDATE_BLOG_RESET } from "../../constants/blogConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 
 const UpdateBlog =() => {
@@ -40,22 +41,22 @@ const UpdateBlog =() => {
       }
 
       if (error) {
-          alert.error(error);
+          toast.error(error);
           dispatch(clearErrors())
       }
 
       if (updateError) {
-            alert.error(updateError);
+            toast.error(updateError);
             dispatch(clearErrors())
         }
 
       if (isUpdated) {
           navigate('/admin/blogs');
-          alert.success('Blog updated successfully');
+          toast.success('Blog updated successfully');
           dispatch({ type: UPDATE_BLOG_RESET })
       }
 
-  }, [dispatch, alert, error, isUpdated,updateError,blog,blogId])
+  }, [dispatch, toast, error, isUpdated,updateError,blog,blogId])
 
   
   const submitHandler = (e) => {

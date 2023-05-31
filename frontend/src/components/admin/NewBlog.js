@@ -6,6 +6,7 @@ import { clearErrors, newBlog } from "../../actions/blogActions";
 import { NEW_BLOG_RESET } from "../../constants/blogConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -30,31 +31,37 @@ const NewBlog = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      if (error.response && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error);
+      }
       dispatch(clearErrors());
     }
 
     if (success) {
       navigate("/admin/blogs");
-      alert.success("Blog created successfully");
+      toast.success("Blog created successfully");
       dispatch({ type: NEW_BLOG_RESET });
     }
-  }, [dispatch, alert, error, success]);
+  }, [dispatch, toast, error, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     setTitleError("");
     setDescriptionError("");
 
-    let isValid = true;
+    //let isValid = true;
     if (!title.trim()) {
       setTitleError("Title is required");
-      isValid = false;
+      //isValid = false;
+      return
     }
 
     if (!description.trim()) {
       setDescriptionError("Description is required");
-      isValid = false;
+      //isValid = false;
+      return
     }
 
     const formData = new FormData();
@@ -123,9 +130,15 @@ const NewBlog = () => {
                           <ReactQuill
                             value={description}
                             onChange={handleDescriptionChange}
+                            className={`form-control ${
+                              descriptionError ? "is-invalid" : ""
+                            }`}
                             placeholder="Full description"
                             style={{ height: "100%" }}
                           />
+                          {descriptionError && (
+                            <div className="invalid-feedback">{descriptionError}</div>
+                          )}
                         </div>
 
                         <div className="form-group">

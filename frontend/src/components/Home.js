@@ -3,6 +3,7 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {  toast } from 'react-toastify';
 
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
@@ -59,12 +60,12 @@ const handleAllCategories = () => {
     
    
     if (error) {
-      return alert.show(error);
+      return toast.error(error);
     }
 
     dispatch(getProducts(keyword, currentPage, price,category, rating));
     
-  }, [dispatch, alert, error, keyword, currentPage,price,category, rating]);
+  }, [dispatch, toast, error, keyword, currentPage,price,category, rating]);
 
   return (
     <Fragment>

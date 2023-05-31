@@ -9,6 +9,7 @@ import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import {  toast } from 'react-toastify';
 
 const UpdateProduct =() => {
 
@@ -61,22 +62,22 @@ const UpdateProduct =() => {
       }
 
       if (error) {
-          alert.error(error);
+          toast.error(error);
           dispatch(clearErrors())
       }
 
       if (updateError) {
-            alert.error(updateError);
+            toast.error(updateError);
             dispatch(clearErrors())
         }
 
       if (isUpdated) {
           navigate('/admin/products');
-          alert.success('Product updated successfully');
+          toast.success('Product updated successfully');
           dispatch({ type: UPDATE_PRODUCT_RESET })
       }
 
-  }, [dispatch, alert, error, isUpdated,updateError,product,productId])
+  }, [dispatch, toast, error, isUpdated,updateError,product,productId])
 
 
   const submitHandler = (e) => {

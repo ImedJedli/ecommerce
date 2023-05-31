@@ -4,13 +4,13 @@ const mongoose = require('mongoose')
 const blogSchema = new mongoose.mongoose.Schema({
       title: {
             type : String,
-            required : true,
+            required : [true, 'Please enter blog title'],
             trim : true
       },
 
       description:{
             type : String,
-            required  : true,
+            required  : [true, 'Please enter blog description'],
             trim : true
       },
 

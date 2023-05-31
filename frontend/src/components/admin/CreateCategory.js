@@ -11,6 +11,8 @@ import {
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 
+import {  toast } from 'react-toastify';
+
 const CreateCategory = () => {
   const navigate = useNavigate();
   const [category, setCategory] = useState({
@@ -35,21 +37,19 @@ const CreateCategory = () => {
   useEffect(() => {
     if (error) {
       if (error.response && error.response.data.message) {
-        alert.error(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert.error(error);
+        toast.error(error);
       }
       dispatch(clearErrors());
     }
       
-    
-
     if (success) {
       dispatch({ type: CREATE_CATEGORY_RESET });
-      alert.success("category created successfully");
+      toast.success("category created successfully");
       navigate("/categories");
     }
-  }, [dispatch, alert, error, success, navigate]);
+  }, [dispatch, alert, toast,error, success, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();

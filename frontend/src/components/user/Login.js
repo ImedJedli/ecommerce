@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { clearErrors, login ,loadUser } from "../../actions/userAction";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
+import {  toast } from 'react-toastify';
 
 
 const Login = () => {
@@ -60,10 +61,16 @@ const Login = () => {
 
  
     if (error) {
+      if (error.response && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error);
+      }
+      
       dispatch(clearErrors());
     } else if (isAuthenticated && !loading) {
       
-      alert.show("Login successful!, Welcome", {
+      toast.success("Login successful!, Welcome", {
         type: "success",
       });
       

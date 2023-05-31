@@ -10,6 +10,7 @@ import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {  toast } from 'react-toastify';
 
 function UsersList() {
   const alert = useAlert();
@@ -42,16 +43,16 @@ function UsersList() {
     dispatch(allUsers());
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (isDeleted) {
-      alert.success('User deleted successfully');
+      toast.success('User deleted successfully');
       navigate('/admin/users');
       dispatch({ type: DELETE_USER_RESET })
   }
-  }, [dispatch, alert, error,navigate,isDeleted]);
+  }, [dispatch, toast, error,navigate,isDeleted]);
 
   /* const deleteUserHandler = (id) => {
     dispatch(deleteUser(id));

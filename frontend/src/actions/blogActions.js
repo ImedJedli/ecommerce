@@ -165,7 +165,7 @@ export const newBlog = (blogData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_BLOG_FAIL,
-      payload: error.message,
+      payload: error.response && error.response.data.message
     });
   }
 };

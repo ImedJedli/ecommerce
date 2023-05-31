@@ -16,6 +16,8 @@ import Loader from "../layout/Loader";
 import GenerateInvoice from "./GenerateInvoice";
 import { sendInvoiceByEmail } from "./SendInvoiceByEmail";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
+
 
 function StatusOrder() {
   const { id } = useParams();
@@ -45,15 +47,15 @@ function StatusOrder() {
     dispatch(getOrderDetails(orderId));
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (isUpdated) {
-      alert.success("Order updated succesfuly");
+      toast.success("Order updated succesfuly");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
-  }, [dispatch, alert, error, isUpdated, orderId]);
+  }, [dispatch, toast, error, isUpdated, orderId]);
 
   const updateOrderHandler = (id) => {
     setStatusError("");

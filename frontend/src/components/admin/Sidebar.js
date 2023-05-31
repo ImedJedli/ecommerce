@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../actions/userAction";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faBold, faClipboard, faPlus, faProductHunt, faShoppingBasket, faUsers, faStar, faBlog } from '@fortawesome/free-solid-svg-icons';
+import {  toast } from 'react-toastify';
 
 const Sidebar =() => {
 
@@ -20,7 +21,7 @@ const Sidebar =() => {
       const { user, loading } = useSelector((state) => state.auth);
       const logoutHandler = () => {
         dispatch(logout());
-        alert.success("Logged out successfully.");
+        toast.success("Logged out successfully.");
       };
     
 

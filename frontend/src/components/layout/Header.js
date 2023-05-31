@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import { logout } from "../../actions/userAction";
+import {  toast } from 'react-toastify';
 
 import "../../App.css";
 
@@ -25,7 +26,7 @@ const Header =() => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    alert.success("Logged out successfully.");
+    toast.success("Logged out successfully.");
   };
 
   const [wishlistCount, setWishlistCount] = useState(0);

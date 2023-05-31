@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearErrors, register } from "../../actions/userAction";
 import Infos from "../layout/Infos";
+import {  toast } from 'react-toastify';
 
 const Register = () => {
   const [nameError, setNameError] = useState("");
@@ -32,18 +33,18 @@ const Register = () => {
     }
     if (error) {
       if (error.response && error.response.data.message) {
-        alert.error(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert.error(error);
+        toast.error(error);
       }
       dispatch(clearErrors());
     
     } else if (isAuthenticated) {
-      alert.show("Login successful!, Welcome", {
+      toast.success(" Account created , Welcome to DropSell !", {
         type: "success",
       });
     }
-  }, [dispatch, alert, isAuthenticated, error]);
+  }, [dispatch, toast, isAuthenticated, error]);
 
   const submitHandler = (e) => {
     e.preventDefault();

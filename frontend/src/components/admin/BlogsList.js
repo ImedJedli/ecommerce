@@ -12,6 +12,7 @@ import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {  toast } from 'react-toastify';
 
 function UsersList() {
 
@@ -47,17 +48,17 @@ function UsersList() {
     dispatch(getAdminBlogs());
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (isDeleted) {
-      alert.success('Blog deleted successfully');
+      toast.success('Blog deleted successfully');
       dispatch({type: DELETE_BLOG_RESET});
       navigate('/admin/blogs');
      
   }
-  }, [dispatch, alert, error, isDeleted,navigate]);
+  }, [dispatch, toast, error, isDeleted,navigate]);
 
   
   const [showFullDescription, setShowFullDescription] = useState(false);

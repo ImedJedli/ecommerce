@@ -8,6 +8,7 @@ import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {  toast } from 'react-toastify';
 
 import { DELETE_PRODUCT_RESET } from "../../constants/productConstantes";
 import Sidebar from './Sidebar';
@@ -41,21 +42,21 @@ const ProductsList = () => {
     dispatch(getAdminProducts());
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
   
     if (deleteError) {
-      alert.error(deleteError);
+      toast.error(deleteError);
       dispatch(clearErrors());
     }
 
     if(isDeleted){
-      alert.success('product deleted');
+      toast.success('product deleted');
       dispatch({type: DELETE_PRODUCT_RESET});
       navigate("/admin/products");
     }
-  }, [dispatch, alert, error, deleteError, isDeleted,navigate]);
+  }, [dispatch, toast, error, deleteError, isDeleted,navigate]);
 
   /*  const deleteProductHandler =(id) =>{
       dispatch(deleteProduct(id))

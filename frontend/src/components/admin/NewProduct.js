@@ -9,6 +9,7 @@ import { clearErrors, newProduct } from "../../actions/productActions";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 const NewProduct = () => {
   const handleDescriptionChange = (value) => {
@@ -56,16 +57,16 @@ const NewProduct = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (success) {
       navigate("/admin/products");
-      alert.success("Product created successfully");
+      toast.success("Product created successfully");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
-  }, [dispatch, alert, error, success]);
+  }, [dispatch, toast, error, success]);
 
   const [nameError, setNameError] = useState("");
   const [priceError, setPriceError] = useState("");

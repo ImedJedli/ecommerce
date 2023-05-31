@@ -6,6 +6,7 @@ import { clearErrors, getUserDetails, loadUser, updateUser } from "../../actions
 import { UPDATE_USER_RESET } from "../../constants/userConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 function UpdateUser() {
       
@@ -36,19 +37,19 @@ function UpdateUser() {
     }
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (isUpdated) {
-      alert.success("user updated !");
+      toast.success("user updated !");
       dispatch(loadUser());
       navigate("/admin/users");
       dispatch({
         type: UPDATE_USER_RESET,
       });
     }
-  }, [dispatch, alert, error, navigate, isUpdated,user,userId]);
+  }, [dispatch, toast, error, navigate, isUpdated,user,userId]);
 
   const submitHandler = (e) => {
     e.preventDefault();

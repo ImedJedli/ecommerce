@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { clearErrors, getSingleCoupon, updateCoupon } from "../../actions/couponActions";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
+import {  toast } from 'react-toastify';
 
 
 
@@ -35,15 +36,15 @@ const UpdateCoupon =() => {
             }
 
             if(error){
-                  alert.error(error);
+                  toast.error(error);
                   dispatch(clearErrors())
             }
 
             if(updateError){
-                  alert.error(updateError);
+                  toast.error(updateError);
                   dispatch(clearErrors())
             }
-      },[dispatch, alert, error,updateError,coupon,couponId])
+      },[dispatch, toast, error,updateError,coupon,couponId])
 
 
       const submitHandler =(e) =>{
@@ -56,7 +57,7 @@ const UpdateCoupon =() => {
 
             dispatch(updateCoupon(coupon._id,formData))
             .then(() => {
-              alert.success('Coupon is updated successfully !');
+              toast.success('Coupon is updated successfully !');
               navigate('/admin/coupons'); 
             });
       }

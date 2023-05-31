@@ -10,6 +10,7 @@ import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {  toast } from 'react-toastify';
 
 const CouponsList = () => {
   const alert = useAlert();
@@ -44,22 +45,22 @@ const CouponsList = () => {
     dispatch(getAllCoupons());
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (deleteError) {
-      alert.error(deleteError);
+      toast.error(deleteError);
       dispatch(clearErrors());
     }
 
     if(isDeleted){
-      alert.success('coupon deleted');
+      toast.success('coupon deleted');
       dispatch({type: DELETE_COUPON_RESET});
       navigate("/admin/coupons");
     }
 
-  }, [dispatch, alert, error, deleteError, isDeleted,navigate]);
+  }, [dispatch, toast, error, deleteError, isDeleted,navigate]);
 
 /*   const deleteCouponHandler =(id) =>{
     dispatch(deleteCoupon(id))

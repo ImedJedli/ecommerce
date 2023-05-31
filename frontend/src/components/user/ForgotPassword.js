@@ -3,6 +3,7 @@ import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearErrors, forgotPassword } from '../../actions/userAction';
+import { toast } from 'react-toastify';
 
 
 const ForgotPassword = () => {
@@ -21,12 +22,17 @@ const ForgotPassword = () => {
       useEffect(()=>{
 
             if(error){
-                  alert.error(error);
-                  dispatch(clearErrors())
-            }
+                  if (error.response && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error);
+      }
+      
+      dispatch(clearErrors());
+    }
      
             if(message){
-                  alert.success(message)
+                toast.success(message)
             }
       },[dispatch, alert,error,loading,message])
 
