@@ -43,7 +43,7 @@ export const addCategory = (categoryData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_CATEGORY_FAIL,
-      error: error.response.data.message,
+      payload: error.response && error.response.data.message
     });
   }
 };

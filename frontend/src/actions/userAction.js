@@ -119,7 +119,8 @@ export const register = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
-      payload: error.message,
+      payload: error.response && error.response.data.message
+
     });
   }
 };

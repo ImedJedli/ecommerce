@@ -43,7 +43,8 @@ export const addCoupon = (couponData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_COUPON_FAIL,
-      error: error.response.data.message,
+      payload: error.response && error.response.data.message
+
     });
   }
 };

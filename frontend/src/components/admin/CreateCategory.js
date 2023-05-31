@@ -34,10 +34,15 @@ const CreateCategory = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      if (error.response && error.response.data.message) {
+        alert.error(error.response.data.message);
+      } else {
+        alert.error(error);
+      }
       dispatch(clearErrors());
-      
     }
+      
+    
 
     if (success) {
       dispatch({ type: CREATE_CATEGORY_RESET });

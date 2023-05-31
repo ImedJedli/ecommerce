@@ -31,8 +31,13 @@ const Register = () => {
       navigate("/");
     }
     if (error) {
-      alert.error(error);
+      if (error.response && error.response.data.message) {
+        alert.error(error.response.data.message);
+      } else {
+        alert.error(error);
+      }
       dispatch(clearErrors());
+    
     } else if (isAuthenticated) {
       alert.show("Login successful!, Welcome", {
         type: "success",

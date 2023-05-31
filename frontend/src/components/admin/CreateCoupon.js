@@ -34,7 +34,11 @@ const CreateCoupon = () => {
   const { error, loading, success } = useSelector((state) => state.newCoupon);
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      if (error.response && error.response.data.message) {
+        alert.error(error.response.data.message);
+      } else {
+        alert.error(error);
+      }
       dispatch(clearErrors());
     }
 

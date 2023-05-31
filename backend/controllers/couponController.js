@@ -7,21 +7,19 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 exports.createCoupon = catchAsyncErrors(async(req,res,next)=>{
 
       try {
-            const { code, discount } = req.body;
+            const { code, discount,usageLimit } = req.body;
         
-            // Check if the discount code already exists
             const existingDiscount = await Coupon.findOne({ code });
             if (existingDiscount) {
-              return res.status(400).json({ error: 'Discount code already exists' });
+              return next(new ErrorHandler('coupon already exists', 404))
             }
         
-            // Create a new discount
             const coupon = new Coupon({
               code,
               discount,
+              usageLimit
             });
         
-            // Save the discount to the database
             await coupon.save();
         
             res.status(201).json({ message: 'Discount created successfully' });
