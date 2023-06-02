@@ -13,6 +13,7 @@ import Loader from "./layout/Loader";
 import Product from "./product/Product";
 
 import { getAllCategories } from "../actions/categoryActions";
+import Chatbot from "./Chatbot";
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -54,6 +55,8 @@ const Home = () => {
 
   return (
     <Fragment>
+    <Chatbot/>
+  
       <div className="home-container ">
         {loading ? (
           <Loader />
@@ -79,7 +82,9 @@ const Home = () => {
               </div>
             </section>
 
+            
             <section className="section products-main">
+            
               <div className="container">
                 <div className="row justify-content-center">
                   <div className="col-lg-8">
@@ -197,6 +202,7 @@ const Home = () => {
                             ))}
                         </div>
                       </div>
+                      
                     </Fragment>
                   ) : (
                     products &&
