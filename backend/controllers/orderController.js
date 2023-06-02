@@ -64,12 +64,12 @@ exports.getMyOrders = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find();
-  console.log(`Number of orders: ${orders.length}`);
 
   let totalAmount = 0;
   orders.forEach((order) => {
-    console.log(`Total price for order ${order._id}: ${order.totalPrice}`);
+    if (order.paymentInfo.orderStatus === "Delivered") {
     totalAmount += order.paymentInfo.totalPrice;
+    }
   });
 
   res.status(200).json({

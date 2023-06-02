@@ -174,7 +174,7 @@ nav {
 
 .card {
   height: 100%;
-  top: 100px;
+  /* top: 100px; */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   border-radius: 5px; 
@@ -211,9 +211,9 @@ nav {
   text-decoration: none;
 }
 
-.card-body {
+/* .card-body {
   padding-left: 0;
-}
+} */
 
 .card-text {
   font-size: 1.4rem;
@@ -804,3 +804,68 @@ ul.CTAs a {
   margin: 0 auto;
   margin-top: 50px; /* adjust this value as needed */
 }
+
+
+
+
+
+
+
+
+
+.order-card {
+  color: #fff;
+}
+
+.bg-c-blue {
+  background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.bg-c-green {
+  background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+.bg-c-yellow {
+  background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.bg-c-pink {
+  background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+
+.card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  border: none;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+  padding: 25px;
+}
+
+.order-card i {
+  font-size: 26px;
+}
+
+.f-left {
+  float: left;
+}
+
+.f-right {
+  float: right;
+}
+
+.bg-c-green {
+  background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+.gr-1{
+  background: url();
+  
+}
+
+
