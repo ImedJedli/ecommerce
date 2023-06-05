@@ -34,10 +34,7 @@ const Shipping = () => {
     } else if (adress.trim().length < 4) {
       setAdressError("Address must be at least 4 characters long");
       isValid = false;
-    } else if (!/^[a-zA-Z\s]+$/.test(adress.trim())) {
-      setAdressError("Address must contain only characters");
-      isValid = false;
-    }
+    } 
 
     if (!city.trim()) {
       setCityError("City is required");
@@ -45,8 +42,8 @@ const Shipping = () => {
     } else if (city.trim().length < 4) {
       setCityError("City must be at least 4 characters long");
       isValid = false;
-    } else if (!/^[a-zA-Z\s]+$/.test(adress.trim())) {
-      setAdressError("Address must contain only characters");
+    } else if (!/^[a-zA-Z\s]+$/.test(city.trim())) {
+      setCityError("City must contain only characters");
       isValid = false;
     }
 

@@ -61,7 +61,7 @@ const CategoriesList = () => {
     if (isDeleted) {
       toast.success("category deleted");
       dispatch({ type: DELETE_CATEGORY_RESET });
-      navigate("/categories");
+      navigate("/admin/categories");
     }
   }, [dispatch, toast, error, deleteError, isDeleted, navigate]);
 
@@ -85,14 +85,14 @@ const CategoriesList = () => {
           actions: (
             <Fragment>
               <Link
-                to={`/categorie/${category._id}`}
+                to={`/admin/categorie/${category._id}`}
                 className="btn btn-primary py-1 px-2"
               >
                 <i className="fa fa-eye"></i>
               </Link>
 
               <Link
-                to={`/category/${category._id}`}
+                to={`/admin/category/${category._id}`}
                 className="btn btn-primary py-1 px-2 ml-2"
               >
                 <i className="fa fa-pencil"></i>

@@ -698,21 +698,7 @@ a[aria-expanded='true'] {
 a[data-toggle='collapse'] {
   position: relative;
 }
-/*
-.dropdown-toggle::after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-} 
 
-ul ul a {
-  font-size: 1rem !important;
-  padding-left: 30px !important;
-  background: #3D4F91;
-}
-*/
 ul.CTAs {
   padding: 20px;
 }
@@ -790,6 +776,12 @@ ul.CTAs a {
   height: 100%;
 }
 
+.img-fluid-update {
+  max-width: 110%;
+  
+}
+
+
 .error-container {
   display: flex;
   justify-content: center;
@@ -802,17 +794,8 @@ ul.CTAs a {
   height: auto;
   display: block;
   margin: 0 auto;
-  margin-top: 50px; /* adjust this value as needed */
+  margin-top: 50px; 
 }
-
-
-
-
-
-
-
-
-
 .order-card {
   color: #fff;
 }

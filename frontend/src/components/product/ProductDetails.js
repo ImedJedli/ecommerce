@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { addItemToCart } from "../../actions/cartActions";
 import {
   clearErrors,
@@ -12,8 +12,10 @@ import { REVIEW_RESET } from "../../constants/productConstantes";
 import Loader from "../layout/Loader";
 import ListReviews from "../review/ListReviews";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
-const ProductDetails = () => {
+
+const ProductDetails = ( {relatedProduct} ) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -55,10 +57,28 @@ const ProductDetails = () => {
   const increaseQuantity = () => {
     const count = document.querySelector(".count");
     if (count.valueAsNumber >= product.stock) return;
-
+      console.log('stock')
     const qty = count.valueAsNumber + 1;
     setQuantity(qty);
   };
+
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
+  useEffect(() => {
+    fetchRelatedProducts();
+  }, []);
+
+  const fetchRelatedProducts = async () => {
+    try {
+      const response = await fetch(`/api/v1/product/${id}`);
+      const data = await response.json();
+      setRelatedProducts(data.relatedProducts);
+    } catch (error) {
+      console.log('Error fetching related products:', error);
+    }
+  };
+  
+  
 
   const decreaseQuantity = () => {
     const count = document.querySelector(".count");
@@ -109,7 +129,35 @@ const ProductDetails = () => {
     formData.set("productId", id);
     dispatch(postReview(formData));
   };
+ 
+    const [isSaved, setIsSaved] = useState(false);
+  
+    const handleSaveToWishlist = () => {
+      setIsSaved(!isSaved);
+  
+      const savedProducts = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const isProductSaved = savedProducts.some((p) => p._id === product._id);
+      if (isProductSaved) {
+        return;
+      }
+      if (isSaved) {
+        const updatedWishlist = savedProducts.filter(
+          (p) => p._id !== product._id
+        );
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+      } else {
+        savedProducts.push(product);
+        localStorage.setItem("wishlist", JSON.stringify(savedProducts));
+      }
+    };
+    const navigate= useNavigate()
+    const handleViewDetails = () => {
+    const url = `/product/${relatedProduct._id}`;
+    window.location.href = url;
+    window.scrollTo(0, 0); // Scroll to the top of the page
+    };
 
+  
   return (
     <Fragment>
       <div className="container-fluid">
@@ -120,7 +168,7 @@ const ProductDetails = () => {
             <div className="row f-flex justify-content-around">
               <div className="col-12 col-lg-5 img-fluid" id="product_image">
                 <Carousel pause="hover">
-                  {product.images &&
+                  {product && product.images &&
                     product.images.map((image) => (
                       <Carousel.Item key={image.public_id}>
                         <img
@@ -277,6 +325,8 @@ const ProductDetails = () => {
                             >
                               Submit
                             </button>
+
+                    
                           </div>
                         </div>
                       </div>
@@ -346,6 +396,87 @@ const ProductDetails = () => {
                 )}
               </div>
             </div>
+
+            
+            {relatedProducts.length > 0 && (
+ <div className="related-products">
+        <div className="row justify-content-center">
+        <div className="col-lg-8">
+          <div className="title text-center">
+            <h2 className="text-color">Related products</h2>
+
+            <p>The best quality </p>
+          </div>
+        </div>
+      </div>
+            
+  
+<div className="row">
+  {
+    relatedProducts.map((relatedProduct) => (
+      <div key={relatedProduct._id} className="col-lg-3 col-12 col-md-6 col-sm-6 mb-5">
+        <div className="product">
+          <div className="product-wrap">
+            <Link onClick={handleViewDetails}>
+              <img
+                className="img-fluid w-100 mb-3 img-first"
+                src={`http://localhost:4000/products/${relatedProduct.images[0]}`}
+                alt="product-img"
+                style={{ objectFit: "cover", height: "200px" }}
+              />
+            </Link>
+            <Link onClick={handleViewDetails}>
+              <img
+                className="img-fluid w-100 mb-3 img-second"
+                src={`http://localhost:4000/products/${relatedProduct.images[1]}`}
+                style={{ objectFit: "cover", height: "200px" }}
+              />
+            </Link>
+          </div>
+
+          <span className="onsale">{relatedProduct.seller}</span>
+          <div className="product-hover-overlay">
+            <a href="/" onClick={handleSaveToWishlist}>
+              {isSaved ? (
+                <i className="tf-ion-ios-heart"></i>
+              ) : (
+                <i className="tf-ion-ios-heart-outline"></i>
+              )}
+            </a>
+          </div>
+          <div className="product-info">
+            <h2 className="product-title h5 mb-0">
+              <Link onClick={handleViewDetails}>
+              
+              {relatedProduct.name}</Link>
+            </h2>
+            <div className="rating mt-auto">
+              <div className="rating-outer">
+                <div
+                  className="rating-inner"
+                  style={{ width: `${(relatedProduct.ratings / 5) * 100}% ` }}
+                ></div>
+              </div>
+              <span id="no_of_reviews"> {relatedProduct.numOfReviews} Reviews </span>
+            </div>
+            <span className="price">{relatedProduct.price} DT</span>
+            <Link
+             
+              className="btn btn-main mt-3 btn-block"
+              onClick={handleViewDetails}
+            >
+              View Details
+            </Link>
+
+            
+          </div>
+        </div>
+      </div>
+    ))}
+</div>
+
+</div>
+            )}
           </Fragment>
         )}
       </div>

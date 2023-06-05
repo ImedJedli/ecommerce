@@ -26,7 +26,7 @@ const Profile = () => {
               <div className="col-lg-8">
                 <div className="title text-center">
                   <h2 className="text-color">My Profile</h2>
-                  <p>Welcome back ! </p>
+                  <p>Welcome back {user && user.name} ! </p>
                 </div>
               </div>
             </div>

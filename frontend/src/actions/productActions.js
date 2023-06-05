@@ -26,6 +26,7 @@ import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
+  REALTED_PRODUCT_SUCCESS,
   REVIEW_FAIL,
   REVIEW_REQUEST,
   REVIEW_SUCCESS,
@@ -97,9 +98,19 @@ export const getSingleProduct = (id) => async (dispatch) => {
     });
 
     const { data } = await axios.get(`/api/v1/product/${id}`);
+    
+
+
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
-      payload: data.product,
+            
+      /*  payload: {
+        product: data.product,
+        relatedProducts: data.relatedProducts,
+      }, */ 
+payload : data.product,
+
+
     });
   } catch (error) {
     dispatch({

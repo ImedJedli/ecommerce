@@ -7,6 +7,11 @@ import Infos from "../layout/Infos";
 import { toast } from "react-toastify";
 
 const UpdateProfile = () => {
+
+
+  const [emailError, setEmailError] = useState("");
+  const [nameError, setNameError] = useState("");
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -43,12 +48,22 @@ const UpdateProfile = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    setEmailError("");
+    setNameError("");
+
     const formData = new FormData();
     formData.set("name", name);
     formData.set("email", email);
     if (avatar) {
       formData.set("avatar", avatar);
     }
+
+    let isValid = true;
+    
+    if (name.trim().length < 4) {
+      setNameError("Name must be at least 4 characters long");
+      isValid = false;
+    } 
 
     dispatch(updateProfile(formData));
   };
@@ -67,107 +82,125 @@ const UpdateProfile = () => {
     <Fragment>
       <Infos title={"Update profile"} />
 
-      <section className="">
-        <div className="">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col col-xl-10">
-              <div className="card" style={{ borderRadius: "1rem" }}>
-                <div className="row g-0">
-                  <div className="col-md-6 col-lg-5 d-none d-md-block">
-                    <img
-                      src="/assets/images/update.jpg"
-                      alt="login form"
-                      className="img-fluid"
-                      style={{ borderRadius: "1rem 0 0 1rem" }}
-                    />
-                  </div>
-                  <div className="col-md-6 col-lg-7 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-5 text-black">
-                      <form
-                        onSubmit={submitHandler}
-                        encType="multipart/form-data"
-                      >
-                        <h5
-                          className="fw-normal mb-3 pb-3"
-                          style={{ letterSpacing: "1px" }}
-                        >
-                          Update your profile
-                        </h5>
+      
+     
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col col-xl-10">
+            <div className="card" style={{ borderRadius: "1rem" }}>
+              <div className="row g-0">
+                <div className="col-md-6 col-lg-5 d-none d-md-block">
+                  <img
+                    src="/assets/images/update.jpg"
+                    alt="login form"
+                    className="img-fluid-update"
+                    style={{ borderRadius: "1rem 0 0 1rem" }}
+                  />
+                </div>
+      <div className="login-container">
+            <div className="account section">
+              <div className="container">
+                <div className="row justify-content-center" style={{ marginLeft: '60px' }}>
+                 
+                    <div className="login-form  p-5">
+                      <div className="text-center heading">
+                        <h2 className="mb-2">Update profil</h2>
+                        
+                      </div>
 
-                        <div className="form-outline mb-4">
+                      
+
+                      <form onSubmit={submitHandler}
+                      encType="multipart/form-data">
+
+                        <div className="form-group mb-4">
+                          <label htmlFor="username">Username </label>
                           <input
-                            type="text"
-                            id="name_field"
+                            type="username"
+                            id="email_field"
                             value={name || ""}
                             onChange={(e) => setName(e.target.value)}
-                            className="form-control form-control-lg"
-                            placeholder="Full name"
+                           // value={email}
+                            //onChange={(e) => setEmail(e.target.value)}
+                             className={`form-control ${
+                              nameError ? "is-invalid" : ""
+                            }`}
+                            placeholder="Username"
                           />
+                          { (
+                            <div className="invalid-feedback">{nameError}</div>
+                          )}
                         </div>
+                        <div className="form-group">
+                          <label htmlFor="email_field">Email</label>
+                          
 
-                        <div className="form-outline mb-4">
                           <input
-                            type="email"
                             id="email_field"
+                            type="email"
                             value={email || ""}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="form-control form-control-lg"
-                            placeholder="Email address"
+                             className="form-control " 
+                        
+                            placeholder="Email"
                           />
+                          
                         </div>
 
                         <div className="form-group">
-                          <label htmlFor="avatar_upload">Avatar</label>
-                          <div className="d-flex align-items-center">
-                            <div>
-                              <figure className="avatar mr-3 item-rtl">
-                                <img
-                                  src={
-                                    avatarPreview ||
-                                    "/assetes/images/avatar.png"
-                                  }
-                                  className="rounded-circle"
-                                  alt="Avatar Preview"
-                                />
-                              </figure>
-                            </div>
-                            <div className="custom-file">
-                              <input
-                                type="file"
-                                name="avatar"
-                                className="custom-file-input"
-                                id="customFile"
-                                accept="image/*"
-                                onChange={onChange}
+                        <label htmlFor="avatar_upload">Avatar</label>
+                        <div className="d-flex align-items-center">
+                          <div>
+                            <figure className="avatar mr-3 item-rtl">
+                              <img
+                                src={
+                                  avatarPreview ||
+                                  "/assetes/images/avatar.png"
+                                }
+                                className="rounded-circle"
+                                alt="Avatar Preview"
                               />
-                              <label
-                                className="custom-file-label"
-                                htmlFor="customFile"
-                              >
-                                Choose Avatar
-                              </label>
-                            </div>
+                            </figure>
+                          </div>
+                          <div className="custom-file">
+                            <input
+                              type="file"
+                              name="avatar"
+                              className="custom-file-input"
+                              id="customFile"
+                              accept="image/*"
+                              onChange={onChange}
+                            />
+                            <label
+                              className="custom-file-label"
+                              htmlFor="customFile"
+                            >
+                              Choose Avatar
+                            </label>
                           </div>
                         </div>
+                      </div>
 
-                        <div className="pt-1 mb-4">
-                          <button
-                            className="btn btn-main mt-3 btn-block"
-                            type="submit"
-                            disabled={loading ? true : false}
-                          >
-                            Update
-                          </button>
-                        </div>
+                      <div className="pt-1 mb-4">
+                      <button
+                        className="btn btn-main mt-3 btn-block"
+                        type="submit"
+                        disabled={loading ? true : false}
+                      >
+                        Update
+                      </button>
+                    </div>
                       </form>
                     </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+          </div>
+          </div>
+          </div>
+          </div>
+        
     </Fragment>
   );
 };

@@ -51,6 +51,7 @@ const OrdersList = () => {
   };
 
   const { isDeleted } = useSelector((state) => state.order);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     dispatch(allOrders());
@@ -74,14 +75,23 @@ const OrdersList = () => {
         { label: "N° of Items ", field: "numOfItems", sort: "asc" },
         { label: "Amount", field: "amount", sort: "asc" },
         { label: "Status", field: "status", sort: "asc" },
+        {label: "Created At " , field: "createdAt", sort: "asc"},
         { label: "Actions", field: "actions", sort: "asc" },
       ],
 
       rows: [],
     };
 
+    let filteredOrders = orders;
+
+    if (filter) {
+      filteredOrders = orders.filter((order) => {
+        return order.paymentInfo.orderStatus.toLowerCase() === filter.toLowerCase();
+      });
+    }
+
     if (orders) {
-      orders.forEach((order) => {
+      filteredOrders.forEach((order) => {
         data.rows.push({
           id: order._id,
           numOfItems: order.orderItems.length,
@@ -93,7 +103,7 @@ const OrdersList = () => {
             ) : (
               <p style={{ color: "red" }}>{order.paymentInfo.orderStatus}</p>
             ),
-
+          createdAt:order.paymentInfo.createdAt,
           actions: (
             <Fragment>
               <Link
@@ -130,10 +140,30 @@ const OrdersList = () => {
           <Fragment>
             <h1 className="my-5"> All orders</h1>
 
+        
+
+
+             
+
             {loading ? (
               <Loader />
             ) : (
               <Fragment>
+
+              <div className="px-3">
+                <label htmlFor="filter">Filter by Status: </label>
+                <select
+                  id="filter"
+                  className="form-control"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  >
+                  <option value="">All</option>
+                  <option value="Processing">Processing</option>
+    <option value="Shipped">Shipped</option>
+    <option value="Delivered">Delivered</option>
+                </select>
+                </div>
                 <MDBDataTable
                   data={setOrders()}
                   className="px-3"

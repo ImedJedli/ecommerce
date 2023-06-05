@@ -76,7 +76,8 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const apiSearch = new APISearch(Product.find(), req.query)
     .search()
     .filter()
-    .pagination(resPerPage);
+    .pagination(resPerPage)
+    .sort({ createdAt: -1 });
 
   const products = await apiSearch.query;
   //
@@ -94,19 +95,37 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
 // Afficher un produit du BD par ID
 
+
 exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
   }
+
+  // Determine the relatedness criteria (e.g., based on category)
+  const relatedCriteria = {
+    category: product.category,
+  };
+
+  // Query for related products
+  const relatedProducts = await Product.find(relatedCriteria)
+    .where("_id")
+    .ne(product._id)
+    .limit(4); // Adjust the limit as per your requirement
+
   res.status(200).json({
-    sucess: true,
+    success: true,
     product,
+    relatedProducts,
   });
 });
 
-exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+
+
+
+
+/* exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   upload(req, res, async function (err) {
     if (err) {
       if (err instanceof multer.MulterError) {
@@ -128,6 +147,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
         if (image !== "default.jpg") {
           fs.unlink(`./backend/public/products/${image}`, (err) => {
             if (err) {
+              console.error(err);
             }
           });
         }
@@ -137,28 +157,136 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
     const images = req.files
       ? req.files.map((file) => file.filename)
       : product.images;
-    const updateProduct = await Product.findByIdAndUpdate(
+
+    const updateData = {
+      name,
+      price,
+      stock,
+      seller,
+      description,
+      images,
+    };
+
+    if (category) {
+      const categoryObj = await Category.findOne({ name: category });
+
+      if (!categoryObj) {
+        return next(new ErrorHandler("Invalid category", 400));
+      }
+
+      if (product.category && product.category.toString() !== categoryObj.name.toString()) {
+        const oldCategory = await Category.findOne({ name: product.category });
+      
+        if (oldCategory) {
+          oldCategory.products.pull(product._id);
+          await oldCategory.save();
+        }
+      }
+
+      updateData.category = categoryObj.name;
+      categoryObj.products.push(product._id);
+      await categoryObj.save();
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      {
-        name,
-        price,
-        stock,
-        seller,
-        category,
-        description,
-        images,
-      },
+      updateData,
       {
         new: true,
         runValidators: true,
-        productFindAndModify: true,
       }
     );
 
     res.status(200).json({
       success: true,
-      message: "updated",
-      product: updateProduct,
+      message: "Product updated",
+      product: updatedProduct,
+    });
+  });
+});  */
+
+
+exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+  upload(req, res, async function (err) {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return next(new ErrorHandler("Error uploading images", 400));
+      } else {
+        return next(new ErrorHandler("Error uploading images", 400));
+      }
+    }
+
+    const { name, price, stock, seller, category, description } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return next(new ErrorHandler("Product not found"));
+    }
+
+    let images = product.images; // Store the existing images initially
+
+    if (req.files && req.files.length > 0) {
+      // If new images are uploaded, update the images array
+      images = req.files.map((file) => file.filename);
+
+      // Delete the existing images from the server
+      product.images.forEach((image) => {
+        if (image !== "default.jpg" && !images.includes(image)) {
+          fs.unlink(`./backend/public/products/${image}`, (err) => {
+            if (err) {
+              console.error(err);
+            }
+          });
+        }
+      });
+    }
+
+    const updateData = {
+      name,
+      price,
+      stock,
+      seller,
+      description,
+      images,
+    };
+
+    if (category) {
+      const categoryObj = await Category.findOne({ name: category });
+
+      if (!categoryObj) {
+        return next(new ErrorHandler("Invalid category", 400));
+      }
+
+      if (
+        product.category &&
+        product.category.toString() !== categoryObj.name.toString()
+      ) {
+        const oldCategory = await Category.findOne({ name: product.category });
+
+        if (oldCategory) {
+          oldCategory.products.pull(product._id);
+          await oldCategory.save();
+        }
+      }
+
+      updateData.category = categoryObj.name;
+      categoryObj.products.push(product._id);
+      await categoryObj.save();
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated",
+      product: updatedProduct,
     });
   });
 });
@@ -184,7 +312,9 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
     success: true,
     message: "product removed",
   });
-});
+}); 
+
+
 
 exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
   const { rating, comment, productId } = req.body;

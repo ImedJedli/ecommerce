@@ -53,7 +53,8 @@ function Chatbot() {
         {value:2,label: "Order informations", trigger: "orderInfo"},
         {value:3,label: "Shipping informaions", trigger: "shippingInfo"},
         {value:4,label: "What payment methods do you accept?", trigger: "paymentInfo"},
-        {value:5,label: "How can I contact customer support?", trigger: "contactSupport"},
+        {value:5,label: "How can i contact customer support?", trigger: "contactSupport"},
+        {value:6,label: "How can i leave a review on a product", trigger: "reviewInfo"},
       ]
       },
 
@@ -140,6 +141,12 @@ function Chatbot() {
             id: "orderCancelled",
             message: "Yes, you can cancel your order before it has been shipped. Please contact our customer support team as soon as possible to assist you with the cancellation. ",
             end: true,
+          },
+
+          {
+            id:"reviewInfo",
+            message:"To leave a review you must login or create and account.",
+            end:true
           },
           
 

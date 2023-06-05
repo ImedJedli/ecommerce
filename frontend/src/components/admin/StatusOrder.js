@@ -36,6 +36,8 @@ function StatusOrder() {
   } = order;
 
   const orderId = id;
+  const showDownloadButton =
+  orderStatus === "Shipped" || orderStatus === "Delivered";
 
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
@@ -237,16 +239,18 @@ function StatusOrder() {
                     Update Status
                   </button>
 
-                  <button className="btn btn-primary btn-block">
-                    <PDFDownloadLink
-                      document={<GenerateInvoice order={order} />}
-                      fileName="order.pdf"
-                    >
-                      {({ loading }) =>
-                        loading ? "Generating PDF..." : "Download Invoice"
-                      }
-                    </PDFDownloadLink>
-                  </button>
+                  {paymentInfo && paymentInfo.orderStatus ==="Shipped" || paymentInfo && paymentInfo.orderStatus ==="Delivered" && (
+                    <button className="btn btn-primary btn-block">
+                      <PDFDownloadLink
+                        document={<GenerateInvoice order={order} />}
+                        fileName="order.pdf"
+                      >
+                        {({ loading }) =>
+                          loading ? "Generating PDF..." : "Download Invoice"
+                        }
+                      </PDFDownloadLink>
+                    </button>
+                  )}
                 </div>
               </div>
             )}

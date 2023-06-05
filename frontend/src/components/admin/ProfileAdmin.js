@@ -1,11 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment , useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import Infos from "../layout/Infos";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
+import { allUsers } from "../../actions/userAction";
 
 const ProfileAdmin = () => {
+
+
+
   console.log(
     "state.auth:",
     useSelector((state) => state.auth)
@@ -30,7 +34,7 @@ const ProfileAdmin = () => {
               <div className="col-lg-8">
                 <div className="title text-center">
                   <h2 className="text-color">My Profile</h2>
-                  <p>Welcome back ! </p>
+                  <p>Welcome back {user && user.name} ! </p>
                 </div>
               </div>
             </div>
@@ -46,7 +50,7 @@ const ProfileAdmin = () => {
                   )}
                 </figure>
                 <Link
-                  to="/me/update"
+                  to="/admin/me/update"
                   id="edit_profile"
                   className="btn btn-primary btn-block my-5"
                 >

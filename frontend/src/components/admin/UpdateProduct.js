@@ -59,7 +59,10 @@ const UpdateProduct = () => {
       setCategory(product.category);
       setSeller(product.seller);
       setStock(product.stock);
-      setOldImages(product.images);
+     // setOldImages(product.images);
+    // setOldImages([...product.images]);
+    setOldImages(product.images || [])
+
     }
 
     if (error) {
@@ -90,14 +93,19 @@ const UpdateProduct = () => {
     formData.set("stock", stock);
     formData.set("seller", seller);
 
-    images.forEach((image) => {
+    /* oldImages.forEach((image) => {
       formData.append("images", image);
-    });
+    }); */
+    
+      images.forEach((image) => {
+        formData.append("images", image);
+      });
+    
 
     dispatch(updateProduct(product._id, formData));
   };
 
-  const onChange = (e) => {
+ const onChange = (e) => {
     const files = e.target.files;
     const filesArray = Array.from(files);
     setImages([...images, ...filesArray]);
@@ -110,7 +118,9 @@ const UpdateProduct = () => {
       reader.readAsDataURL(file);
     });
   };
+ 
 
+  
   return (
     <Fragment>
       <Infos title="create blog" />

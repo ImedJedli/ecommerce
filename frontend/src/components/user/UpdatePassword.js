@@ -7,6 +7,10 @@ import Infos from "../layout/Infos";
 import { toast } from "react-toastify";
 
 const UpdatePassword = () => {
+
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
 
@@ -29,6 +33,19 @@ const UpdatePassword = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    setOldPasswordError("");
+    setPasswordError("");
+
+    let isValid = true;
+    if (!oldPassword.trim()) {
+      setOldPasswordError("Old password is required");
+      isValid = false;
+    }
+    if (!password) {
+      setPasswordError("New password is required");
+      isValid = false;
+    }
+
     const formData = new FormData();
     formData.set("oldPassword", oldPassword);
     formData.set("password", password);
@@ -36,52 +53,13 @@ const UpdatePassword = () => {
     dispatch(updatePassword(formData));
   };
 
-  /*
-  return (
-    <Fragment>
-      <Infos title={'Change password'} />
-      <div className="row wrapper">
-                <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler}>
-                        <h1 className="mt-2 mb-5">Update Password</h1>
-                        <div className="form-group">
-                            <label htmlFor="old_password_field">Old Password</label>
-                            <input
-                                type="password"
-                                id="old_password_field"
-                                className="form-control"
-                                value={oldPassword}
-                                onChange={(e) => setOldPassword(e.target.value)}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="new_password_field">New Password</label>
-                            <input
-                                type="password"
-                                id="new_password_field"
-                                className="form-control"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-
-                        <button type="submit" className="btn update-btn btn-block mt-4 mb-3" disabled={loading ? true : false}>Update Password</button>
-                    </form>
-                </div>
-            </div>
-    </Fragment>
-    
-  )
-}
-*/
+  
 
   return (
     <Fragment>
       <Infos title={"Change password"} />
 
-      <section className="vh-100">
-        <div className="container py-5 h-100">
+     
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col col-xl-10">
               <div className="card" style={{ borderRadius: "1rem" }}>
@@ -94,25 +72,35 @@ const UpdatePassword = () => {
                       style={{ borderRadius: "1rem 0 0 1rem" }}
                     />
                   </div>
-                  <div className="col-md-6 col-lg-7 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-5 text-black">
-                      <form onSubmit={submitHandler}>
-                        <h5
-                          className="fw-normal mb-3 pb-3"
-                          style={{ letterSpacing: "1px" }}
-                        >
-                          Change your password
-                        </h5>
 
-                        <div className="form-outline mb-4">
+                 <div className="login-container">
+            <div className="account section">
+              <div className="container">
+                <div className="row justify-content-center" style={{ marginLeft: '60px' }}>
+                 
+                    <div className="login-form  p-5">
+                      <form onSubmit={submitHandler}>
+                        
+                        <div className="text-center heading">
+                        <h2 className="mb-2">Update password</h2>
+                        
+                      </div>
+
+                        <div className="form-group mb-4">
+                        <label htmlFor="oldPassword">Old password </label>
                           <input
                             type="password"
                             id="password_field"
                             value={oldPassword}
                             onChange={(e) => setOldPassword(e.target.value)}
-                            className="form-control form-control-lg"
-                            placeholder="Old password"
+                            className={`form-control ${
+                              oldPasswordError ? "is-invalid" : ""
+                            }`}
+                            placeholder="Username"
                           />
+                          { (
+                            <div className="invalid-feedback">{}</div>
+                          )}
                         </div>
 
                         <div className="form-outline mb-4">
@@ -121,9 +109,14 @@ const UpdatePassword = () => {
                             id="password_field"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="form-control form-control-lg"
+                            className={`form-control ${
+                              passwordError ? "is-invalid" : ""
+                            }`}
                             placeholder="New password"
                           />
+                          { (
+                            <div className="invalid-feedback">{}</div>
+                          )}
                         </div>
 
                         <div className="pt-1 mb-4">
@@ -142,8 +135,9 @@ const UpdatePassword = () => {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+      </div>
+      </div>
+      </div>
     </Fragment>
   );
 };

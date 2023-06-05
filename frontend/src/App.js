@@ -8,11 +8,10 @@ import Home from "./components/Home";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import ProductDetails from "./components/product/ProductDetails";
-import { useLocation } from "react-router-dom";
 
 import Login from "./components/user/Login";
 
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Navigate,Route, BrowserRouter as Router, Routes , useNavigate   } from "react-router-dom";
 import Error from "./components/layout/Error"
 import Cart from "./components/cart/Cart";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
@@ -51,7 +50,8 @@ import ProtectedRoute from "./components/route/ProtectedRoute";
 import CategoriesProducts from "./components/admin/CategoriesProducts";
 import ProfileAdmin from "./components/admin/ProfileAdmin";
 import AdminPasswordUpdate from "./components/admin/AdminPasswordUpdate";
-
+import ProtectedAdminRoute from "./components/route/ProtectedAdminRoute";
+import Sidebar from "./components/admin/Sidebar";
 
 // <Route path="/shipping" element={<Shipping />} />
 //<Route path="/shipping" element={<ProtectedRoute isAuthenticated={isAuthenticated}  element={<Shipping />} />} exact />
@@ -70,6 +70,7 @@ function App() {
   console.log("rolleee", isAdmin);
 
   const dispatch = useDispatch();
+  const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -78,16 +79,38 @@ function App() {
     }
   }, [dispatch, isAuthenticated]);
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token && !isAuthenticated) {
+      dispatch(loadUser()).then(() => {
+        setUserLoaded(true);
+      });
+    } else {
+      setUserLoaded(true);
+    }
+  }, [dispatch, isAuthenticated]);
+
+  if (!userLoaded) {
+    // Show a loading spinner or placeholder while user data is being loaded
+    return <div>Loading...</div>;
+  }
+  //const navigate= useNavigate()
+
   /* //           <Route
 path="/dashboard"
 element={<ProtectedRoute component={Dashboard} />}
 />  */
 
   /* {!isAdmin && <Header />} */
+
+
   return (
     <Router>
-      {!isAdmin && <Header />}
+     {!isAdmin && <Header />}
 
+      
       <Routes>
       <Route path="*" element={<Error />} />
 
@@ -98,7 +121,21 @@ element={<ProtectedRoute component={Dashboard} />}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/admin/me" element={<ProfileAdmin/>} />
+        <Route
+          path="/admin/me"
+          element={
+            isAuthenticated && isAdmin ? <ProfileAdmin /> : <Navigate to="/login" />
+          }
+        />
+
+
+        <Route
+        path="/dashboard"
+        element={
+          isAuthenticated && isAdmin ? <Dashboard /> : <Navigate to="/login" />
+        }
+      />
+
         <Route path="/admin/password/update" element={<AdminPasswordUpdate />} />
         <Route path="/me" element={<Profile />} exact />
         <Route path="/me/update" element={<UpdateProfile />} exact />
@@ -114,7 +151,6 @@ element={<ProtectedRoute component={Dashboard} />}
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/shipping" element={<Shipping />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/categorie/:id" element={<CategoriesProducts />} />
 
         <Route path="/admin/coupons" element={<CouponsList />} />

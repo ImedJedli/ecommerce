@@ -51,7 +51,7 @@ const GenerateInvoice = ({ order }) => (
             </Text>
             <Text style={styles.invoiceDetails}>
               <Text style={styles.circle}></Text>Delivered At :{" "}
-              {order.paymentInfo &&
+              {order && order.paymentInfo &&
                 order.paymentInfo.deliveredAt.substring(0, 10)}
             </Text>
             <Text style={styles.invoiceDetails}>

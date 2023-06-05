@@ -115,7 +115,7 @@ export const loadUser = () => async (dispatch) => {
     };
 
     const { data } = await axios.get("/api/v3/me", config);
-
+    const userRole = data.user.role;
     dispatch({
       type: LOAD_USER_SUCCESS,
       payload: data.user,

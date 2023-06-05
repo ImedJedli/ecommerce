@@ -13,6 +13,8 @@ import {
   faUsers,
   faStar,
   faBlog,
+  faRightToBracket,
+  faIdCard
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
@@ -29,6 +31,8 @@ const Sidebar = () => {
     dispatch(logout());
     toast.success("Logged out successfully.");
   };
+
+ 
 
   return (
     <Fragment>
@@ -53,9 +57,18 @@ const Sidebar = () => {
 
               <ul className="collapse list-unstyled" id="loginSubmenu">
                 <li>
+                  <Link to="/admin/me" >
+                    {" "}
+                    <FontAwesomeIcon icon={faIdCard}/> Profile
+                  </Link>
+                </li>
+              </ul>
+
+              <ul className="collapse list-unstyled" id="loginSubmenu">
+                <li>
                   <Link to="/" onClick={logoutHandler}>
                     {" "}
-                    logout
+                   <FontAwesomeIcon icon={faRightToBracket}/> Logout
                   </Link>
                 </li>
               </ul>
@@ -121,7 +134,7 @@ const Sidebar = () => {
               </a>
               <ul className="collapse list-unstyled" id="categoriesSubmenu">
                 <li>
-                  <Link to="/categories">
+                  <Link to="/admin/categories">
                     <i className="fa fa-clipboard"></i> All
                   </Link>
                 </li>

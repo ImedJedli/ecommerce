@@ -37,6 +37,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      
       setTimeout(() => {
         redirectToDashboard();
       }, 200);

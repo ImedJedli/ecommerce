@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import { getAdminProducts } from "../../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { allOrders } from "../../actions/orderActions";
@@ -13,12 +13,16 @@ import {
   faCoins,
   faBoxOpen,
   faBlog,
-  faUsers
+  faUsers,
+  
 } from "@fortawesome/free-solid-svg-icons";
 import {getAllCategories} from "../../actions/categoryActions" ;
 import { getAllCoupons} from "../../actions/couponActions";
 import { getAllBlogs} from "../../actions/blogActions";
+
+
 const Dashboard = () => {
+
 
   const dispatch = useDispatch();
 
@@ -28,8 +32,7 @@ const Dashboard = () => {
   const { categories} = useSelector((state) => state.allCategories);
   const { coupons} = useSelector((state) => state.allCoupons);
   const { blogs} = useSelector((state)=> state.allBlogs)
-/*   const deliveredOrders = orders && orders.filter(order => order.paymentInfo.orderStatus === "Delivered");
- */
+
   const { users } = useSelector((state) => state.allUsers);
 
  const availablePro = products && products.filter(product => product.stock >0).length;

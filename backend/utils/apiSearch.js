@@ -39,6 +39,11 @@ class APISearch {
     this.query = this.query.limit(page).skip(skip);
     return this;
   }
+
+  sort(sortBy) {
+    this.query = this.query.sort(sortBy);
+    return this;
+  }
 }
 
 module.exports = APISearch;
