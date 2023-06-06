@@ -72,11 +72,9 @@ exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
 
   const productIds = category.products;
 
-  // Delete the category and associated products
   const deletedCategory = await Category.findByIdAndDelete(category);
   await Product.deleteMany({ _id: { $in: productIds } });
 
-  //await category.remove();
 
   res.status(200).json({
     success: true,

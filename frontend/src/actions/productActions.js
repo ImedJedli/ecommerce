@@ -14,9 +14,6 @@ import {
   DELETE_REVIEW_FAIL,
   DELETE_REVIEW_REQUEST,
   DELETE_REVIEW_SUCCESS,
-  GET_ALL_CATEGORIES_FAIL,
-  GET_ALL_CATEGORIES_REQUEST,
-  GET_ALL_CATEGORIES_SUCCESS,
   GET_REVIEWS_FAIL,
   GET_REVIEWS_REQUEST,
   GET_REVIEWS_SUCCESS,
@@ -26,7 +23,6 @@ import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
-  REALTED_PRODUCT_SUCCESS,
   REVIEW_FAIL,
   REVIEW_REQUEST,
   REVIEW_SUCCESS,
@@ -104,10 +100,7 @@ export const getSingleProduct = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
             
-      /*  payload: {
-        product: data.product,
-        relatedProducts: data.relatedProducts,
-      }, */ 
+ 
 payload : data.product,
 
 

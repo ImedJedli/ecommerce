@@ -1,9 +1,7 @@
 const Order = require("../models/order");
 const Product = require("../models/product");
-
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
-// new order
 
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
@@ -49,7 +47,6 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// my order
 
 exports.getMyOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ user: req.user.id });
@@ -60,7 +57,6 @@ exports.getMyOrders = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// admin : all orders
 
 exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find();
@@ -79,7 +75,6 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-//update status
 
 exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
@@ -115,7 +110,6 @@ async function updateStock(id, quantity) {
   await product.save({ validateBeforeSave: false });
 }
 
-// delete order
 
 exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
@@ -128,3 +122,6 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
+
+
+

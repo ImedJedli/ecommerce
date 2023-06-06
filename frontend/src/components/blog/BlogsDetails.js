@@ -12,7 +12,7 @@ const BlogsDetails = () => {
   const dispatch = useDispatch();
 
   const { loading, error, blog } = useSelector((state) => state.blogDetails);
-  const { user } = useSelector((state) => state.userDetails);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (id) {
@@ -98,8 +98,12 @@ const BlogsDetails = () => {
                   </p>
                   <p dangerouslySetInnerHTML={{ __html: blog.description }} />
 
+
+                  
                   <h5>Share on social media :</h5>
-                  <div className="share-buttons">
+
+                  {user ? (
+                    <div className="share-buttons">
                     <i
                       id="fb"
                       className="fa fa-facebook-square"
@@ -131,6 +135,12 @@ const BlogsDetails = () => {
                       }}
                     ></i>
                   </div>
+                  ) : (
+                    <div className="alert alert-danger mt-5" type="alert">
+                      Login to share the blog
+                    </div>
+                  )}
+                  
                 </Fragment>
               )}
             </div>

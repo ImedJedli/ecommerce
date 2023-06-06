@@ -59,8 +59,7 @@ const UpdateProduct = () => {
       setCategory(product.category);
       setSeller(product.seller);
       setStock(product.stock);
-     // setOldImages(product.images);
-    // setOldImages([...product.images]);
+   
     setOldImages(product.images || [])
 
     }
@@ -93,9 +92,7 @@ const UpdateProduct = () => {
     formData.set("stock", stock);
     formData.set("seller", seller);
 
-    /* oldImages.forEach((image) => {
-      formData.append("images", image);
-    }); */
+ 
     
       images.forEach((image) => {
         formData.append("images", image);

@@ -10,7 +10,6 @@ const fs = require("fs");
 
 const multer = require("multer");
 
-// Configure Multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const directory = "./backend/public/avatars";
@@ -27,11 +26,11 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5, // 5MB file size limit
+    fileSize: 1024 * 1024 * 5, 
   },
 });
 
-// Saving user
+
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   upload.single("avatar")(req, res, async function (err) {
@@ -78,7 +77,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-// forgot password
 
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
@@ -143,7 +141,6 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-//profile
 
 exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user._id);
@@ -153,7 +150,6 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// upade pwd
 
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
@@ -168,7 +164,6 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-// update user profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   upload.single("avatar")(req, res, async function (err) {
     if (err) {
@@ -180,7 +175,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
       }
     }
 
-    // Update user document with new data
     const newData = {
       name: req.body.name,
       email: req.body.email,
@@ -200,7 +194,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// logout
 
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
@@ -223,7 +216,6 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// user details
 
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
@@ -238,7 +230,6 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// admin
 
 exports.updateUser = catchAsyncErrors(async (req, res, next) => {
   const newUserDate = {
@@ -258,7 +249,6 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// delete
 
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
@@ -267,7 +257,6 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(`User does not found : ${req.params.id}`));
   }
 
-  //const orderIds = user.orderItems.map(orderItem => orderItem._id);
   const deletedUser = await User.findByIdAndDelete(user);
   await Order.deleteMany({ user: user });
 
@@ -279,7 +268,6 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     });
   }
 
-  //await user.remove();
 
   res.status(200).json({
     success: true,

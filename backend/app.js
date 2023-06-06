@@ -5,11 +5,12 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
-// Import all routes
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 

@@ -3,17 +3,7 @@ import React from "react";
 const Error = () => {
   return (
 
-    /* <div className="login-container">
-            
-                      <div className="text-center heading">
-                        <div className="mb-2">
-                        <img className="error-img" src="/assets/images/error.jpg" alt="404 Not Found" style={{width: "30%"}}/>
 
-                        </div>   
-                      </div>
-
-              
-            </div> */
 
             <section class="page_404">
   <div class="container">
