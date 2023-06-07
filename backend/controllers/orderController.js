@@ -58,7 +58,7 @@ exports.getMyOrders = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
+/* exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find();
 
   let totalAmount = 0;
@@ -73,7 +73,33 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
     totalAmount,
     orders,
   });
-});
+}); */
+
+exports.getAllOrders = catchAsyncErrors(async(req,res,next)=>{
+
+  const deliverUserId = req.query.deliverUserId;
+
+let filter = {};
+if (deliverUserId) {
+filter = { deliverUserId: deliverUserId };
+}
+
+const orders = await Order.find(filter);
+
+  let totalAmount = 0;
+  orders.forEach(order => {
+       
+        console.log(`Total price for order ${order._id}: ${order.totalPrice}`);
+        totalAmount += order.paymentInfo.totalPrice
+       
+  })
+
+  res.status(200).json({
+        success:true,
+        totalAmount,
+        orders
+  })
+})
 
 
 exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
@@ -109,6 +135,32 @@ async function updateStock(id, quantity) {
   product.stock = product.stock - quantity;
   await product.save({ validateBeforeSave: false });
 }
+
+
+exports.deliverAffect = catchAsyncErrors(async(req,res,next)=>{
+  try {
+        const {  deliverUserId } = req.body;
+        const { orderId } = req.params;
+    
+        const order = await Order.findById(orderId);
+    
+        if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+        }
+    
+        // Update the deliverUserId of the order
+        order.deliverUserId = deliverUserId;
+    
+        // Save the updated order
+        await order.save();
+    
+        res.status(200).json({ message: 'Deliver user assigned to order successfully' });
+      } catch (error) {
+        console.error('Error assigning deliver user to order:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    
+})
 
 
 exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {

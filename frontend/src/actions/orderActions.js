@@ -19,6 +19,9 @@ import {
   UPDATE_ORDER_FAIL,
   UPDATE_ORDER_REQUEST,
   UPDATE_ORDER_SUCCESS,
+  USER_ORDER_REQUEST,
+  USER_ORDER_SUCCESS,
+  USER_ORDER_FAIL
 } from "../constants/orderConstantes";
 
 export const createOrder = (
@@ -143,6 +146,34 @@ export const deleteOrder = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_ORDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const affectUser = (orderId, orderData) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_ORDER_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/v4/affect/deliver/${orderId}`,
+      orderData,
+      config
+    );
+
+    dispatch({
+      type: USER_ORDER_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_ORDER_FAIL,
       payload: error.response.data.message,
     });
   }

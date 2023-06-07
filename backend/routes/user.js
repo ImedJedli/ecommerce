@@ -49,4 +49,6 @@ router
   .put(isAuthentificationUser, authorizeRoles("admin"), updateUser)
   .delete(isAuthentificationUser, authorizeRoles("admin"), deleteUser);
 
+  router.route("/deliver/logout").get(logout);
+
 module.exports = router;

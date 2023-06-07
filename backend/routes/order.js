@@ -8,6 +8,7 @@ const {
   getAllOrders,
   updateOrderStatus,
   deleteOrder,
+  deliverAffect,
   
 } = require("../controllers/orderController");
 const {
@@ -29,4 +30,12 @@ router
   .route("/admin/order/:id")
   .delete(isAuthentificationUser, authorizeRoles("admin"), deleteOrder);
 
+  router.route('/affect/deliver/:orderId').put(isAuthentificationUser,authorizeRoles("admin"),deliverAffect);
+
+  router
+  .route("/deliver/orders")
+  .get(getAllOrders);
+
+  router.route('/deliver/order/:id').put(updateOrderStatus)
+  router.route("/deliver/order/:id").get( getSingleOrder);
 module.exports = router;

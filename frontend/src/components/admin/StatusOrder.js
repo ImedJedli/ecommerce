@@ -13,6 +13,8 @@ import Loader from "../layout/Loader";
 import GenerateInvoice from "./GenerateInvoice";
 import Sidebar from "./Sidebar";
 import { toast } from "react-toastify";
+import { affectUser } from "../../actions/orderActions";
+import { allUsers, getUserDetails } from "../../actions/userAction";
 
 function StatusOrder() {
   const { id } = useParams();
@@ -25,6 +27,11 @@ function StatusOrder() {
   const dispatch = useDispatch();
   const { loading, order = {} } = useSelector((state) => state.orderDetails);
   const { error, isUpdated } = useSelector((state) => state.order);
+  const {  users } = useSelector((state) => state.allUsers);
+
+  const { user: deliverUser } = useSelector((state) => state.userDetails);
+
+  const [deliverUserId, setDeliverUserId] = useState("");
 
   const {
     shippingInfo,
@@ -40,6 +47,8 @@ function StatusOrder() {
   orderStatus === "Shipped" || orderStatus === "Delivered";
 
   useEffect(() => {
+    dispatch(allUsers());
+    dispatch(getUserDetails(order.deliverUserId));
     dispatch(getOrderDetails(orderId));
 
     if (error) {
@@ -51,6 +60,7 @@ function StatusOrder() {
       toast.success("Order updated succesfuly");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
+
   }, [dispatch, toast, error, isUpdated, orderId]);
 
   const updateOrderHandler = (id) => {
@@ -69,6 +79,14 @@ function StatusOrder() {
 
       dispatch(updateOrder(id, formData));
     }
+  };
+
+  const affectOrderHandler = (orderId) => {
+    const formData = new FormData();
+    formData.set("deliverUserId", deliverUserId);
+    
+    dispatch(affectUser(orderId, formData));
+    toast.info("User affected successfully");
   };
 
   const shippingDetails =
@@ -113,6 +131,10 @@ function StatusOrder() {
                   <p>
                     <b>Shipping:</b> {paymentInfo && paymentInfo.shippingPrice}{" "}
                     DT
+                  </p>
+
+                  <p>
+                    <b>Deliver name:</b> {deliverUser && deliverUser.name}
                   </p>
 
                   <hr />
@@ -237,6 +259,36 @@ function StatusOrder() {
                     onClick={() => updateOrderHandler(order._id)}
                   >
                     Update Status
+                  </button>
+
+
+
+                  <h4 className="my-4">Delivers</h4>
+
+                  <div className="form-group">
+                  <select
+                  className="form-control"
+                  name="deliverUser"
+                  value={deliverUserId}
+                  onChange={(e) => setDeliverUserId(e.target.value)}
+                >
+                  <option value="">Select Deliver User</option>
+                  {users &&
+                    users
+                      .filter((user) => user.role === "deliver")
+                      .map((user) => (
+                        <option key={user._id} value={user._id}>
+                          {user.name}
+                        </option>
+                      ))}
+                </select>
+                  </div>
+
+                  <button
+                    className="btn btn-primary btn-block"
+                    onClick={() => affectOrderHandler(order._id)}
+                    >
+                    Affect deliver
                   </button>
 
                   {paymentInfo && paymentInfo.orderStatus ==="Shipped" || paymentInfo && paymentInfo.orderStatus ==="Delivered" && (

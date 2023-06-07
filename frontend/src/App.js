@@ -8,7 +8,7 @@ import Home from "./components/Home";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import ProductDetails from "./components/product/ProductDetails";
-
+import AdminCreateUser from "./components/admin/AdminCreateUser";
 import Login from "./components/user/Login";
 
 import { Navigate,Route, BrowserRouter as Router, Routes , useNavigate   } from "react-router-dom";
@@ -125,6 +125,13 @@ element={<ProtectedRoute component={Dashboard} />}
           path="/admin/me"
           element={
             isAuthenticated && isAdmin ? <ProfileAdmin /> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/admin/add/new"
+          element={
+            isAuthenticated && isAdmin ? <AdminCreateUser /> : <Navigate to="/login" />
           }
         />
 

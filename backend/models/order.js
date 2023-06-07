@@ -20,6 +20,13 @@ const orderSchema = mongoose.Schema({
     ref: "User",
   },
 
+   deliverUserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }, 
+
+
+
   orderItems: [
     {
       name: {

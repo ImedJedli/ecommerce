@@ -20,6 +20,9 @@ import {
   DELETE_ORDER_SUCCESS,
   DELETE_ORDER_RESET,
   DELETE_ORDER_FAIL,
+  USER_ORDER_REQUEST,
+USER_ORDER_SUCCESS,
+USER_ORDER_FAIL
 } from "../constants/orderConstantes";
 
 export const newOrderReducer = (state = {}, action) => {
@@ -144,6 +147,7 @@ export const allOrdersReducer = (state = { orders: [] }, action) => {
 export const orderReducer = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_ORDER_REQUEST:
+      case USER_ORDER_REQUEST:
     case DELETE_ORDER_REQUEST:
       return {
         ...state,
@@ -151,6 +155,7 @@ export const orderReducer = (state = {}, action) => {
       };
 
     case UPDATE_ORDER_SUCCESS:
+      case USER_ORDER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -165,6 +170,7 @@ export const orderReducer = (state = {}, action) => {
       };
 
     case UPDATE_ORDER_FAIL:
+      case UPDATE_ORDER_FAIL:
     case DELETE_ORDER_FAIL:
       return {
         ...state,

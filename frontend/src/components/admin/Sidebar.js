@@ -177,10 +177,29 @@ const Sidebar = () => {
               </Link>
             </li>
 
+
             <li>
-              <Link to="/admin/users">
+              <a
+                href="#usersSubmenu"
+                data-toggle="collapse"
+                aria-expanded="false"
+                className="dropdown-toggle"
+              >
                 <i className="fa fa-users"></i> Users
-              </Link>
+              </a>
+              <ul className="collapse list-unstyled" id="usersSubmenu">
+                <li>
+                  <Link to="/admin/users">
+                    <i className="fa fa-clipboard"></i> All
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/admin/add/new">
+                    <i className="fa fa-plus"></i> Create
+                  </Link>
+                </li>
+              </ul>
             </li>
 
             <li>
