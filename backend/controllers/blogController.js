@@ -61,6 +61,8 @@ exports.createBlog = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+
+
 exports.getAllBlogs = catchAsyncErrors(async (req, res, next) => {
   const blogsCount = await Blog.countDocuments();
 

@@ -75,7 +75,7 @@ const OrdersList = () => {
         { label: "N° of Items ", field: "numOfItems", sort: "asc" },
         { label: "Amount", field: "amount", sort: "asc" },
         { label: "Status", field: "status", sort: "asc" },
-        {label: "Created At " , field: "createdAt", sort: "asc"},
+        { label: "Created At ", field: "createdAt", sort: "asc" },
         { label: "Actions", field: "actions", sort: "asc" },
       ],
 
@@ -86,7 +86,9 @@ const OrdersList = () => {
 
     if (filter) {
       filteredOrders = orders.filter((order) => {
-        return order.paymentInfo.orderStatus.toLowerCase() === filter.toLowerCase();
+        return (
+          order.paymentInfo.orderStatus.toLowerCase() === filter.toLowerCase()
+        );
       });
     }
 
@@ -103,7 +105,7 @@ const OrdersList = () => {
             ) : (
               <p style={{ color: "red" }}>{order.paymentInfo.orderStatus}</p>
             ),
-          createdAt:order.paymentInfo.createdAt,
+          createdAt: order.paymentInfo.createdAt,
           actions: (
             <Fragment>
               <Link
@@ -140,29 +142,24 @@ const OrdersList = () => {
           <Fragment>
             <h1 className="my-5"> All orders</h1>
 
-        
-
-
-             
-
             {loading ? (
               <Loader />
             ) : (
               <Fragment>
-
-              <div className="px-3">
-                <label htmlFor="filter">Filter by Status: </label>
-                <select
-                  id="filter"
-                  className="form-control"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
+                <div className="px-3">
+                  <label htmlFor="filter">Filter by Status: </label>
+                  <select
+                    id="filter"
+                    className="form-control"
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
                   >
-                  <option value="">All</option>
-                  <option value="Processing">Processing</option>
-    <option value="Shipped">Shipped</option>
-    <option value="Delivered">Delivered</option>
-                </select>
+                    <option value="">All</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
                 </div>
                 <MDBDataTable
                   data={setOrders()}

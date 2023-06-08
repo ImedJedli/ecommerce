@@ -38,10 +38,11 @@ const Dashboard = () => {
  const availablePro = products && products.filter(product => product.stock >0).length;
  const adminUsers = users && users.filter(user =>user.role ==="admin").length;
  const customerUsers = users && users.filter(user =>user.role ==="user").length;
+ const deliverUsers = users && users.filter(user => user.role ==="deliver").length;
  const processingOrders = orders && orders.filter(order =>order && order.paymentInfo.orderStatus === "Processing").length;
  const shippedOrders = orders && orders.filter(order =>order && order.paymentInfo.orderStatus === "Shipped").length;
  const deliveredOrders = orders && orders.filter(order =>order && order.paymentInfo.orderStatus === "Delivered").length;
-
+ 
 
   let outOfStock = 0;
   products.forEach((product) => {
@@ -176,6 +177,9 @@ const Dashboard = () => {
                       <p className="m-b-0" style={{color: "white" }}>
                         Admin Users<span className="f-right">{adminUsers}</span>
                       </p>
+                      <p className="m-b-0" style={{color: "white" }}>
+                      Deliver Users<span className="f-right">{deliverUsers}</span>
+                    </p>
                       <p className="m-b-0" style={{color: "white" }}>
                         Customer Users<span className="f-right">{customerUsers}</span>
                       </p>

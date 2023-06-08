@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function product({ product, col }) {
   const [isSaved, setIsSaved] = useState(false);
+  
 
   const handleSaveToWishlist = () => {
     setIsSaved(!isSaved);

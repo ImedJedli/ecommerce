@@ -52,6 +52,7 @@ import ProfileAdmin from "./components/admin/ProfileAdmin";
 import AdminPasswordUpdate from "./components/admin/AdminPasswordUpdate";
 import ProtectedAdminRoute from "./components/route/ProtectedAdminRoute";
 import Sidebar from "./components/admin/Sidebar";
+import AdminProdileUpdate from './components/admin/AdminProfileUpdate'
 
 // <Route path="/shipping" element={<Shipping />} />
 //<Route path="/shipping" element={<ProtectedRoute isAuthenticated={isAuthenticated}  element={<Shipping />} />} exact />
@@ -144,6 +145,7 @@ element={<ProtectedRoute component={Dashboard} />}
       />
 
         <Route path="/admin/password/update" element={<AdminPasswordUpdate />} />
+        <Route path="/admin/me/update" element={<AdminProdileUpdate />} />
         <Route path="/me" element={<Profile />} exact />
         <Route path="/me/update" element={<UpdateProfile />} exact />
         <Route path="/password/update" element={<UpdatePassword />} exact />
@@ -158,7 +160,8 @@ element={<ProtectedRoute component={Dashboard} />}
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/shipping" element={<Shipping />} />
 
-        <Route path="/categorie/:id" element={<CategoriesProducts />} />
+        <Route path="/admin/categorie/:id" element={<UpdateCategory />} />
+        <Route path="/admin/categoriep/:id" element={<CategoriesProducts />} />
 
         <Route path="/admin/coupons" element={<CouponsList />} />
         <Route path="/coupon/:id" element={<UpdateCoupon />} />
@@ -174,12 +177,12 @@ element={<ProtectedRoute component={Dashboard} />}
         />
         <Route path="/admin/orders" element={<OrdersList />} />
         <Route path="/admin/order/:id" element={<StatusOrder />} />
-        <Route path="admin/users" element={<UsersList />} />
+        <Route path="/admin/users" element={<UsersList />} />
         <Route path="/admin/user/:id" element={<UpdateUser />} />
         <Route path="/admin/reviews/" element={<ProductReviews />} />
-        <Route path="/admin/category" element={<CreateCategory />} />
-        <Route path="/categories" element={<CategoriesList />} />
-        <Route path="/category/:id" element={<UpdateCategory />} />
+        <Route path="/admin/add/category" element={<CreateCategory />} />
+        <Route path="/admin/categories" element={<CategoriesList />} />
+        <Route path="/admin/category/:id" element={<UpdateCategory />} />
         
 
         <Route path="/admin/blogs" isAdmin={true} element={<BlogsList />} />

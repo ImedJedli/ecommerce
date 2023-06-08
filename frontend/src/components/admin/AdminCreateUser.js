@@ -49,9 +49,7 @@ function AdminCreateUser() {
           }
           dispatch(clearErrors());
         } else {
-          toast.success(" Account created , Welcome to DropSell !", {
-            type: "success",
-          });
+          
         }
       }, [dispatch, toast, isAuthenticated, error]);
     
@@ -63,7 +61,7 @@ function AdminCreateUser() {
         setPasswordError("");
         setRoleError("");
     
-       /*  let isValid = true;
+         let isValid = true;
         if (!name.trim()) {
           setNameError("Name is required");
           isValid = false;
@@ -82,13 +80,8 @@ function AdminCreateUser() {
           setPasswordError("Password must be different from name and email");
           isValid = false;
         }
-
-        if (!role.trim()) {
-            setNameError("Role is required");
-            isValid = false;
-          } */
     
-        //if (isValid) {
+        if (isValid) {
           const formData = new FormData();
           formData.set("name", name);
           formData.set("email", email);
@@ -98,8 +91,13 @@ function AdminCreateUser() {
             // check if avatar is not empty
             formData.append("avatar", avatar);
           }
+          
           dispatch(register(formData));
-       // }
+          navigate('/admin/users')
+          toast.success(" Account created , Welcome to DropSell !", {
+            type: "success",
+          });
+       }
       };
       const onChange = (e) => {
         if (e.target.name === "avatar") {
@@ -137,23 +135,36 @@ function AdminCreateUser() {
                           <input
                             type="name"
                             id="name_field"
-                            className="form-control"
+                            
                             name="name"
                             value={name}
                              onChange={onChange}
+                             className={`form-control ${
+                              nameError ? "is-invalid" : ""
+                            }`}
+                            placeholder="Name"
                           />
+                          {nameError && (
+                            <div className="invalid-feedback">{nameError}</div>
+                          )}
                         </div>
-
                         <div className="form-group">
                           <label htmlFor="email_field">Email</label>
                           <input
                             type="email"
                             id="email_field"
-                            className="form-control"
+                           
                             name="email"
                             value={email}
                             onChange={onChange}
+                            className={`form-control ${
+                              nameError ? "is-invalid" : ""
+                            }`}
+                            placeholder="Email"
                           />
+                          {emailError && (
+                            <div className="invalid-feedback">{emailError}</div>
+                          )}
                         </div>
 
                         <div className="form-group">
@@ -161,11 +172,17 @@ function AdminCreateUser() {
                           <input
                             type="password"
                             id="email_field"
-                            className="form-control"
                             name="password"
                             value={password}
                             onChange={onChange}
+                            className={`form-control ${
+                              passwordError ? "is-invalid" : ""
+                            }`}
+                            placeholder="Password"
                           />
+                          {nameError && (
+                            <div className="invalid-feedback">{passwordError}</div>
+                          )}
                         </div>
 
                         <div className="form-group">
@@ -173,15 +190,20 @@ function AdminCreateUser() {
 
                           <select
                             id="role_field"
-                            className="form-control"
+                            className="form-control "
+                            placeholder="Name"
+                          
                             name="role"
                             value={role}
                             onChange={onChange}
+                            
                           >
+                         
                             <option value="user">user</option>
                             <option value="admin">admin</option>
                             <option value="deliver">deliver</option>
                           </select>
+                         
                         </div>
 
                         <div className="form-group">

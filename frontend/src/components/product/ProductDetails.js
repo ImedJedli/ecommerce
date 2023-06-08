@@ -13,6 +13,7 @@ import Loader from "../layout/Loader";
 import ListReviews from "../review/ListReviews";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import Card from 'react-bootstrap/Card';
 
 
 const ProductDetails = ( {relatedProduct} ) => {
@@ -151,10 +152,17 @@ const ProductDetails = ( {relatedProduct} ) => {
       }
     };
     const navigate= useNavigate()
-    const handleViewDetails = () => {
+  /*   const handleViewDetails = () => {
+      navigate(`/product/${relatedProduct._id}`);
+
     const url = `/product/${relatedProduct._id}`;
+    console.log(relatedProduct._id)
     window.location.href = url;
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);  // Scroll to the top of the page
+    }; */
+
+    const handleViewDetails = () => {
+      navigate(`/product/${relatedProduct._id}`);
     };
 
   
@@ -169,21 +177,21 @@ const ProductDetails = ( {relatedProduct} ) => {
 
             
               <div className="col-12 col-lg-5 img-fluid" id="product_image">
-                <Carousel pause="hover">
+          
+                <Carousel pause="hover" >
+                
                   {product && product.images &&
                     product.images.map((image) => (
                       <Carousel.Item key={image.public_id}>
-                      
                         <img
-                          className="d-block w-100 "
+                          className="d-block w-100"
                           src={`http://localhost:4000/products/${image}`}
                           alt={image.title}
-                          
                         />
-                        
                       </Carousel.Item>
                     ))}
                 </Carousel>
+          
               </div>
 
 
@@ -437,7 +445,7 @@ const ProductDetails = ( {relatedProduct} ) => {
                 style={{ objectFit: "cover", height: "200px" }}
               />
             </Link>
-            <Link onClick={handleViewDetails}>
+            <Link to={`/product/${relatedProduct._id}`}>
               <img
                 className="img-fluid w-100 mb-3 img-second"
                 src={`http://localhost:4000/products/${relatedProduct.images[1]}`}

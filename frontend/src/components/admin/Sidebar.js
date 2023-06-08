@@ -140,7 +140,7 @@ const Sidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="/admin/category">
+                  <Link to="/admin/add/category/">
                     <i className="fa fa-plus"></i> Create
                   </Link>
                 </li>

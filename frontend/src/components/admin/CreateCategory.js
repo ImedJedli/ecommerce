@@ -38,7 +38,7 @@ const CreateCategory = () => {
     if (success) {
       dispatch({ type: CREATE_CATEGORY_RESET });
       toast.success("category created successfully");
-      navigate("/categories");
+      navigate("/admin/categories");
     }
   }, [dispatch, alert, toast, error, success, navigate]);
 

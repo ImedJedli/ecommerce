@@ -11,6 +11,7 @@ import Sidebar from "./Sidebar";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { toast } from "react-toastify";
 
 const UpdateCategory = () => {
   const { id } = useParams();
@@ -34,15 +35,15 @@ const UpdateCategory = () => {
     }
 
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (updateError) {
-      alert.error(updateError);
+      toast.error(updateError);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, error, updateError, category, categoryId]);
+  }, [dispatch, toast, error, updateError, category, categoryId]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -51,8 +52,8 @@ const UpdateCategory = () => {
     formData.set("name", name);
 
     dispatch(updateCategory(category._id, formData)).then(() => {
-      alert.success("Category is updated successfully !");
-      navigate("/categories");
+      toast.success("Category is updated successfully !");
+      navigate("/admin/categories");
     });
   };
 

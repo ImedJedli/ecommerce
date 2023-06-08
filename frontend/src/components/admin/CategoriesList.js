@@ -85,7 +85,7 @@ const CategoriesList = () => {
           actions: (
             <Fragment>
               <Link
-                to={`/admin/categorie/${category._id}`}
+                to={`/admin/categoriep/${category._id}`}
                 className="btn btn-primary py-1 px-2"
               >
                 <i className="fa fa-eye"></i>

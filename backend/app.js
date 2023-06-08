@@ -12,6 +12,18 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+app.use(
+      cors({
+        origin: "http://192.168.1.16:3000",
+      })
+    );
+
+    app.use(
+      cors({
+        origin: "http://locahost:19006",
+      })
+    );
+
 app.use(express.urlencoded({ extended: true }));
 
 const coupon = require("./routes/coupon");
