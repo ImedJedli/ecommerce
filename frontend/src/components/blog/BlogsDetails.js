@@ -89,7 +89,7 @@ const BlogsDetails = () => {
                   <p className="info">
                     <a className="author">
                       {" "}
-                      Author : {blog.user && blog.user.name}
+                      Author : {blog.user && blog.user.name} on
                     </a>
                     <time>
                       {" "}

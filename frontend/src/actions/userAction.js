@@ -36,6 +36,9 @@ import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
+  ADD_USER_REQUEST,
+ADD_USER_SUCCESS,
+ADD_USER_FAIL,
 } from "../constants/userConstantes";
 
 export const login = (email, password) => async (dispatch) => {
@@ -91,6 +94,30 @@ export const register = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
+      payload: error.response && error.response.data.message,
+    });
+  }
+};
+
+export const addUser = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: ADD_USER_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const { data } = await axios.post("/api/v3/admin/add/user", userData, config);
+
+    dispatch({
+      type: ADD_USER_SUCCESS,
+      payload: data.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_USER_FAIL,
       payload: error.response && error.response.data.message,
     });
   }

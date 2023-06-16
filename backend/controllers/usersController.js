@@ -276,3 +276,35 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
+
+
+exports.addUser = catchAsyncErrors(async (req, res, next) => {
+  upload.single("avatar")(req, res, async function (err) {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return next(new ErrorHandler("Error uploading avatar", 400));
+      } else {
+        return next(new ErrorHandler("Error uploading avatar", 400));
+      }
+    }
+    const { name, email, password,role } = req.body;
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return next(new ErrorHandler("Email already exists", 400));
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role,
+      avatar: req.file ? req.file.filename : "default-avatar.jpg",
+    });
+
+    res.status(200).json({
+      success: true,
+      msg: "user created",
+      user,
+    });
+  });
+});

@@ -67,9 +67,9 @@ exports.getAllBlogs = catchAsyncErrors(async (req, res, next) => {
   const blogsCount = await Blog.countDocuments();
 
   const resPerPage = 2;
-  const apiSearch = new APISearch(Blog.find(), req.query).pagination(
-    resPerPage
-  );
+  const apiSearch = new APISearch(Blog.find(), req.query)
+  .pagination(resPerPage)
+  .sort ({ createdAt: -1});
 
   const blogs = await apiSearch.query;
 

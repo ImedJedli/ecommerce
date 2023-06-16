@@ -27,6 +27,7 @@ const {
   getUserDetails,
   updateUser,
   deleteUser,
+  addUser,
 } = require("../controllers/usersController");
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
@@ -50,5 +51,7 @@ router
   .delete(isAuthentificationUser, authorizeRoles("admin"), deleteUser);
 
   router.route("/deliver/logout").get(logout);
+
+  router.route("/admin/add/user").post(isAuthentificationUser,authorizeRoles("admin"),addUser)
 
 module.exports = router;

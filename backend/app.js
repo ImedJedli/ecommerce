@@ -18,11 +18,13 @@ app.use(
       })
     );
 
-    app.use(
-      cors({
-        origin: "http://locahost:19006",
-      })
-    );
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', 'http://localhost:19006');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      next();
+    });
+
+ 
 
 app.use(express.urlencoded({ extended: true }));
 

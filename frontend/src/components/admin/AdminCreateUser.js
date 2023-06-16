@@ -6,7 +6,8 @@ import {
   getUserDetails,
   loadUser,
   updateUser,
-  register
+  register,
+  addUser
 } from "../../actions/userAction";
 import { UPDATE_USER_RESET } from "../../constants/userConstantes";
 import Infos from "../layout/Infos";
@@ -92,9 +93,9 @@ function AdminCreateUser() {
             formData.append("avatar", avatar);
           }
           
-          dispatch(register(formData));
+          dispatch(addUser(formData));
           navigate('/admin/users')
-          toast.success(" Account created , Welcome to DropSell !", {
+          toast.success(" Account created !", {
             type: "success",
           });
        }

@@ -29,7 +29,10 @@ function StatusOrder() {
   const { error, isUpdated } = useSelector((state) => state.order);
   const {  users } = useSelector((state) => state.allUsers);
 
-  const { user: deliverUser } = useSelector((state) => state.userDetails);
+  //const { user: deliverUser } = useSelector((state) => state.userDetails);
+  //const { userDetails: deliverUser } = useSelector((state) => state.userDetails);
+  const deliverUser = users.find((user) => user._id === deliverUserId);
+  console.log("deliver",deliverUser)
 
   const [deliverUserId, setDeliverUserId] = useState("");
 
@@ -48,7 +51,8 @@ function StatusOrder() {
 
   useEffect(() => {
     dispatch(allUsers());
-    dispatch(getUserDetails(order.deliverUserId));
+   // dispatch(getUserDetails(order.deliverUserId));
+    dispatch(getUserDetails(deliverUserId));
     dispatch(getOrderDetails(orderId));
 
     if (error) {
@@ -57,7 +61,7 @@ function StatusOrder() {
     }
 
     if (isUpdated) {
-      toast.success("Order updated succesfuly");
+      toast.success("Order has been shipped, and the email has been successfully sent to the customer ");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
@@ -134,7 +138,12 @@ function StatusOrder() {
                   </p>
 
                   <p>
-                    <b>Deliver name:</b> {deliverUser && deliverUser.name}
+                  <b>Deliver name:</b> {users &&
+                    users.map((user) => {
+                      if (user._id === order.deliverUserId) {
+                        return user.name;
+                      }
+                    })}
                   </p>
 
                   <hr />
@@ -250,7 +259,6 @@ function StatusOrder() {
                       <option value=""> Order status </option>
                       <option value="Processing">Processing</option>
                       <option value="Shipped">Shipped</option>
-                      <option value="Delivered">Delivered</option>
                     </select>
                   </div>
 

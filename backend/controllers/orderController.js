@@ -2,6 +2,7 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
+const nodemailer = require('nodemailer');
 
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
@@ -102,7 +103,7 @@ const orders = await Order.find(filter);
 })
 
 
-exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
+/* exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
@@ -134,7 +135,92 @@ async function updateStock(id, quantity) {
   const product = await Product.findById(id);
   product.stock = product.stock - quantity;
   await product.save({ validateBeforeSave: false });
+} */
+
+exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
+  const order = await Order.findById(req.params.id).populate('user');
+
+  if (!order) {
+    return next(new ErrorHandler("Order not found", 404));
+  }
+
+  if (order.paymentInfo.orderStatus === "Delivered") {
+    console.log(`Order with ID ${req.params.id} has already been delivered`);
+    return next(new ErrorHandler("Already delivered this order", 404));
+  }
+
+  order.orderItems.forEach(async (item) => {
+    await updateStock(item.product, item.quantity);
+  });
+
+  order.paymentInfo.orderStatus = req.body.orderStatus;
+
+  if (req.body.orderStatus === "Shipped") {
+    console.log('Sending email...');
+
+    // Create a transporter for sending emails
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD
+      }
+    });
+
+    const mailOptions = {
+      from: 'dropsell@gmail.com',
+      to: order.user.email, // Use the user's order email
+      subject: 'Order Shippement',
+
+
+      text: `Dear ${order.user.name},
+We hope this email finds you well. We are excited to inform you that your order with the ID ${order._id} has been shipped on ${new Date().toLocaleString()}! 
+Please check your oders in the application for more details.
+
+
+
+
+Thank you once again for choosing our company. We look forward to serving you in the future.
+
+Best regards,
+DropSell
+
+`
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log('Email sending failed:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+
+    //****************************** */
+
+    
+
+
+  }
+
+  order.paymentInfo.deliveredAt = Date.now();
+
+  await order.save();
+
+  res.status(200).json({
+    success: true,
+    order,
+  });
+});
+
+async function updateStock(id, quantity) {
+  const product = await Product.findById(id);
+  product.stock = product.stock - quantity;
+  await product.save({ validateBeforeSave: false });
 }
+
 
 
 exports.deliverAffect = catchAsyncErrors(async(req,res,next)=>{

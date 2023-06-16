@@ -39,11 +39,15 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
   DELETE_USER_RESET,
+  ADD_USER_REQUEST,
+ADD_USER_SUCCESS,
+ADD_USER_FAIL
 } from "../constants/userConstantes";
 
 export const authReducer = (state = { isAuthenticated: false }, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
+      case ADD_USER_REQUEST:
     case REGISTER_USER_REQUEST:
     case LOAD_USER_REQUEST:
       return {
@@ -53,6 +57,7 @@ export const authReducer = (state = { isAuthenticated: false }, action) => {
       };
 
     case LOGIN_SUCCESS:
+      case ADD_USER_SUCCESS:
     case REGISTER_USER_SUCCESS:
     case LOAD_USER_SUCCESS:
       return {
@@ -85,6 +90,7 @@ export const authReducer = (state = { isAuthenticated: false }, action) => {
       };
 
     case LOGIN_FAIL:
+      case ADD_USER_FAIL:
     case REGISTER_USER_FAIL:
       return {
         ...state,

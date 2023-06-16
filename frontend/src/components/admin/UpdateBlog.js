@@ -10,6 +10,8 @@ import { UPDATE_BLOG_RESET } from "../../constants/blogConstantes";
 import Infos from "../layout/Infos";
 import Sidebar from "./Sidebar";
 import { toast } from "react-toastify";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 
 const UpdateBlog = () => {
   const { id } = useParams();
@@ -36,7 +38,7 @@ const UpdateBlog = () => {
     } else {
       setTitle(blog.title);
       setDescription(blog.description);
-      setOldImages(blog.images);
+      setOldImages(blog.images || []);
     }
 
     if (error) {
@@ -83,8 +85,12 @@ const UpdateBlog = () => {
     });
   };
 
+  
+  const handleDescriptionChange = (value) => {
+    setDescription(value);
+  };
   return (
-    <Fragment>
+    /* <Fragment>
       <Infos title={"Update product"} />
       <div className="row">
         <div className="col-12 col-md-2">
@@ -173,6 +179,126 @@ const UpdateBlog = () => {
               </form>
             </div>
           </Fragment>
+        </div>
+      </div>
+    </Fragment>
+  );
+}; */
+
+<Fragment>
+      <Infos title="create blog" />
+      <div className="row">
+        <div className="col-lg-3">
+          <Sidebar />
+        </div>
+        <div className="col-lg-9">
+          <div className="signUp-container">
+            <div className="account section">
+              <div className="container">
+                <div className="row justify-content-center">
+                  <div className="col-lg-12">
+                    <div className="login-form border p-5">
+                      <div className="text-center heading">
+                        <h2 className="mb-2">Update Blog</h2>
+                      </div>
+                      <form
+                        onSubmit={submitHandler}
+                        encType="multipart/form-data"
+                      >
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-outline mb-4">
+                              <label
+                                htmlFor="name_field"
+                                className="form-label"
+                              >
+                                Title
+                              </label>
+                              <input
+                                type="name"
+                                id="name_field"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className={`form-control form-control-lg 
+                              }`}
+                                placeholder="Title"
+                              />
+                            </div>
+                          </div>
+
+                
+                        </div>
+
+                        <div className="form-group mb-4">
+                          <label htmlFor="#">Description</label>
+                          <ReactQuill
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            style={{ height: "100%" }}
+                            className={`form-control border-0 
+                      }`}
+                            placeholder="Full description"
+                          />
+                        </div>
+
+                        
+                     
+
+                        <div className="form-group">
+                          <label>Images</label>
+
+                          <div className="custom-file">
+                            <input
+                              type="file"
+                              name="product_images"
+                              className="custom-file-input"
+                              id="customFile"
+                              onChange={onChange}
+                              multiple
+                            />
+                            <label
+                              className="custom-file-label"
+                              htmlFor="customFile"
+                            >
+                              Choose Images
+                            </label>
+                          </div>
+                          {oldImages &&
+                            oldImages.map((img) => (
+                              <img
+                                key={img}
+                                src={`http://localhost:4000/blogs/${img}`}
+                                alt={img}
+                                className="mt-3 mr-2"
+                                width="55"
+                                height="52"
+                              />
+                            ))}
+                          {imagesPreview.map((img) => (
+                            <img
+                              src={img}
+                              key={img}
+                              alt="Images Preview"
+                              className="mt-3 mr-2"
+                              width="55"
+                              height="52"
+                            />
+                          ))}
+                        </div>
+
+                        <button
+                          className="btn btn-dark btn-lg btn-block"
+                          type="submit"
+                        >
+                          Update blog
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Fragment>
