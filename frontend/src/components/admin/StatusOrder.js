@@ -299,7 +299,7 @@ function StatusOrder() {
                     Affect deliver
                   </button>
 
-                  {paymentInfo && paymentInfo.orderStatus ==="Shipped" || paymentInfo && paymentInfo.orderStatus ==="Delivered" && (
+                  {paymentInfo && (paymentInfo.orderStatus ==="Shipped" || paymentInfo && paymentInfo.orderStatus ==="Delivered" )&& (
                     <button className="btn btn-primary btn-block">
                       <PDFDownloadLink
                         document={<GenerateInvoice order={order} />}

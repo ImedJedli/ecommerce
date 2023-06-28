@@ -43,6 +43,10 @@ const Dashboard = () => {
  const shippedOrders = orders && orders.filter(order =>order && order.paymentInfo.orderStatus === "Shipped").length;
  const deliveredOrders = orders && orders.filter(order =>order && order.paymentInfo.orderStatus === "Delivered").length;
  
+ const deliveredOrdersAmount = orders && orders.filter((order) => order && order.paymentInfo.orderStatus === "Delivered");
+ const totalIncome = deliveredOrdersAmount &&  deliveredOrdersAmount.length > 0 ? deliveredOrdersAmount.reduce((total, order) => total + order.paymentInfo.totalPrice, 0) : 0;
+
+
 
   let outOfStock = 0;
   products.forEach((product) => {
@@ -85,7 +89,7 @@ const Dashboard = () => {
                     <div className="card-body ">
                       <div className="text-center card-font-size">
                         Total Income
-                        <br /> {totalAmount} DT<b></b>
+                        <br /> {totalIncome} DT<b></b>
                       </div>
                     </div>
                   </div>

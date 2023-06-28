@@ -103,39 +103,6 @@ const orders = await Order.find(filter);
 })
 
 
-/* exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.findById(req.params.id);
-
-  if (!order) {
-    return next(new ErrorHandler("Order not found", 404));
-  }
-
-  if (order.paymentInfo.orderStatus === "Delivered") {
-    console.log(`Order with ID ${req.params.id} has already been delivered`);
-    return next(new ErrorHandler("Already delivered this order", 404));
-  }
-
-  order.orderItems.forEach(async (item) => {
-    await updateStock(item.product, item.quantity);
-  });
-
-  order.paymentInfo.orderStatus = req.body.orderStatus;
-
-  order.paymentInfo.deliveredAt = Date.now();
-
-  await order.save();
-
-  res.status(200).json({
-    success: true,
-    order,
-  });
-});
-
-async function updateStock(id, quantity) {
-  const product = await Product.findById(id);
-  product.stock = product.stock - quantity;
-  await product.save({ validateBeforeSave: false });
-} */
 
 exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate('user');
@@ -149,9 +116,11 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Already delivered this order", 404));
   }
 
+  if (req.body.orderStatus === "Delivered") {
   order.orderItems.forEach(async (item) => {
     await updateStock(item.product, item.quantity);
   });
+}
 
   order.paymentInfo.orderStatus = req.body.orderStatus;
 
@@ -198,15 +167,17 @@ DropSell
       }
     });
 
-    //****************************** */
 
     
 
 
   }
 
-  order.paymentInfo.deliveredAt = Date.now();
+  if (req.body.orderStatus === "Delivered") {
 
+  order.paymentInfo.deliveredAt = Date.now();
+  }
+  
   await order.save();
 
   res.status(200).json({

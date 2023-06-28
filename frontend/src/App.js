@@ -144,6 +144,12 @@ element={<ProtectedRoute component={Dashboard} />}
         }
       />
 
+      <Route
+          path="/admin/product/:id"
+          isAdmin={true}
+          element={<UpdateProduct />}
+        />
+
         <Route path="/admin/password/update" element={<AdminPasswordUpdate />} />
         <Route path="/admin/me/update" element={<AdminProdileUpdate />} />
         <Route path="/me" element={<Profile />} exact />
@@ -170,11 +176,7 @@ element={<ProtectedRoute component={Dashboard} />}
 
         <Route path="/admin/products" element={<ProductsList />} />
         <Route path="/admin/product/new" element={<NewProduct />} />
-        <Route
-          path="/admin/product/:id"
-          isAdmin={true}
-          element={<UpdateProduct />}
-        />
+        
         <Route path="/admin/orders" element={<OrdersList />} />
         <Route path="/admin/order/:id" element={<StatusOrder />} />
         <Route path="/admin/users" element={<UsersList />} />

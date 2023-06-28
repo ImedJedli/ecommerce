@@ -7,9 +7,12 @@ const ListReviews = ({ reviews }) => {
         reviews.map((review) => (
           <div className="review-card my-3" key={review._id}>
             <div className="rating-outer">
-              <div className="rating-inner" style={{width: `${(review.rating / 5) * 100}%`}}></div>
-              <p className="review_user">Reviewed At :  {review.commentedAt.substring(0, 10)} , By : {review.name}</p>
+              
+
+            <div className="rating-inner" style={{ width: `${(review.rating / 5) * 100}%` }}></div>
             </div>
+            <p className="review_user">Reviewed At :  {review.commentedAt.substring(0, 10)} , By : {review.name}</p>
+            
             <br></br>
             <strong> Comment :</strong> {review.comment} 
            
